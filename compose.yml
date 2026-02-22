@@ -1,0 +1,34 @@
+services:
+  app:
+    hostname: fpm
+    build:
+      context: ./docker/fpm
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        FPM_USER: ${FPM_USER:-dev}
+    ports:
+      - "80:8000"
+    volumes:
+      - type: bind
+        source: backend
+        target: /app
+      - type: bind
+        source: ./docker/fpm/.bashrc
+        target: /home/${FPM_USER:-dev}/.bashrc
+
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mobi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-me}
+      POSTGRES_USER: ${POSTGRES_USER:-me}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-mobi}", "-U", "${POSTGRES_USER:-me}" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - ./docker/database/:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
