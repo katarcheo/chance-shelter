@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\Report\VO;;
 
-use Domain\ValueObject\Money;
+use App\Domain\Money;
 
 final readonly class ReportOutcome
 {

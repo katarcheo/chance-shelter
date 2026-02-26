@@ -2,7 +2,7 @@
 
 namespace App\Domain;
 
-class Outcome
+final readonly class Fund
 {
-    
+
 }

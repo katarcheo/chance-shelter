@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\Report\VO;;
+
+use App\Domain\Money;
+
 final readonly class OutcomeToReport
 {
     public function __construct(
