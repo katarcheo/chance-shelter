@@ -2,9 +2,9 @@
 
 namespace App\Domain;
 
-use Domain\ValueObject\Money;
-use Domain\ValueObject\OutcomesListToReport;
-use Domain\ValueObject\Report;
+use App\Domain\ValueObject\Money;
+use App\Domain\ValueObject\OutcomesListToReport;
+use App\Domain\ValueObject\Report;
 
 class Reporter
 {

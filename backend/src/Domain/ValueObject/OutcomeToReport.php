@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ValueObject;
+namespace App\Domain\ValueObject;
 final readonly class OutcomeToReport
 {
     public function __construct(

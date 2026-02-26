@@ -1,8 +1,6 @@
 <?php
 
-namespace Domain\ValueObject;
-
-use App\Domain\ValueObject\ReportOutcome;
+namespace App\Domain\ValueObject;
 
 final class ReportOutcomesList
 {
