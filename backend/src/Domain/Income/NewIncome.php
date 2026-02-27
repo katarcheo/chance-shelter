@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Income;
 
-readonly final class Income
+use App\Domain\Fund;
+use App\Domain\Money;
+
+final readonly class NewIncome
 {
     public function __construct(
-        public int $id,
         public Money $amount,
         public Fund $fund,
     )

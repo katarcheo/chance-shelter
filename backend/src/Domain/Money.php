@@ -4,8 +4,15 @@ namespace App\Domain;
 
 final class Money
 {
+    private const int MAJOR_COFF = 100;
+
     public function __construct(private int $minors)
     {}
+
+    public static  function fromFloat(float $amount): self
+    {
+        return new self($amount * self::MAJOR_COFF);
+    }
 
     public function getMinors(): int
     {
