@@ -19,9 +19,7 @@ class RecordIncomeService
 
     public function record(IncomeDTO $incomeData): void
     {
-        $fund = $this->fundRepository->findById($incomeData->fundId);
-
-        if (!$fund) {
+        if (!$fund = $this->fundRepository->findById($incomeData->fundId)) {
             throw new ApplicationException("Fund not found");
         }
 
