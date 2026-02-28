@@ -14,6 +14,11 @@ final class Money
         return new self($amount * self::MAJOR_COFF);
     }
 
+    public function toFloat(): float
+    {
+        return  $this->minors / self::MAJOR_COFF;
+    }
+
     public function getMinors(): int
     {
         return $this->minors;
