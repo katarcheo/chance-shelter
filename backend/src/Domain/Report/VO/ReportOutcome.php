@@ -2,7 +2,7 @@
 
 namespace App\Domain\Report\VO;;
 
-use App\Domain\Category;
+use App\Domain\Category\Category;
 use App\Domain\Money;
 
 final readonly class ReportOutcome

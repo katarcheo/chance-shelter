@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Category;
+
+use App\Domain\DomainId;
 
 class Category
 {

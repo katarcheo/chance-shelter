@@ -2,11 +2,21 @@
 
 namespace App\Application\Repository;
 
-use App\Domain\Category;
+use App\Domain\Category\Category;
 
 class CategoryRepository
 {
     public function findById(int $id): ?Category
+    {
+
+    }
+
+    public function isExistByName(string $name): bool
+    {
+
+    }
+
+    public function add(Category $category): void
     {
 
     }

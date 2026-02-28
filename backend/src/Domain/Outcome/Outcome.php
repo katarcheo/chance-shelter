@@ -2,7 +2,7 @@
 
 namespace App\Domain\Outcome;
 
-use App\Domain\Category;
+use App\Domain\Category\Category;
 use App\Domain\DomainId;
 use App\Domain\Medias;
 use App\Domain\Money;
