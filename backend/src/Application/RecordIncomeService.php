@@ -6,7 +6,7 @@ use App\Application\DTO\IncomeDTO;
 use App\Application\Exceptions\ApplicationException;
 use App\Application\Repository\FundRepository;
 use App\Application\Repository\JournalRepository;
-use App\Domain\Income\NewIncome;
+use App\Domain\Income\Income;
 use App\Domain\Money;
 
 class RecordIncomeService
@@ -23,7 +23,8 @@ class RecordIncomeService
             throw new ApplicationException("Fund not found");
         }
 
-        $income = new NewIncome(
+        $income = new Income(
+            id: Uuid::generate(),
             amount: Money::fromFloat($incomeData->amount),
             fund: $fund,
         );

@@ -2,13 +2,17 @@
 
 namespace App\Application\Repository;
 
-use App\Domain\Income\NewIncome;
+use App\Domain\Income\Income;
+use App\Domain\Outcome\Outcome;
 
 class JournalRepository
 {
 
-    public function recordIncome(NewIncome $income): void
+    public function recordIncome(Income $income): void
     {
+    }
 
+    public function recordOutcome(Outcome $outcome): void
+    {
     }
 }

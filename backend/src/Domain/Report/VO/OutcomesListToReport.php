@@ -1,20 +1,14 @@
 <?php
 
-namespace App\Domain\Report\VO;;
-final class OutcomesListToReport
-{
-    /**
-     * @var OutcomeToReport[]
-     */
-    private array $list {
-        get {
-            return $this->list;
-        }
-    }
+namespace App\Domain\Report\VO;
 
+use App\Infrastructure\TypedList;
+
+readonly final class OutcomesListToReport extends TypedList
+{
     public function __construct(OutcomeToReport ...$list)
     {
-        $this->list = $list;
+        parent::__construct($list);
     }
 
 }

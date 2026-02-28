@@ -2,13 +2,13 @@
 
 namespace App\Application\DTO;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Infrastructure\TypedList;
+use Symfony\Component\HttpFoundation\File\File;
 
-readonly class Files
+readonly class Files extends TypedList
 {
-    public array $list;
-    public function __construct(UploadedFile ...$media)
+    public function __construct(File ...$media)
     {
-        $this->list = $media;
+        parent::__construct($media);
     }
 }

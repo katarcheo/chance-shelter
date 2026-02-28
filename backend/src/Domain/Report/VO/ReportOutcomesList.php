@@ -2,20 +2,12 @@
 
 namespace App\Domain\Report\VO;
 
-final class ReportOutcomesList
-{
-    /**
-     * @var ReportOutcome[]
-     */
-    private array $list {
-        get {
-            return $this->list;
-        }
-    }
+use App\Infrastructure\TypedList;
 
+readonly final class ReportOutcomesList extends TypedList
+{
     public function __construct(ReportOutcome ...$list)
     {
-        $this->list = $list;
+        parent::__construct($list);
     }
-
 }
