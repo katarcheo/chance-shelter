@@ -15,6 +15,7 @@ class RecordOutcomeService
     public function __construct(
         private JournalRepository $journalRepository,
         private CategoryRepository $categoryRepository,
+        private string $mediaDir,
     )
     {}
 
@@ -24,12 +25,14 @@ class RecordOutcomeService
             throw new ApplicationException("Category not found");
         }
 
-        foreach ($outcomeData->media as $file) {
-            $file->move();
+        $id = Uuid::generate();
+
+        foreach ($outcomeData->media as $key => $file) {
+            $file->move($this->mediaDir, "{$id}_$key.{$file->guessExtension()}");
         }
 
         $outcome = new Outcome(
-            id: Uuid::generate(),
+            id: $id,
             amount: Money::fromFloat($outcomeData->amount),
             description: $outcomeData->description,
             category: $category,
