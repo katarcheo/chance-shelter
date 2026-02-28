@@ -2,12 +2,10 @@
 
 namespace App\Application;
 
-use App\Application\Repository\JournalRepository;
 use App\Domain\DateRange;
 use App\Domain\Report\ReportService;
-use Carbon\Carbon;
+use App\Domain\Repository\JournalRepository;
 use Carbon\CarbonImmutable;
-use Symfony\Component\HttpFoundation\File\File;
 
 class ReportGenerateService
 {
