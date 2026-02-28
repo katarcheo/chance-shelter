@@ -7,18 +7,9 @@ use App\Domain\Income\Income;
 use App\Domain\Income\IncomeList;
 use App\Domain\Outcome\Outcome;
 
-class JournalRepository
+interface JournalRepository
 {
-
-    public function recordIncome(Income $income): void
-    {
-    }
-
-    public function recordOutcome(Outcome $outcome): void
-    {
-    }
-
-    public function getIncomesByPeriod(DateRange $dateRange): IncomeList
-    {
-    }
+    public function recordIncome(Income $income): void;
+    public function recordOutcome(Outcome $outcome): void;
+    public function getIncomesByPeriod(DateRange $dateRange): IncomeList;
 }

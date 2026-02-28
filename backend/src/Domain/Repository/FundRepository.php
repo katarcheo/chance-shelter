@@ -4,11 +4,7 @@ namespace App\Domain\Repository;
 
 use App\Domain\Fund;
 
-class FundRepository
+interface FundRepository
 {
-
-    public function findById(int $id): ?Fund
-    {
-
-    }
+    public function findById(int $id): ?Fund;
 }
