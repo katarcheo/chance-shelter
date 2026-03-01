@@ -3,7 +3,7 @@
 namespace App\Domain\Income;
 
 use App\Domain\DomainId;
-use App\Domain\Fund;
+use App\Domain\Fund\Fund;
 use App\Domain\Money;
 
 readonly final class Income

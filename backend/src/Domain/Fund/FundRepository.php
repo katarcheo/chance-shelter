@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Domain\Repository;
-
-use App\Domain\Fund;
+namespace App\Domain\Fund;
 
 interface FundRepository
 {

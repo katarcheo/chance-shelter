@@ -4,10 +4,10 @@ namespace App\Application;
 
 use App\Application\DTO\IncomeDTO;
 use App\Application\Exceptions\ApplicationException;
+use App\Domain\Fund\FundRepository;
 use App\Domain\Income\Income;
+use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
-use App\Domain\Repository\FundRepository;
-use App\Domain\Repository\JournalRepository;
 
 class RecordIncomeService
 {

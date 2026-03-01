@@ -4,11 +4,11 @@ namespace App\Application;
 
 use App\Application\DTO\OutcomeDTO;
 use App\Application\Exceptions\ApplicationException;
+use App\Domain\Category\CategoryRepository;
+use App\Domain\Journal\JournalRepository;
 use App\Domain\Medias;
 use App\Domain\Money;
 use App\Domain\Outcome\Outcome;
-use App\Domain\Repository\CategoryRepository;
-use App\Domain\Repository\JournalRepository;
 
 class RecordOutcomeService
 {

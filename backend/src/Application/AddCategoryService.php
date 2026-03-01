@@ -6,7 +6,7 @@ use App\Application\DTO\AddCategoryDTO;
 use App\Application\DTO\DTOException;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\Category;
-use App\Domain\Repository\CategoryRepository;
+use App\Domain\Category\CategoryRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AddCategoryService

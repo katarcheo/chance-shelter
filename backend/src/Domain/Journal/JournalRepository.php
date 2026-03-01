@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repository;
+namespace App\Domain\Journal;
 
 use App\Domain\DateRange;
 use App\Domain\Income\Income;
