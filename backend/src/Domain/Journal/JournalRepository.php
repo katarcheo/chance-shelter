@@ -3,9 +3,6 @@
 namespace App\Domain\Journal;
 
 use App\Domain\DateRange;
-use App\Domain\Income\Income;
-use App\Domain\Income\IncomeList;
-use App\Domain\Outcome\Outcome;
 
 interface JournalRepository
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Outcome;
+namespace App\Domain\Journal;
 
 use App\Domain\Category\Category;
 use App\Domain\DomainId;

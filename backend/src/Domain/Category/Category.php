@@ -4,7 +4,7 @@ namespace App\Domain\Category;
 
 use App\Domain\DomainId;
 
-class Category
+final class Category
 {
     public function __construct(
         public DomainId $id,

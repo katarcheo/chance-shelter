@@ -6,9 +6,9 @@ use App\Application\DTO\OutcomeDTO;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\JournalRepository;
+use App\Domain\Journal\Outcome;
 use App\Domain\Medias;
 use App\Domain\Money;
-use App\Domain\Outcome\Outcome;
 
 class RecordOutcomeService
 {

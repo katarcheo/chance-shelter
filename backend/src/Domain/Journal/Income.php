@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Income;
+namespace App\Domain\Journal;
 
 use App\Domain\DomainId;
 use App\Domain\Fund\Fund;
