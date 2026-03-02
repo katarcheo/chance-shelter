@@ -9,4 +9,5 @@ interface JournalRepository
     public function recordIncome(Income $income): void;
     public function recordOutcome(Outcome $outcome): void;
     public function getIncomesByPeriod(DateRange $dateRange): IncomeList;
+    public function getCurrentBalance(): Balance;
 }

@@ -7,6 +7,7 @@ use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Journal\Outcome;
+use App\Domain\Journal\OutcomeAvailabilityService;
 use App\Domain\Medias;
 use App\Domain\Money;
 
@@ -15,6 +16,7 @@ class RecordOutcomeService
     public function __construct(
         private JournalRepository $journalRepository,
         private CategoryRepository $categoryRepository,
+        private OutcomeAvailabilityService $availabilityService,
         private string $mediaDir,
     )
     {}
@@ -37,6 +39,11 @@ class RecordOutcomeService
             description: $outcomeData->description,
             category: $category,
             media: new Medias(...$outcomeData->media),
+        );
+
+        $this->availabilityService->check(
+            $outcome,
+            $this->journalRepository->getCurrentBalance()
         );
 
         $this->journalRepository->recordOutcome($outcome);
