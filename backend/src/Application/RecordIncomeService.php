@@ -33,7 +33,7 @@ class RecordIncomeService
 
         $newBalance = $this->balanceService->byRecord(
             $income,
-            $this->journalRepository->getCurrentBalance(),
+            $this->journalRepository->lockCurrentBalance(),
         );
 
         $this->journalRepository->recordIncome($income, $newBalance);

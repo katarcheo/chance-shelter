@@ -43,7 +43,7 @@ class RecordOutcomeService
 
         $newBalance = $this->balanceService->byRecord(
             $outcome,
-            $this->journalRepository->getCurrentBalance()
+            $this->journalRepository->lockCurrentBalance()
         );
 
         $this->journalRepository->recordOutcome($outcome, $newBalance);
