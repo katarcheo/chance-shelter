@@ -31,7 +31,7 @@ class RecordIncomeService
             fund: $fund,
         );
 
-        $newBalance = $this->balanceService->calculateBalanceByIncome(
+        $newBalance = $this->balanceService->byRecord(
             $income,
             $this->journalRepository->getCurrentBalance(),
         );

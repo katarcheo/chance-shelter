@@ -41,7 +41,7 @@ class RecordOutcomeService
             media: new Medias(...$outcomeData->media),
         );
 
-        $newBalance = $this->balanceService->calculateBalanceByOutcome(
+        $newBalance = $this->balanceService->byRecord(
             $outcome,
             $this->journalRepository->getCurrentBalance()
         );
