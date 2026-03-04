@@ -10,7 +10,7 @@ use Carbon\CarbonImmutable;
 class ReportGenerateService
 {
     public function __construct(
-        private JournalRepository $journalRepository,
+        private JournalRepository $journalRepo,
         private ReportService $reportService,
     )
     {}
@@ -21,7 +21,7 @@ class ReportGenerateService
         $now = new CarbonImmutable();
         $start = $now->startOfMonth();
 
-        $this->journalRepository->getIncomesByPeriod(new DateRange($start, $now));
+        $this->journalRepo->getIncomesByPeriod(new DateRange($start, $now));
 
         dump($start);
     }

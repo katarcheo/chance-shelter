@@ -7,22 +7,21 @@ use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Journal\Outcome;
-use App\Domain\Journal\BalanceCalculationService;
 use App\Domain\Medias;
 use App\Domain\Money;
 
 class RecordOutcomeService
 {
     public function __construct(
-        private JournalRepository         $journalRepository,
-        private CategoryRepository        $categoryRepository,
+        private JournalRepository         $journalRepo,
+        private CategoryRepository        $categoryRepo,
         private string                    $mediaDir,
     )
     {}
 
     public function record(OutcomeDTO $outcomeData): void
     {
-        if (!$category = $this->categoryRepository->findById($outcomeData->categoryId)) {
+        if (!$category = $this->categoryRepo->findById($outcomeData->categoryId)) {
             throw new ApplicationException("Category not found");
         }
 
@@ -40,9 +39,9 @@ class RecordOutcomeService
             media: new Medias(...$outcomeData->media),
         );
 
-        $balance = $this->journalRepository->lockCurrentBalance();
+        $balance = $this->journalRepo->lockCurrentBalance();
         $balance->applyOutcome($outcome);
 
-        $this->journalRepository->recordOutcome($outcome, $balance);
+        $this->journalRepo->recordOutcome($outcome, $balance);
     }
 }

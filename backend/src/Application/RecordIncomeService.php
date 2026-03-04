@@ -5,7 +5,6 @@ namespace App\Application;
 use App\Application\DTO\IncomeDTO;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Fund\FundRepository;
-use App\Domain\Journal\BalanceCalculationService;
 use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
@@ -13,14 +12,14 @@ use App\Domain\Money;
 class RecordIncomeService
 {
     public function __construct(
-        private JournalRepository         $journalRepository,
-        private FundRepository            $fundRepository,
+        private JournalRepository         $journalRepo,
+        private FundRepository            $fundRepo,
     )
     {}
 
     public function record(IncomeDTO $incomeData): void
     {
-        if (!$fund = $this->fundRepository->findById($incomeData->fundId)) {
+        if (!$fund = $this->fundRepo->findById($incomeData->fundId)) {
             throw new ApplicationException("Fund not found");
         }
 
@@ -30,9 +29,9 @@ class RecordIncomeService
             fund: $fund,
         );
 
-        $balance = $this->journalRepository->lockCurrentBalance();
+        $balance = $this->journalRepo->lockCurrentBalance();
         $balance->applyIncome($income);
 
-        $this->journalRepository->recordIncome($income, $balance);
+        $this->journalRepo->recordIncome($income, $balance);
     }
 }

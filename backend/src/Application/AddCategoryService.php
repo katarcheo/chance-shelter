@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class AddCategoryService
 {
     public function __construct(
-        private CategoryRepository $categoryRepository,
+        private CategoryRepository $categoryRepo,
         private ValidatorInterface $validator,
     )
     {}
@@ -25,11 +25,11 @@ class AddCategoryService
             throw new DTOException('Category data is invalid')->setViolations($violations);
         }
 
-        if ($this->categoryRepository->isExistByName($categoryData->name)) {
+        if ($this->categoryRepo->isExistByName($categoryData->name)) {
             throw new ApplicationException('Category already exists');
         }
 
-        $this->categoryRepository->add(new Category(
+        $this->categoryRepo->add(new Category(
             id: Uuid::generate(),
             name: $categoryData->name,
         ));
