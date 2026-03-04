@@ -31,4 +31,14 @@ class OutcomeFactory extends Factory
             'amount' => new Money($amount),
         ]);
     }
+
+    public function category(string $name): self
+    {
+        return $this->state([
+            'category' => new Category(
+                id: new DomainId($this->faker->uuid),
+                name: $name,
+            )
+        ]);
+    }
 }
