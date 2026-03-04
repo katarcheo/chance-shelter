@@ -16,7 +16,6 @@ class RecordOutcomeService
     public function __construct(
         private JournalRepository         $journalRepository,
         private CategoryRepository        $categoryRepository,
-        private BalanceCalculationService $balanceService,
         private string                    $mediaDir,
     )
     {}
@@ -41,11 +40,9 @@ class RecordOutcomeService
             media: new Medias(...$outcomeData->media),
         );
 
-        $newBalance = $this->balanceService->byRecord(
-            $outcome,
-            $this->journalRepository->lockCurrentBalance()
-        );
+        $balance = $this->journalRepository->lockCurrentBalance();
+        $balance->applyOutcome($outcome);
 
-        $this->journalRepository->recordOutcome($outcome, $newBalance);
+        $this->journalRepository->recordOutcome($outcome, $balance);
     }
 }

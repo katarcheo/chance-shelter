@@ -15,7 +15,6 @@ class RecordIncomeService
     public function __construct(
         private JournalRepository         $journalRepository,
         private FundRepository            $fundRepository,
-        private BalanceCalculationService $balanceService,
     )
     {}
 
@@ -31,11 +30,9 @@ class RecordIncomeService
             fund: $fund,
         );
 
-        $newBalance = $this->balanceService->byRecord(
-            $income,
-            $this->journalRepository->lockCurrentBalance(),
-        );
+        $balance = $this->journalRepository->lockCurrentBalance();
+        $balance->applyIncome($income);
 
-        $this->journalRepository->recordIncome($income, $newBalance);
+        $this->journalRepository->recordIncome($income, $balance);
     }
 }
