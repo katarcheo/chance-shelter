@@ -11,6 +11,11 @@ final class Balance
     )
     {}
 
+    public function getAmount(): Money
+    {
+        return $this->amount;
+    }
+
     public function applyOutcome(Outcome $outcome): self
     {
         if ($outcome->amount->minors > $this->amount->minors) {

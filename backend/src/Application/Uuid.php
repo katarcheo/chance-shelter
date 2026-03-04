@@ -5,10 +5,10 @@ namespace App\Application;
 use App\Domain\DomainId;
 use Symfony\Component\Uid\UuidV7;
 
-class Uuid extends DomainId
+class Uuid
 {
-    public static function generate(): self
+    public static function generate(): DomainId
     {
-        return new static(UuidV7::generate());
+        return new DomainId(UuidV7::generate());
     }
 }

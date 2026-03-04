@@ -12,9 +12,9 @@ readonly final class Outcome
     public function __construct(
         public DomainId $id,
         public Money $amount,
-        public ?string $description,
         public Category $category,
         public Medias $media,
+        public ?string $description = null,
     )
     {}
 }
