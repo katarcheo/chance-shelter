@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Report\VO;
+namespace App\Domain\Report;
 
 use App\Infrastructure\TypedList;
 

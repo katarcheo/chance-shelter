@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Report\VO;;
+namespace App\Domain\Report;;
 
 use App\Domain\Category\Category;
 use App\Domain\Money;

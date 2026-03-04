@@ -7,7 +7,7 @@ use Traversable;
 
 readonly class TypedList implements IteratorAggregate
 {
-    protected function __construct(private array $list)
+    protected function __construct(protected array $list)
     {}
 
     public function getIterator(): Traversable

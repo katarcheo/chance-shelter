@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Domain\Report;;
+namespace App\Domain\Report;
 
+use App\Domain\Journal\IncomeList;
+use App\Domain\Journal\OutcomeList;
 use App\Domain\Money;
-use App\Domain\Report\VO\OutcomesListToReport;
-use App\Domain\Report\VO\Report;
-use App\Domain\Report\VO\ReportOutcome;
-use App\Domain\Report\VO\ReportOutcomesList;
 
 class ReportService
 {
-    public static function getReport(string $title, Money $income, OutcomesListToReport $outcomes): Report
+    public static function build(IncomeList $incomes, OutcomeList $outcomes): Report
     {
         $amountByCategory = [];
 
@@ -37,8 +35,7 @@ class ReportService
         }
 
         return new Report(
-            title: $title,
-            income: $income->toFloat(),
+            income: $incomes->sum(),
             outcomes: new ReportOutcomesList(...$outcomeByCategory),
         );
     }

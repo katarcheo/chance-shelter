@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Domain\Report\VO;;
+namespace App\Domain\Report;
+
+use App\Domain\Money;
 
 final readonly class Report
 {
     public function __construct(
-        public string $title,
-        public float $income,
+        public Money $income,
         public ReportOutcomesList $outcomes,
     )
     {}
-
-
 }
