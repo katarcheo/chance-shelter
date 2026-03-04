@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application;
+namespace App\Tests\Cases\Application;
 
 use App\Application\ReportGenerateService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
