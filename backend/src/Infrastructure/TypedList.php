@@ -2,10 +2,11 @@
 
 namespace App\Infrastructure;
 
+use Countable;
 use IteratorAggregate;
 use Traversable;
 
-readonly class TypedList implements IteratorAggregate
+readonly class TypedList implements IteratorAggregate, Countable
 {
     protected function __construct(protected array $list)
     {}
@@ -13,5 +14,10 @@ readonly class TypedList implements IteratorAggregate
     public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->list);
+    }
+
+    public function count(): int
+    {
+        return count($this->list);
     }
 }

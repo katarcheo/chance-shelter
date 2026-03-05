@@ -9,7 +9,7 @@ readonly final class OutcomeList extends TypedList
 {
     public function __construct(Outcome ...$outcomes)
     {
-        parent::__construct(...$outcomes);
+        parent::__construct($outcomes);
     }
 
     public function sum(): Money

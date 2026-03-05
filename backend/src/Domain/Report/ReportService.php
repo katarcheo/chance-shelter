@@ -13,9 +13,9 @@ class ReportService
         $amountByCategory = [];
 
         foreach ($outcomes as $outcome) {
-            $id = $outcome->category->id;
+            $id = (string) $outcome->category->id;
 
-            if (isset($amountByCategory[$id])) {
+            if (!isset($amountByCategory[$id])) {
                 $amountByCategory[$id] = [
                     'amount' => new Money(0),
                     'category' => $outcome->category,

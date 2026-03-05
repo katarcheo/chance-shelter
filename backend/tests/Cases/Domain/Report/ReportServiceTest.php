@@ -9,6 +9,7 @@ use App\Domain\Report\Report;
 use App\Domain\Report\ReportOutcome;
 use App\Domain\Report\ReportOutcomesList;
 use App\Domain\Report\ReportService;
+use App\Tests\Factories\CategoryFactory;
 use App\Tests\Factories\IncomeFactory;
 use App\Tests\Factories\OutcomeFactory;
 use PHPUnit\Framework\Attributes\Group;
@@ -27,27 +28,26 @@ class ReportServiceTest extends TestCase
             new IncomeFactory()->amount(200)->make(),
         );
 
+        $category1 = new CategoryFactory()->make();
+        $category2 = new CategoryFactory()->make();
+
         $outcomes = new OutcomeList(
-            $outcome1 = new OutcomeFactory()->category('test1')->amount(150)->make(),
-            $outcome2 = new OutcomeFactory()->category('test2')->amount(10)->make(),
-            new OutcomeFactory()->category('test2')->amount(20)->make(),
+            new OutcomeFactory()->category($category1)->amount(150)->make(),
+            new OutcomeFactory()->category($category2)->amount(10)->make(),
+            new OutcomeFactory()->category($category2)->amount(20)->make(),
         );
 
         $report = ReportService::build($incomes, $outcomes);
-        $expected = [
-            new ReportOutcome(
-                category: $outcome1->category,
-                amount: new Money(150),
-            ),
-            new ReportOutcome(
-                category: $outcome2->category,
-                amount: new Money(30),
-            ),
-        ];
 
-        $this->assertObjectEquals(new Report(
-            income: new Money(350),
-            outcomes: new ReportOutcomesList(...$expected),
-        ), $report);
+        $this->assertEquals(350, $report->income->minors);
+        $this->assertCount(2, $report->outcomes);
+        $this->assertContainsEquals(new ReportOutcome(
+            category: $category1,
+            amount: new Money(150),
+        ), $report->outcomes);
+        $this->assertContainsEquals(new ReportOutcome(
+            category: $category2,
+            amount: new Money(30),
+        ), $report->outcomes);
     }
 }

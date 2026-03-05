@@ -9,7 +9,7 @@ final readonly class IncomeList extends TypedList
 {
     public function __construct(Income ...$income)
     {
-        parent::__construct(...$income);
+        parent::__construct($income);
     }
 
     public function sum(): Money

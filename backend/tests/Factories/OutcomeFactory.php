@@ -17,10 +17,7 @@ class OutcomeFactory extends Factory
         return [
             'id' => new DomainId($this->faker->uuid),
             'amount' => new Money($this->faker->randomNumber(3)),
-            'category' => new Category(
-                id: new DomainId($this->faker->uuid),
-                name: $this->faker->word,
-            ),
+            'category' => new CategoryFactory()->make(),
             'media' => new Medias(),
         ];
     }
@@ -32,13 +29,8 @@ class OutcomeFactory extends Factory
         ]);
     }
 
-    public function category(string $name): self
+    public function category(Category $category): self
     {
-        return $this->state([
-            'category' => new Category(
-                id: new DomainId($this->faker->uuid),
-                name: $name,
-            )
-        ]);
+        return $this->state(['category' => $category]);
     }
 }
