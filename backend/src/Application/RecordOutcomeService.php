@@ -34,9 +34,9 @@ class RecordOutcomeService
         $outcome = new Outcome(
             id: $id,
             amount: Money::fromFloat($outcomeData->amount),
-            description: $outcomeData->description,
             category: $category,
             media: new Medias(...$outcomeData->media),
+            description: $outcomeData->description,
         );
 
         $balance = $this->journalRepo->lockCurrentBalance();
