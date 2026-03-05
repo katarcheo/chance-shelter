@@ -52,7 +52,7 @@ class ReportServiceTest extends TestCase
     }
 
     #[Test]
-    public function buildWithEmptyIncome()
+    public function buildWithEmptyIncomes()
     {
         $incomes = new IncomeList();
 
@@ -77,5 +77,22 @@ class ReportServiceTest extends TestCase
             category: $category2,
             amount: new Money(30),
         ), $report->outcomes);
+    }
+
+    #[Test]
+    public function buildWithEmptyOutcomes()
+    {
+        $incomes = new IncomeList(
+            new IncomeFactory()->amount(100)->make(),
+            new IncomeFactory()->amount(50)->make(),
+            new IncomeFactory()->amount(200)->make(),
+        );
+
+        $outcomes = new OutcomeList();
+
+        $report = ReportService::build($incomes, $outcomes);
+
+        $this->assertEquals(350, $report->income->minors);
+        $this->assertCount(0, $report->outcomes);
     }
 }
