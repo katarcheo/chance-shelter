@@ -38,6 +38,8 @@ class ReportServiceTest extends TestCase
         $report = ReportService::build($incomes, $outcomes);
 
         $this->assertEquals(350, $report->income->minors);
+        $this->assertEquals(180, $report->outcome->minors);
+        $this->assertEquals(170, $report->rest->minors);
         $this->assertCount(2, $report->outcomes);
         $this->assertContainsEquals(new ReportOutcome(
             category: $category1,
@@ -66,6 +68,8 @@ class ReportServiceTest extends TestCase
         $report = ReportService::build($incomes, $outcomes);
 
         $this->assertEquals(0, $report->income->minors);
+        $this->assertEquals(180, $report->outcome->minors);
+        $this->assertEquals(-180, $report->rest->minors);
         $this->assertCount(2, $report->outcomes);
         $this->assertContainsEquals(new ReportOutcome(
             category: $category1,
@@ -91,6 +95,8 @@ class ReportServiceTest extends TestCase
         $report = ReportService::build($incomes, $outcomes);
 
         $this->assertEquals(350, $report->income->minors);
+        $this->assertEquals(0, $report->outcome->minors);
+        $this->assertEquals(350, $report->rest->minors);
         $this->assertCount(0, $report->outcomes);
     }
 
@@ -104,6 +110,8 @@ class ReportServiceTest extends TestCase
         $report = ReportService::build($incomes, $outcomes);
 
         $this->assertEquals(0, $report->income->minors);
+        $this->assertEquals(0, $report->outcome->minors);
+        $this->assertEquals(0, $report->rest->minors);
         $this->assertCount(0, $report->outcomes);
     }
 }

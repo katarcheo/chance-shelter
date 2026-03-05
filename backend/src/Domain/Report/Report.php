@@ -8,6 +8,8 @@ final readonly class Report
 {
     public function __construct(
         public Money $income,
+        public Money $outcome,
+        public Money $rest,
         public ReportOutcomesList $outcomes,
     )
     {}

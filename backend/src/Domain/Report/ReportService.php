@@ -33,9 +33,13 @@ class ReportService
                 amount: $amount['amount'],
             );
         }
+        $incomeSum = $incomes->sum();
+        $outcomeSum = $outcomes->sum();
 
         return new Report(
-            income: $incomes->sum(),
+            income: $incomeSum,
+            outcome: $outcomeSum,
+            rest: $incomeSum->subtract($outcomeSum),
             outcomes: new ReportOutcomesList(...$outcomeByCategory),
         );
     }
