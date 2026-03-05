@@ -5,9 +5,7 @@ namespace App\Tests\Cases\Domain\Report;
 use App\Domain\Journal\IncomeList;
 use App\Domain\Journal\OutcomeList;
 use App\Domain\Money;
-use App\Domain\Report\Report;
 use App\Domain\Report\ReportOutcome;
-use App\Domain\Report\ReportOutcomesList;
 use App\Domain\Report\ReportService;
 use App\Tests\Factories\CategoryFactory;
 use App\Tests\Factories\IncomeFactory;
@@ -93,6 +91,19 @@ class ReportServiceTest extends TestCase
         $report = ReportService::build($incomes, $outcomes);
 
         $this->assertEquals(350, $report->income->minors);
+        $this->assertCount(0, $report->outcomes);
+    }
+
+    #[Test]
+    public function buildWithEmpty()
+    {
+        $incomes = new IncomeList();
+
+        $outcomes = new OutcomeList();
+
+        $report = ReportService::build($incomes, $outcomes);
+
+        $this->assertEquals(0, $report->income->minors);
         $this->assertCount(0, $report->outcomes);
     }
 }
