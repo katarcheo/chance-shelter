@@ -9,19 +9,22 @@ use App\Domain\Journal\JournalRepository;
 use App\Domain\Journal\Outcome;
 use App\Domain\Medias;
 use App\Domain\Money;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RecordOutcomeService
 {
     public function __construct(
-        private JournalRepository         $journalRepo,
-        private CategoryRepository        $categoryRepo,
-        private string                    $mediaDir,
+        private JournalRepository      $journalRepo,
+        private CategoryRepository     $categoryRepo,
+        private EntityManagerInterface $em,
+        private string                 $mediaDir,
     )
-    {}
+    {
+    }
 
     public function record(OutcomeDTO $outcomeData): void
     {
-        if (!$category = $this->categoryRepo->findById($outcomeData->categoryId)) {
+        if (!$category = $this->categoryRepo->find($outcomeData->categoryId)) {
             throw new ApplicationException("Category not found");
         }
 
@@ -40,8 +43,11 @@ class RecordOutcomeService
         );
 
         $balance = $this->journalRepo->lockCurrentBalance();
-        $balance->applyOutcome($outcome);
 
-        $this->journalRepo->recordOutcome($outcome, $balance);
+        $this->em->persist($outcome);
+        $this->em->persist($balance);
+
+        $balance->applyOutcome($outcome);
+        $this->em->flush();
     }
 }
