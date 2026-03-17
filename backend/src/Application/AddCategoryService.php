@@ -32,7 +32,6 @@ class AddCategoryService
         }
 
         $this->em->persist(new Category(
-            id: Uuid::generate(),
             name: $categoryData->name,
         ));
         $this->em->flush();

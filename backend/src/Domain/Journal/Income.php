@@ -2,16 +2,21 @@
 
 namespace App\Domain\Journal;
 
-use App\Domain\DomainId;
 use App\Domain\Fund\Fund;
 use App\Domain\Money;
+use Symfony\Component\Uid\UuidV7;
+use Doctrine\ORM\Mapping as ORM;
 
-readonly final class Income
+final class Income
 {
+    #[ORM\Id]
+    private string $id;
+
     public function __construct(
-        public DomainId $id,
         public Money $amount,
         public Fund $fund,
     )
-    {}
+    {
+        $this->id = UuidV7::generate();
+    }
 }

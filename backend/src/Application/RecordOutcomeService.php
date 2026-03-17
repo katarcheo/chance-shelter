@@ -19,8 +19,7 @@ class RecordOutcomeService
         private EntityManagerInterface $em,
         private string                 $mediaDir,
     )
-    {
-    }
+    {}
 
     public function record(OutcomeDTO $outcomeData): void
     {
@@ -28,14 +27,11 @@ class RecordOutcomeService
             throw new ApplicationException("Category not found");
         }
 
-        $id = Uuid::generate();
-
         foreach ($outcomeData->media as $key => $file) {
             $file->move($this->mediaDir, "{$id}_$key.{$file->guessExtension()}");
         }
 
         $outcome = new Outcome(
-            id: $id,
             amount: Money::fromFloat($outcomeData->amount),
             category: $category,
             media: new Medias(...$outcomeData->media),

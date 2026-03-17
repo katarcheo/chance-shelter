@@ -12,8 +12,8 @@ use App\Domain\Money;
 class RecordIncomeService
 {
     public function __construct(
-        private JournalRepository         $journalRepo,
-        private FundRepository            $fundRepo,
+        private JournalRepository $journalRepo,
+        private FundRepository    $fundRepo,
     )
     {}
 
@@ -24,7 +24,6 @@ class RecordIncomeService
         }
 
         $income = new Income(
-            id: Uuid::generate(),
             amount: Money::fromFloat($incomeData->amount),
             fund: $fund,
         );
