@@ -7,7 +7,7 @@ use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Journal\Outcome;
-use App\Domain\Medias;
+use App\Domain\Media;
 use App\Domain\Money;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -27,16 +27,16 @@ class RecordOutcomeService
             throw new ApplicationException("Category not found");
         }
 
-        foreach ($outcomeData->media as $key => $file) {
-            $file->move($this->mediaDir, "{$id}_$key.{$file->guessExtension()}");
-        }
-
         $outcome = new Outcome(
             amount: Money::fromFloat($outcomeData->amount),
             category: $category,
-            media: new Medias(...$outcomeData->media),
             description: $outcomeData->description,
         );
+
+        foreach ($outcomeData->media as $key => $file) {
+            $file->move($this->mediaDir, "{$outcome->id()}_$key.{$file->guessExtension()}");
+        }
+        $outcome->addMedia(new Media(...$outcomeData->media));
 
         $balance = $this->journalRepo->lockCurrentBalance();
 

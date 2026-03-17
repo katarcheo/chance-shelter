@@ -3,23 +3,26 @@
 namespace App\Domain\Journal;
 
 use App\Domain\Category\Category;
-use App\Domain\Medias;
+use App\Domain\Entity;
+use App\Domain\Media;
 use App\Domain\Money;
-use Symfony\Component\Uid\UuidV7;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
-final class Outcome
+final class Outcome extends Entity
 {
-    #[ORM\Id]
-    private string $id;
+    private Collection $media;
 
     public function __construct(
         public Money $amount,
         public Category $category,
-        public Medias $media,
         public ?string $description = null,
     )
     {
-        $this->id = UuidV7::generate();
+        $this->generateIdentity();
+    }
+
+    public function addMedia(Media $medias): void
+    {
+
     }
 }

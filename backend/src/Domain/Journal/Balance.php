@@ -2,19 +2,16 @@
 
 namespace App\Domain\Journal;
 
+use App\Domain\Entity;
 use App\Domain\Money;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\UuidV7;
 
-final class Balance
+final class Balance extends Entity
 {
-    #[ORM\Id]
-    private string $id;
     public function __construct(
         private Money $amount,
     )
     {
-        $this->id = UuidV7::generate();
+        $this->generateIdentity();
     }
 
     public function getAmount(): Money

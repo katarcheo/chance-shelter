@@ -2,21 +2,18 @@
 
 namespace App\Domain\Category;
 
+use App\Domain\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\UuidV7;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-final class Category
+final class Category extends Entity
 {
-    #[ORM\Id]
-    private string $id;
-
     public function __construct(
         #[ORM\Column]
         private string $name,
     )
     {
-        $this->id = UuidV7::generate();
+        $this->generateIdentity();
     }
 
     public function name(): string
