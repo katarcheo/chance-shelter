@@ -5,18 +5,18 @@ namespace App\Domain\Journal;
 use App\Domain\Money;
 use App\Infrastructure\TypedList;
 
-readonly final class OutcomeList extends TypedList
+readonly final class ExpenseList extends TypedList
 {
-    public function __construct(Outcome ...$outcomes)
+    public function __construct(Expense ...$expenses)
     {
-        parent::__construct($outcomes);
+        parent::__construct($expenses);
     }
 
     public function sum(): Money
     {
         return array_reduce(
             $this->list,
-            fn(Money $sum, Outcome $outcome) => $sum->add($outcome->amount),
+            fn(Money $sum, Expense $expense) => $sum->add($expense->amount),
             new Money(0),
         );
     }

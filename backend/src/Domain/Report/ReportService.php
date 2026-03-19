@@ -3,44 +3,44 @@
 namespace App\Domain\Report;
 
 use App\Domain\Journal\IncomeList;
-use App\Domain\Journal\OutcomeList;
+use App\Domain\Journal\ExpenseList;
 use App\Domain\Money;
 
 class ReportService
 {
-    public static function build(IncomeList $incomes, OutcomeList $outcomes): Report
+    public static function build(IncomeList $incomes, ExpenseList $expenses): Report
     {
         $amountByCategory = [];
 
-        foreach ($outcomes as $outcome) {
-            $id = (string) $outcome->category->id;
+        foreach ($expenses as $expense) {
+            $id = (string) $expense->category->id;
 
             if (!isset($amountByCategory[$id])) {
                 $amountByCategory[$id] = [
                     'amount' => new Money(0),
-                    'category' => $outcome->category,
+                    'category' => $expense->category,
                 ];
             }
 
-            $amountByCategory[$id]['amount'] = $amountByCategory[$id]['amount']->add($outcome->amount);
+            $amountByCategory[$id]['amount'] = $amountByCategory[$id]['amount']->add($expense->amount);
         }
 
-        $outcomeByCategory = [];
+        $expenseByCategory = [];
 
         foreach ($amountByCategory as $amount) {
-            $outcomeByCategory[] = new ReportOutcome(
+            $expenseByCategory[] = new ReportExpense(
                 category: $amount['category'],
                 amount: $amount['amount'],
             );
         }
         $incomeSum = $incomes->sum();
-        $outcomeSum = $outcomes->sum();
+        $expenseSum = $expenses->sum();
 
         return new Report(
             income: $incomeSum,
-            outcome: $outcomeSum,
-            rest: $incomeSum->subtract($outcomeSum),
-            outcomes: new ReportOutcomesList(...$outcomeByCategory),
+            expense: $expenseSum,
+            rest: $incomeSum->subtract($expenseSum),
+            expenses: new ReportExpensesList(...$expenseByCategory),
         );
     }
 }

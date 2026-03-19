@@ -5,7 +5,7 @@ namespace App\Domain\Report;;
 use App\Domain\Category\Category;
 use App\Domain\Money;
 
-final readonly class ReportOutcome
+final readonly class ReportExpense
 {
     public function __construct(
         public Category $category,

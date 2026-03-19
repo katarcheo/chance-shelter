@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Outcome extends Entity
+final class Expense extends Entity
 {
     private Collection $media;
 

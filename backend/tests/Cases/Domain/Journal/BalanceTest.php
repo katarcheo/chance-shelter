@@ -7,12 +7,12 @@ use App\Domain\DomainId;
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\Balance;
 use App\Domain\Journal\Income;
-use App\Domain\Journal\Outcome;
-use App\Domain\Journal\OutcomeGreaterThanBalanceException;
+use App\Domain\Journal\Expense;
+use App\Domain\Journal\ExpenseGreaterThanBalanceException;
 use App\Domain\Medias;
 use App\Domain\Money;
 use App\Tests\Factories\IncomeFactory;
-use App\Tests\Factories\OutcomeFactory;
+use App\Tests\Factories\ExpenseFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -34,28 +34,28 @@ class BalanceTest extends TestCase
     }
 
     #[Test]
-    public function applyOutcome(): void
+    public function applyExpense(): void
     {
         $balance = new Balance(
             new Money(100),
         );
 
-        $outcome = new OutcomeFactory()->amount(30)->make();
-        $balance->applyOutcome($outcome);
+        $expense = new ExpenseFactory()->amount(30)->make();
+        $balance->applyExpense($expense);
 
         $this->assertEquals(70, $balance->getAmount()->minors);
     }
 
     #[Test]
-    public function applyOutcomeException(): void
+    public function applyExpenseException(): void
     {
         $balance = new Balance(
             new Money(100),
         );
 
-        $outcome = new OutcomeFactory()->amount(101)->make();
+        $expense = new ExpenseFactory()->amount(101)->make();
 
-        $this->expectException(OutcomeGreaterThanBalanceException::class);
-        $balance->applyOutcome($outcome);
+        $this->expectException(ExpenseGreaterThanBalanceException::class);
+        $balance->applyExpense($expense);
     }
 }

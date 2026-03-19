@@ -19,20 +19,20 @@ final class Balance extends Entity
         return $this->amount;
     }
 
-    public function applyOutcome(Outcome $outcome): self
+    public function applyExpense(Expense $expense): self
     {
-        if ($outcome->amount->minors > $this->amount->minors) {
-            throw new OutcomeGreaterThanBalanceException();
+        if ($expense->amount->minors > $this->amount->minors) {
+            throw new ExpenseGreaterThanBalanceException();
         }
 
-        $this->amount = $this->amount->subtract($outcome->amount);
+        $this->amount = $this->amount->subtract($expense->amount);
 
         return $this;
     }
 
-    public function applyIncome(Income $outcome): self
+    public function applyIncome(Income $expense): self
     {
-        $this->amount = $this->amount->add($outcome->amount);
+        $this->amount = $this->amount->add($expense->amount);
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Application\DTO;
 
-readonly class OutcomeDTO
+readonly class ExpenseDTO
 {
     public function __construct(
         public float $amount,

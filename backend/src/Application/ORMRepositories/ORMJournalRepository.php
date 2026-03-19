@@ -6,14 +6,14 @@ use App\Domain\DateRange;
 use App\Domain\Journal\Balance;
 use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
-use App\Domain\Journal\Outcome;
-use App\Domain\Journal\OutcomeList;
+use App\Domain\Journal\Expense;
+use App\Domain\Journal\ExpenseList;
 
 class ORMJournalRepository extends ORMBaseRepository implements JournalRepository
 {
-    public function getOutcomesByPeriod(DateRange $dateRange): OutcomeList
+    public function getExpensesByPeriod(DateRange $dateRange): ExpenseList
     {
-//        OutcomeEntity::
+//        ExpenseEntity::
     }
 
     public function recordIncome(Income $income, Balance $balance): void
@@ -22,9 +22,9 @@ class ORMJournalRepository extends ORMBaseRepository implements JournalRepositor
         $this->simpleSave($balance);
     }
 
-    public function recordOutcome(Outcome $outcome, Balance $balance): void
+    public function recordExpense(Expense $expense, Balance $balance): void
     {
-        $this->simpleSave($outcome);
+        $this->simpleSave($expense);
         $this->simpleSave($balance);
     }
 

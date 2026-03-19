@@ -4,13 +4,13 @@ namespace App\Tests\Factories;
 
 use App\Domain\Category\Category;
 use App\Domain\DomainId;
-use App\Domain\Journal\Outcome;
+use App\Domain\Journal\Expense;
 use App\Domain\Medias;
 use App\Domain\Money;
 
-class OutcomeFactory extends Factory
+class ExpenseFactory extends Factory
 {
-    protected string $entity = Outcome::class;
+    protected string $entity = Expense::class;
 
     protected function definition(): array
     {

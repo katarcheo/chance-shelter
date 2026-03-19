@@ -3,13 +3,13 @@
 namespace App\Tests\Cases\Domain\Report;
 
 use App\Domain\Journal\IncomeList;
-use App\Domain\Journal\OutcomeList;
+use App\Domain\Journal\ExpenseList;
 use App\Domain\Money;
-use App\Domain\Report\ReportOutcome;
+use App\Domain\Report\ReportExpense;
 use App\Domain\Report\ReportService;
 use App\Tests\Factories\CategoryFactory;
 use App\Tests\Factories\IncomeFactory;
-use App\Tests\Factories\OutcomeFactory;
+use App\Tests\Factories\ExpenseFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -29,26 +29,26 @@ class ReportServiceTest extends TestCase
         $category1 = new CategoryFactory()->make();
         $category2 = new CategoryFactory()->make();
 
-        $outcomes = new OutcomeList(
-            new OutcomeFactory()->category($category1)->amount(150)->make(),
-            new OutcomeFactory()->category($category2)->amount(10)->make(),
-            new OutcomeFactory()->category($category2)->amount(20)->make(),
+        $expenses = new ExpenseList(
+            new ExpenseFactory()->category($category1)->amount(150)->make(),
+            new ExpenseFactory()->category($category2)->amount(10)->make(),
+            new ExpenseFactory()->category($category2)->amount(20)->make(),
         );
 
-        $report = ReportService::build($incomes, $outcomes);
+        $report = ReportService::build($incomes, $expenses);
 
         $this->assertEquals(350, $report->income->minors);
-        $this->assertEquals(180, $report->outcome->minors);
+        $this->assertEquals(180, $report->expense->minors);
         $this->assertEquals(170, $report->rest->minors);
-        $this->assertCount(2, $report->outcomes);
-        $this->assertContainsEquals(new ReportOutcome(
+        $this->assertCount(2, $report->expenses);
+        $this->assertContainsEquals(new ReportExpense(
             category: $category1,
             amount: new Money(150),
-        ), $report->outcomes);
-        $this->assertContainsEquals(new ReportOutcome(
+        ), $report->expenses);
+        $this->assertContainsEquals(new ReportExpense(
             category: $category2,
             amount: new Money(30),
-        ), $report->outcomes);
+        ), $report->expenses);
     }
 
     #[Test]
@@ -59,30 +59,30 @@ class ReportServiceTest extends TestCase
         $category1 = new CategoryFactory()->make();
         $category2 = new CategoryFactory()->make();
 
-        $outcomes = new OutcomeList(
-            new OutcomeFactory()->category($category1)->amount(150)->make(),
-            new OutcomeFactory()->category($category2)->amount(10)->make(),
-            new OutcomeFactory()->category($category2)->amount(20)->make(),
+        $expenses = new ExpenseList(
+            new ExpenseFactory()->category($category1)->amount(150)->make(),
+            new ExpenseFactory()->category($category2)->amount(10)->make(),
+            new ExpenseFactory()->category($category2)->amount(20)->make(),
         );
 
-        $report = ReportService::build($incomes, $outcomes);
+        $report = ReportService::build($incomes, $expenses);
 
         $this->assertEquals(0, $report->income->minors);
-        $this->assertEquals(180, $report->outcome->minors);
+        $this->assertEquals(180, $report->expense->minors);
         $this->assertEquals(-180, $report->rest->minors);
-        $this->assertCount(2, $report->outcomes);
-        $this->assertContainsEquals(new ReportOutcome(
+        $this->assertCount(2, $report->expenses);
+        $this->assertContainsEquals(new ReportExpense(
             category: $category1,
             amount: new Money(150),
-        ), $report->outcomes);
-        $this->assertContainsEquals(new ReportOutcome(
+        ), $report->expenses);
+        $this->assertContainsEquals(new ReportExpense(
             category: $category2,
             amount: new Money(30),
-        ), $report->outcomes);
+        ), $report->expenses);
     }
 
     #[Test]
-    public function buildWithEmptyOutcomes()
+    public function buildWithEmptyExpenses()
     {
         $incomes = new IncomeList(
             new IncomeFactory()->amount(100)->make(),
@@ -90,14 +90,14 @@ class ReportServiceTest extends TestCase
             new IncomeFactory()->amount(200)->make(),
         );
 
-        $outcomes = new OutcomeList();
+        $expenses = new ExpenseList();
 
-        $report = ReportService::build($incomes, $outcomes);
+        $report = ReportService::build($incomes, $expenses);
 
         $this->assertEquals(350, $report->income->minors);
-        $this->assertEquals(0, $report->outcome->minors);
+        $this->assertEquals(0, $report->expense->minors);
         $this->assertEquals(350, $report->rest->minors);
-        $this->assertCount(0, $report->outcomes);
+        $this->assertCount(0, $report->expenses);
     }
 
     #[Test]
@@ -105,13 +105,13 @@ class ReportServiceTest extends TestCase
     {
         $incomes = new IncomeList();
 
-        $outcomes = new OutcomeList();
+        $expenses = new ExpenseList();
 
-        $report = ReportService::build($incomes, $outcomes);
+        $report = ReportService::build($incomes, $expenses);
 
         $this->assertEquals(0, $report->income->minors);
-        $this->assertEquals(0, $report->outcome->minors);
+        $this->assertEquals(0, $report->expense->minors);
         $this->assertEquals(0, $report->rest->minors);
-        $this->assertCount(0, $report->outcomes);
+        $this->assertCount(0, $report->expenses);
     }
 }
