@@ -7,7 +7,9 @@ use App\Domain\Entity;
 use App\Domain\Media;
 use App\Domain\Money;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
 final class Outcome extends Entity
 {
     private Collection $media;
@@ -21,8 +23,8 @@ final class Outcome extends Entity
         $this->generateIdentity();
     }
 
-    public function addMedia(Media $medias): void
+    public function addMedia(Media $media): void
     {
-
+        $this->media = new MediaList(...$this->media, $media);
     }
 }

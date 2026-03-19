@@ -9,14 +9,12 @@ use App\Domain\Journal\JournalRepository;
 use App\Domain\Journal\Outcome;
 use App\Domain\Media;
 use App\Domain\Money;
-use Doctrine\ORM\EntityManagerInterface;
 
 class RecordOutcomeService
 {
     public function __construct(
         private JournalRepository      $journalRepo,
         private CategoryRepository     $categoryRepo,
-        private EntityManagerInterface $em,
         private string                 $mediaDir,
     )
     {}
@@ -39,11 +37,8 @@ class RecordOutcomeService
         $outcome->addMedia(new Media(...$outcomeData->media));
 
         $balance = $this->journalRepo->lockCurrentBalance();
-
-        $this->em->persist($outcome);
-        $this->em->persist($balance);
-
         $balance->applyOutcome($outcome);
-        $this->em->flush();
+
+        $this->journalRepo->recordOutcome($outcome, $balance);
     }
 }

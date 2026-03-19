@@ -7,7 +7,6 @@ use App\Application\DTO\DTOException;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AddCategoryService
@@ -15,7 +14,6 @@ class AddCategoryService
     public function __construct(
         private CategoryRepository $categoryRepo,
         private ValidatorInterface $validator,
-        private EntityManagerInterface $em,
     )
     {}
 
@@ -31,9 +29,8 @@ class AddCategoryService
             throw new ApplicationException('Category already exists');
         }
 
-        $this->em->persist(new Category(
+        $this->categoryRepo->save(new Category(
             name: $categoryData->name,
         ));
-        $this->em->flush();
     }
 }

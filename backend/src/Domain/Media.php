@@ -2,12 +2,16 @@
 
 namespace App\Domain;
 
-use App\Infrastructure\TypedList;
+use Doctrine\ORM\Mapping as ORM;
 
-readonly final class Media extends TypedList
+#[ORM\Entity]
+final class Media extends Entity
 {
-    public function __construct(\SplFileInfo ...$media)
+    #[ORM\Column]
+    private string $path;
+
+    public function __construct(\SplFileInfo $file)
     {
-        parent::__construct($media);
+        $this->generateIdentity();
     }
 }
