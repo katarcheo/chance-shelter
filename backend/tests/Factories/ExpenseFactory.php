@@ -3,9 +3,7 @@
 namespace App\Tests\Factories;
 
 use App\Domain\Category\Category;
-use App\Domain\DomainId;
-use App\Domain\Journal\Expense;
-use App\Domain\Medias;
+use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
 
 class ExpenseFactory extends Factory

@@ -5,8 +5,8 @@ namespace App\Application;
 use App\Application\DTO\ExpenseDTO;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
+use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\JournalRepository;
-use App\Domain\Journal\Expense;
 use App\Domain\Media;
 use App\Domain\Money;
 

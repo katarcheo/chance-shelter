@@ -2,8 +2,8 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Journal\Expense\ExpenseList;
 use App\Domain\Journal\IncomeList;
-use App\Domain\Journal\ExpenseList;
 use App\Domain\Money;
 
 class ReportService

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Journal;
+namespace App\Domain\Journal\Expense;
 
 use App\Domain\Money;
 use App\Infrastructure\TypedList;

@@ -3,6 +3,7 @@
 namespace App\Domain\Journal;
 
 use App\Domain\DateRange;
+use App\Domain\Journal\Expense\ExpenseList;
 
 interface JournalRepository
 {

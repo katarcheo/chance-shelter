@@ -3,6 +3,7 @@
 namespace App\Domain\Journal;
 
 use App\Domain\Entity;
+use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
 
 final class Balance extends Entity
@@ -22,7 +23,7 @@ final class Balance extends Entity
     public function applyExpense(Expense $expense): self
     {
         if ($expense->amount->minors > $this->amount->minors) {
-            throw new ExpenseGreaterThanBalanceException();
+            throw new BalanceLessThanExpenseException();
         }
 
         $this->amount = $this->amount->subtract($expense->amount);

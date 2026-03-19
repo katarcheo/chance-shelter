@@ -4,10 +4,10 @@ namespace App\Application\ORMRepositories;
 
 use App\Domain\DateRange;
 use App\Domain\Journal\Balance;
+use App\Domain\Journal\Expense\Expense;
+use App\Domain\Journal\Expense\ExpenseList;
 use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
-use App\Domain\Journal\Expense;
-use App\Domain\Journal\ExpenseList;
 
 class ORMJournalRepository extends ORMBaseRepository implements JournalRepository
 {
