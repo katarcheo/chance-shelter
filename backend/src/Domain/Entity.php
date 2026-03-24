@@ -10,7 +10,7 @@ use Symfony\Component\Uid\UuidV7;
 abstract class Entity
 {
     #[ORM\Id]
-    private string $id;
+    protected string $id;
 
     final public function generateIdentity(): void
     {

@@ -16,9 +16,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.9.5 /usr/bin/composer /usr/bin/composer
 COPY --link \
-    --from=ghcr.io/symfony-cli/symfony-cli:latest \
+    --from=ghcr.io/symfony-cli/symfony-cli:5.16.1 \
     /usr/local/bin/symfony /usr/local/bin/symfony
 
 RUN groupadd -g $GID $FPM_USER \

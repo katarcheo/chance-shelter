@@ -13,10 +13,10 @@ class ExpenseFactory extends Factory
     protected function definition(): array
     {
         return [
-            'id' => new DomainId($this->faker->uuid),
+            'id' => $this->faker->uuid,
             'amount' => new Money($this->faker->randomNumber(3)),
             'category' => new CategoryFactory()->make(),
-            'media' => new Medias(),
+//            'media' => new Medias(),
         ];
     }
 

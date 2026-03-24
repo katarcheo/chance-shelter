@@ -14,3 +14,4 @@
 ###< phpunit/phpunit ###
 
 src/Application/TmpService.php
+tests/Cases/TmpTest.php

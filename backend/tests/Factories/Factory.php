@@ -29,7 +29,15 @@ abstract class Factory
 
     final public function make(): object
     {
-        return new $this->entity(...$this->properties);
+        $reflection = new \ReflectionClass($this->entity);
+        $instance = $reflection->newInstanceWithoutConstructor();
+
+        foreach ($this->properties as $property => $value) {
+            $reflectionProperty = $reflection->getProperty($property);
+            $reflectionProperty->setValue($instance, $value);
+        }
+
+        return $instance;
     }
 
     abstract protected function definition(): array;

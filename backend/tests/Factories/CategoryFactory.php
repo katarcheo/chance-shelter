@@ -3,7 +3,6 @@
 namespace App\Tests\Factories;
 
 use App\Domain\Category\Category;
-use App\Domain\DomainId;
 
 class CategoryFactory extends Factory
 {
@@ -12,7 +11,7 @@ class CategoryFactory extends Factory
     protected function definition(): array
     {
         return [
-            'id' => new DomainId($this->faker->uuid),
+            'id' => $this->faker->uuid,
             'name' => $this->faker->word,
         ];
     }
