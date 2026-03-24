@@ -16,7 +16,6 @@ class ExpenseFactory extends Factory
             'id' => $this->faker->uuid,
             'amount' => new Money($this->faker->randomNumber(3)),
             'category' => new CategoryFactory()->make(),
-//            'media' => new Medias(),
         ];
     }
 
@@ -30,5 +29,10 @@ class ExpenseFactory extends Factory
     public function category(Category $category): self
     {
         return $this->state(['category' => $category]);
+    }
+
+    public function media(?string $path = null): self
+    {
+        return $this->state(['media' => [$path ?? $this->faker->filePath()]]);
     }
 }
