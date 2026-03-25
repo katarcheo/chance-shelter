@@ -104,7 +104,6 @@ class ReportServiceTest extends TestCase
     public function buildWithEmpty()
     {
         $incomes = new IncomeList();
-
         $expenses = new ExpenseList();
 
         $report = ReportService::build($incomes, $expenses);
