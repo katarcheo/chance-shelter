@@ -2,10 +2,8 @@
 
 namespace App\Tests\Cases\Domain\Journal;
 
-use App\Domain\DomainId;
 use App\Domain\Journal\Balance;
-use App\Domain\Journal\ExpenseGreaterThanBalanceException;
-use App\Domain\Medias;
+use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
 use App\Tests\Factories\ExpenseFactory;
 use App\Tests\Factories\IncomeFactory;
@@ -51,7 +49,7 @@ class BalanceTest extends TestCase
 
         $expense = new ExpenseFactory()->amount(101)->make();
 
-        $this->expectException(ExpenseGreaterThanBalanceException::class);
+        $this->expectException(BalanceLessThanExpenseException::class);
         $balance->applyExpense($expense);
     }
 }

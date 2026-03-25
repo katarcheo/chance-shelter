@@ -7,6 +7,7 @@ use App\Domain\Journal\Balance;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\Expense\ExpenseList;
 use App\Domain\Journal\Income;
+use App\Domain\Journal\IncomeList;
 use App\Domain\Journal\JournalRepository;
 
 class ORMJournalRepository extends ORMBaseRepository implements JournalRepository
@@ -31,5 +32,15 @@ class ORMJournalRepository extends ORMBaseRepository implements JournalRepositor
     public function lockCurrentBalance(): Balance
     {
         // TODO: Implement lockCurrentBalance() method.
+    }
+
+    public function getIncomesByPeriod(DateRange $dateRange): IncomeList
+    {
+        // TODO: Implement getIncomesByPeriod() method.
+    }
+
+    public function getCurrentBalance(): Balance
+    {
+        // TODO: Implement getCurrentBalance() method.
     }
 }
