@@ -19,7 +19,7 @@ services:
     App\:
         resource: '../src/'
 
-    App\Application\RecordExpenseService:
+    App\Application\JournalRecordingService:
         arguments:
             $mediaDir: '../media/'
 

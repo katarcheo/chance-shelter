@@ -8,9 +8,9 @@ use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Fund\FundRepository;
 use App\Domain\Journal\Expense\Expense;
+use App\Domain\Journal\Expense\ExpenseMedia;
 use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
-use App\Domain\Media;
 use App\Domain\Money;
 
 class JournalRecordingService
@@ -54,8 +54,8 @@ class JournalRecordingService
 
         foreach ($expenseData->media as $key => $file) {
             $file->move($this->mediaDir, "{$expense->id()}_$key.{$file->guessExtension()}");
+            $expense->attachMedia(new ExpenseMedia($file->path));
         }
-        $expense->addMedia(new Media(...$expenseData->media));
 
         $balance = $this->journalRepo->lockCurrentBalance();
         $balance->applyExpense($expense);
