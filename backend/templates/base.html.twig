@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f4f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>{% block title %}Chance Shelter{% endblock %}</title>
+    <script>
+        (function () {
+            var stored = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (stored === 'dark' || (!stored && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/app.css">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+<div class="app-shell">
+
+{#    {% block header %}#}
+{#    <header class="app-header">#}
+{#        <a class="logo" href="/">Chance<span>Shelter</span></a>#}
+{#        <div class="header-actions">#}
+{#            {% block header_actions %}{% endblock %}#}
+{#            <twig:theme-switcher />#}
+{#        </div>#}
+{#    </header>#}
+{#    {% endblock %}#}
+
+    <main class="app-main">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}" style="margin-bottom: 16px;">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        &copy; {{ "now"|date("Y") }} ChaneShelter
+    </footer>
+
+</div>
+
+{% block scripts %}{% endblock %}
+<script>
+    (function () {
+        var SUN  = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+        var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+        function isDark() {
+            return document.documentElement.getAttribute('data-theme') === 'dark';
+        }
+
+        function applyTheme(dark) {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+            syncIcons(dark);
+        }
+
+        function syncIcons(dark) {
+            document.querySelectorAll('.theme-icon').forEach(function (el) {
+                el.innerHTML = dark ? SUN : MOON;
+            });
+        }
+
+        var btn = document.getElementById('theme-toggle');
+        if (btn) {
+            btn.querySelector('svg').classList.add('theme-icon');
+            btn.addEventListener('click', function () { applyTheme(!isDark()); });
+        }
+
+        syncIcons(isDark());
+    })();
+</script>
+</body>
+</html>
