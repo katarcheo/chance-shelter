@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Application\ORMRepositories;
+namespace App\Infrastructure\Doctrine;
 
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryRepository;
 
-class ORMCategoryRepository extends ORMBaseRepository implements CategoryRepository
+class DoctrineCategoryRepository extends DoctrineBaseRepository implements CategoryRepository
 {
     public function isExistByName(string $name): bool
     {

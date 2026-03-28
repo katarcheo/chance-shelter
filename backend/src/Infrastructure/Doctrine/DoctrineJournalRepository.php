@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\ORMRepositories;
+namespace App\Infrastructure\Doctrine;
 
 use App\Domain\DateRange;
 use App\Domain\Journal\Balance;
@@ -10,7 +10,7 @@ use App\Domain\Journal\Income;
 use App\Domain\Journal\IncomeList;
 use App\Domain\Journal\JournalRepository;
 
-class ORMJournalRepository extends ORMBaseRepository implements JournalRepository
+class DoctrineJournalRepository extends DoctrineBaseRepository implements JournalRepository
 {
     public function getExpensesByPeriod(DateRange $dateRange): ExpenseList
     {
