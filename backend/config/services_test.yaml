@@ -3,5 +3,5 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Application\ReportGenerateService:
+    App\Application\UseCases\ReportGenerateService:
         public: true

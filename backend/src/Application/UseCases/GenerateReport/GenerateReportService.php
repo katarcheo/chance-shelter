@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\UseCases\GenerateReport;
 
 use App\Domain\DateRange;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Report\ReportService;
 use Carbon\CarbonImmutable;
 
-class ReportGenerateService
+class GenerateReportService
 {
     public function __construct(
         private JournalRepository $journalRepo,

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Cases\Application;
 
-use App\Application\ReportGenerateService;
+use App\Application\UseCases\ReportGenerateService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ReportGenerateServiceTest extends KernelTestCase

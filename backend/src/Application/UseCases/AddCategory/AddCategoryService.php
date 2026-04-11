@@ -1,10 +1,9 @@
 <?php
 
-namespace  App\Application;
+namespace  App\Application\UseCases\AddCategory;
 
-use App\Application\DTO\AddCategoryDTO;
-use App\Application\DTO\DTOException;
-use App\Application\Exceptions\ApplicationException;
+use App\Application\UseCases\Exceptions\ApplicationException;
+use App\Application\UseCases\Exceptions\DTOException;
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

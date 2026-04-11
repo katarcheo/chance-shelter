@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\DTO;
+namespace App\Application\UseCases\AddCategory;
 
-use Symfony\Component\Validator\Constraints  as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class AddCategoryDTO
 {

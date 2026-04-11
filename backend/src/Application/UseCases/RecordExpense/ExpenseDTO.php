@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\DTO;
+namespace App\Application\UseCases\RecordExpense;
 
 readonly class ExpenseDTO
 {
@@ -8,7 +8,7 @@ readonly class ExpenseDTO
         public float $amount,
         public ?string $description,
         public int $categoryId,
-        public Files $media,
+        public FilesList $media,
     )
     {}
 }

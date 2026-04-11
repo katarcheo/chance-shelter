@@ -2,8 +2,9 @@
 
 namespace App\Infrastructure\Http\Controller;
 
-use App\Application\DTO\ExpenseDTO;
-use App\Application\JournalRecordingService;
+use App\Application\UseCases\RecordExpense\RecordExpenseService;
+use App\Application\UseCases\RecordExpense\ExpenseDTO;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -22,7 +23,7 @@ final class ExpenseController extends AbstractController
     #[Route('/expense/create', name: 'expense_store', methods: ['POST'])]
     public function store(
         #[MapRequestPayload] ExpenseDTO $expenseDTO,
-        JournalRecordingService $journal,
+        RecordExpenseService $journal,
     ): Response
     {
         $journal->expense($expenseDTO);

@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Application\DTO;
+namespace App\Application\Exceptions;
 
-use App\Application\Exceptions\ApplicationException;
-use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class DTOException extends ApplicationException
