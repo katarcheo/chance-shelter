@@ -3,7 +3,7 @@
 namespace App\Domain\Journal\Expense;
 
 use App\Domain\Money;
-use App\Infrastructure\TypedList;
+use App\Infrastructure\Support\TypedList;
 
 readonly final class ExpenseList extends TypedList
 {

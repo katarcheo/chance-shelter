@@ -3,7 +3,7 @@
 namespace App\Domain\Journal;
 
 use App\Domain\Money;
-use App\Infrastructure\TypedList;
+use App\Infrastructure\Support\TypedList;
 
 final readonly class IncomeList extends TypedList
 {

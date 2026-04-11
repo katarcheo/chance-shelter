@@ -2,7 +2,7 @@
 
 namespace App\Domain\Journal\Expense;
 
-use App\Infrastructure\TypedList;
+use App\Infrastructure\Support\TypedList;
 
 readonly class ExpenseMediaList extends TypedList
 {

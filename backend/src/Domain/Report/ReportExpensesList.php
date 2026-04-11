@@ -2,7 +2,7 @@
 
 namespace App\Domain\Report;
 
-use App\Infrastructure\TypedList;
+use App\Infrastructure\Support\TypedList;
 
 readonly final class ReportExpensesList extends TypedList
 {

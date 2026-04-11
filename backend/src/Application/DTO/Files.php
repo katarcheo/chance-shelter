@@ -2,7 +2,7 @@
 
 namespace App\Application\DTO;
 
-use App\Infrastructure\TypedList;
+use App\Infrastructure\Support\TypedList;
 use Symfony\Component\HttpFoundation\File\File;
 
 readonly class Files extends TypedList
