@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Http\Controller;
 
 use App\Application\DTO\ExpenseDTO;
 use App\Application\JournalRecordingService;

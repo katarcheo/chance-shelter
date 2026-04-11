@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Http\Controller;
 
-use App\Controller\DTO\RegisterUserDTO;
+use App\Infrastructure\Http\Controller\DTO\RegisterUserDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;

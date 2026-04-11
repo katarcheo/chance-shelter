@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Http\Controller;
 
-use App\Controller\DTO\RegisterUserDTO;
-use App\Entity\User;
+use App\Infrastructure\Http\Controller\DTO\RegisterUserDTO;
+use App\Infrastructure\Security\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
