@@ -33,10 +33,22 @@
         <form method="post" action="{{ path('app_login') }}" novalidate autocomplete="on">
             <div class="stack stack-md">
 
+                {% if(error) %}
+                    <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                {% endif %}
                 <twig:field
-                    id="test"
-                    label="lab-test"
-                    placeholder="pltest"
+                    id="username"
+                    label="Username"
+                    name="_username"
+                    placeholder="Username..."
+                    value="{{ last_username }}"
+                />
+
+                <twig:field
+                    id="password"
+                    label="Password"
+                    name="_password"
+                    placeholder="Password..."
                 />
 
                 <button type="submit" class="btn btn-primary btn-full btn-login">

@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-hello
+    <twig:action-btn
+        title="Create expense"
+        href="/dashboard/expense/create"
+    />
+    User is {{ user.username }}
+    <twig:action-btn
+        title="Logout"
+        href="{{ path('app_logout') }}"
+    />
 {% endblock %}
