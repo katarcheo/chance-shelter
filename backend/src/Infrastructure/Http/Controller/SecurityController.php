@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http\Controller;
 
-use App\Infrastructure\Http\Controller\DTO\RegisterUserDTO;
+use App\Infrastructure\Security\RegisterService;
+use App\Infrastructure\Security\RegisterUserDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
