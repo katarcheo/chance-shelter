@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+#block {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 50px;
+    height: 100vh;
+    background: #bbd2f8;
+}
+
+select, ::picker(select) {
+    appearance: base-select;
+}
+
+select {
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+::picker(select) {
+    margin-top: 20px;
+    padding: 10px;
+    background: green;
+}
+
+option {
+    background: yellow;
+    border-bottom: 1px solid black;
+    padding: 20px;
+    &:hover {
+        background: blue;
+    }
+}
+
+select option::checkmark {
+    content: "⮕";
+}
+
+#my-popup {
+    margin: auto;
+    width: 50%;
+    background: #4caf72;
+    padding: 30px;
+    border-radius: 7px;
+    border: none;
+    box-shadow: 2px 2px 14px 0 black;
+    transition: .3s;
+    opacity: 1;
+
+    &::backdrop {
+        background: black;
+        opacity: .5;
+        transition: .3s;
+    }
+}
+
+@starting-style {
+    #my-popup, #my-popup::backdrop {
+        opacity: 0;
+    }
+}

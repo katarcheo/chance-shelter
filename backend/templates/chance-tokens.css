@@ -1,0 +1,269 @@
+/* ============================================================
+   Chance Shelter — Design Tokens & Global Styles
+   ============================================================ */
+
+:root {
+  /* Palette */
+  --navy:        oklch(24% 0.06 245);
+  --navy-mid:    oklch(32% 0.07 245);
+  --navy-light:  oklch(42% 0.07 245);
+  --steel:       oklch(52% 0.06 240);
+  --steel-light: oklch(72% 0.04 240);
+  --bg:          oklch(97% 0.008 240);
+  --surface:     oklch(99.5% 0.003 240);
+  --border:      oklch(88% 0.012 240);
+  --border-focus:oklch(52% 0.12 245);
+  --text-primary:   oklch(18% 0.04 245);
+  --text-secondary: oklch(48% 0.04 240);
+  --text-muted:     oklch(65% 0.03 240);
+  --danger:  oklch(55% 0.18 25);
+  --success: oklch(55% 0.14 155);
+  --warning: oklch(72% 0.14 75);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.05);
+  --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.10), 0 2px 4px oklch(0% 0 0 / 0.06);
+  --shadow-lg: 0 12px 32px oklch(0% 0 0 / 0.14), 0 4px 8px oklch(0% 0 0 / 0.08);
+
+  /* Radii */
+  --r4: 4px; --r6: 6px; --r8: 8px; --r10: 10px; --r12: 12px; --r16: 16px;
+
+  /* Typography */
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes fadeIn   { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+@keyframes slideUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes splashIn { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+@keyframes spin     { to { transform: rotate(360deg); } }
+
+/* ── FORM ELEMENTS ──────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; }
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.field-label .req { color: var(--danger); margin-left: 3px; }
+
+.field-helper {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  line-height: 1.4;
+}
+.field-helper.error { color: var(--danger); }
+
+.input, .textarea, .select {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r8);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px oklch(52% 0.12 245 / 0.12);
+}
+
+.input.error-state, .textarea.error-state, .select.error-state {
+  border-color: var(--danger);
+}
+
+.input:disabled, .textarea:disabled, .select:disabled {
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+  line-height: 1.6;
+}
+
+.select-wrap { position: relative; }
+.select-wrap .chevron {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: var(--text-secondary);
+}
+.select { padding-right: 36px; cursor: pointer; }
+
+/* Input with prefix */
+.input-prefix-wrap { position: relative; }
+.input-prefix-wrap .prefix {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: 14px; pointer-events: none;
+}
+.input-prefix-wrap .input { padding-left: 28px; }
+
+/* Password toggle */
+.input-suffix-wrap { position: relative; }
+.input-suffix-wrap .input { padding-right: 52px; }
+.input-suffix-wrap .suffix-btn {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-size: 12px; padding: 4px;
+  font-family: var(--font);
+}
+
+/* ── BUTTONS ─────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; cursor: pointer;
+  font-family: var(--font); font-weight: 500;
+  letter-spacing: 0.01em;
+  border: none; border-radius: var(--r8);
+  transition: background 0.12s ease, transform 0.08s ease;
+  white-space: nowrap; text-decoration: none;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--navy); color: #fff;
+  box-shadow: var(--shadow-sm);
+  padding: 10px 20px; font-size: 14px;
+}
+.btn-primary:hover:not(:disabled) { background: var(--navy-mid); }
+.btn-primary:active:not(:disabled) { background: var(--navy-light); }
+
+.btn-secondary {
+  background: var(--surface); color: var(--text-primary);
+  border: 1.5px solid var(--border);
+  padding: 10px 20px; font-size: 14px;
+}
+.btn-secondary:hover:not(:disabled) { background: var(--bg); }
+
+.btn-lg { padding: 13px 28px; font-size: 15px; }
+.btn-xl { padding: 15px; font-size: 15px; width: 100%; border-radius: var(--r10); }
+.btn-full { width: 100%; }
+
+/* Spinner inside button */
+.btn-spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid currentColor; border-top-color: transparent;
+  animation: spin 0.6s linear infinite; flex-shrink: 0;
+}
+
+/* ── BADGES ──────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 99px;
+  font-size: 12px; font-weight: 500;
+}
+.badge-default { background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border); }
+.badge-blue    { background: oklch(95% 0.04 245); color: var(--navy); border: 1px solid oklch(85% 0.06 245); }
+.badge-green   { background: oklch(95% 0.04 155); color: oklch(35% 0.12 155); border: 1px solid oklch(85% 0.06 155); }
+.badge-red     { background: oklch(96% 0.04 25);  color: var(--danger); border: 1px solid oklch(88% 0.08 25); }
+.badge-amber   { background: oklch(97% 0.04 75);  color: oklch(45% 0.12 75); border: 1px solid oklch(88% 0.08 75); }
+
+/* ── CARD ────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r12);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── DIVIDER ─────────────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ── FILE UPLOAD ─────────────────────────────────────────────── */
+.file-drop {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--r8);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface);
+  transition: all 0.15s ease;
+}
+.file-drop:hover, .file-drop.dragging {
+  border-color: var(--border-focus);
+  background: oklch(52% 0.06 245 / 0.05);
+}
+.file-drop-icon { font-size: 22px; margin-bottom: 6px; }
+.file-drop-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+.file-drop-sub   { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.file-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--r6);
+  font-size: 13px;
+}
+.file-item-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-item-size { color: var(--text-muted); flex-shrink: 0; }
+.file-item-remove {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); padding: 2px; font-size: 13px; line-height: 1;
+}
+
+/* ── ERROR BANNER ────────────────────────────────────────────── */
+.error-banner {
+  padding: 12px 14px; border-radius: var(--r8);
+  background: oklch(96% 0.04 25);
+  border: 1px solid oklch(88% 0.08 25);
+  color: var(--danger); font-size: 13px; line-height: 1.5;
+}
+
+/* ── SPLASH OVERLAY ──────────────────────────────────────────── */
+.splash-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: oklch(0% 0 0 / 0.5);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+.splash-overlay.hidden { display: none; }
+
+.splash-card {
+  background: var(--surface); border-radius: var(--r16);
+  padding: 40px; max-width: 420px; width: 90%;
+  box-shadow: var(--shadow-lg); text-align: center;
+  animation: splashIn 0.25s ease;
+}
+.splash-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700; margin: 0 auto 20px;
+}
+.splash-icon.success { background: var(--success); color: #fff; }
+.splash-title  { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.splash-message { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.splash-actions { margin-top: 28px; }

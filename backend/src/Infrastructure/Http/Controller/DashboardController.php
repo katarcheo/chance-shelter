@@ -18,4 +18,10 @@ final class DashboardController extends AbstractController
             'user' => $security->getUser(),
         ]);
     }
+
+    #[Route('/test')]
+    public function test()
+    {
+        return $this->render('test.html.twig');
+    }
 }

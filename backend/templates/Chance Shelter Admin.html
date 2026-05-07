@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Chance — Finance Admin</title>
+<link rel="stylesheet" href="chance-tokens.css"/>
+<style>
+/* ── LAYOUT ────────────────────────────────────────────────── */
+html, body { height: 100%; overflow: hidden; }
+
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* Pages */
+.page { display: none; width: 100%; height: 100%; }
+.page.active { display: flex; flex-direction: column; }
+
+/* ── LOGIN PAGE ─────────────────────────────────────────────── */
+#page-login { background: var(--bg); flex-direction: column; }
+
+.login-header {
+  background: var(--navy);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.login-logo-box {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: oklch(100% 0 0 / 0.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.login-logo-name  { color: #fff; font-weight: 700; font-size: 16px; }
+.login-logo-sub   { color: oklch(100% 0 0 / 0.4); font-size: 13px; margin-left: 2px; }
+
+.login-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  overflow-y: auto;
+}
+
+.login-card {
+  background: var(--surface);
+  border-radius: var(--r16);
+  box-shadow: var(--shadow-lg);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  animation: slideUp 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.login-card h1 {
+  font-size: 24px; font-weight: 700;
+  color: var(--text-primary); letter-spacing: -0.02em;
+}
+.login-card .subtitle {
+  font-size: 14px; color: var(--text-secondary); margin-top: 6px;
+}
+.login-form { display: flex; flex-direction: column; gap: 20px; margin-top: 24px; }
+
+.demo-hint {
+  text-align: center; font-size: 12px; color: var(--text-muted);
+}
+
+/* ── SHELL ──────────────────────────────────────────────────── */
+#page-shell {
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+.sidebar.collapsed { width: 64px; }
+
+.sidebar-logo {
+  padding: 22px 20px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid oklch(100% 0 0 / 0.08);
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar.collapsed .sidebar-logo { padding: 20px 0; justify-content: center; }
+
+.sidebar-logo-box {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: oklch(100% 0 0 / 0.15);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar-logo-text { overflow: hidden; }
+.sidebar-logo-text .name { color: #fff; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+.sidebar-logo-text .sub  { color: oklch(100% 0 0 / 0.5); font-size: 11px; margin-top: 1px; }
+.sidebar.collapsed .sidebar-logo-text { display: none; }
+
+.sidebar-nav { flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; }
+
+.sidebar-nav-btn {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 10px 12px;
+  border-radius: 8px; border: none; cursor: pointer;
+  background: transparent;
+  color: oklch(100% 0 0 / 0.55);
+  font-size: 14px; font-weight: 400;
+  font-family: var(--font);
+  transition: all 0.12s ease;
+  white-space: nowrap; overflow: hidden;
+  text-align: left;
+}
+.sidebar-nav-btn:hover { background: oklch(100% 0 0 / 0.07); }
+.sidebar-nav-btn.active {
+  background: oklch(100% 0 0 / 0.12);
+  color: #fff; font-weight: 500;
+}
+.sidebar.collapsed .sidebar-nav-btn {
+  padding: 10px 0; justify-content: center;
+}
+.sidebar.collapsed .sidebar-nav-btn .nav-label { display: none; }
+
+.sidebar-toggle {
+  margin: 0 8px 8px;
+  padding: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: oklch(100% 0 0 / 0.06); border: none;
+  border-radius: 8px; cursor: pointer;
+  color: oklch(100% 0 0 / 0.45);
+  flex-shrink: 0;
+}
+
+.sidebar-logout {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 14px 20px;
+  border: none; border-top: 1px solid oklch(100% 0 0 / 0.08);
+  cursor: pointer; background: transparent;
+  color: oklch(100% 0 0 / 0.4);
+  font-size: 13px; font-family: var(--font);
+  transition: color 0.12s;
+  white-space: nowrap; overflow: hidden;
+  flex-shrink: 0;
+  text-align: left;
+}
+.sidebar-logout:hover { color: oklch(100% 0 0 / 0.7); }
+.sidebar.collapsed .sidebar-logout { padding: 14px 0; justify-content: center; }
+.sidebar.collapsed .sidebar-logout .logout-label { display: none; }
+
+/* Main content area */
+.main-content {
+  flex: 1; min-width: 0; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+
+/* Inner pages inside shell */
+.shell-page { display: none; padding: 32px; animation: fadeIn 0.25s ease; }
+.shell-page.active { display: block; }
+
+/* ── DASHBOARD ──────────────────────────────────────────────── */
+.dashboard-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap; gap: 16px;
+}
+.dashboard-header h1 {
+  font-size: 26px; font-weight: 700;
+  color: var(--text-primary); letter-spacing: -0.02em;
+}
+.dashboard-header .sub {
+  font-size: 14px; color: var(--text-secondary); margin-top: 4px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--r12);
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-label {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.stat-value {
+  font-size: 28px; font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.stat-sub { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+.recent-table {
+  background: var(--surface);
+  border-radius: var(--r12);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.recent-table-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.recent-table-head span {
+  font-weight: 600; font-size: 15px; color: var(--text-primary);
+}
+.recent-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+  cursor: default;
+}
+.recent-row:last-child { border-bottom: none; }
+.recent-row:hover { background: var(--bg); }
+.recent-row-info { flex: 1; min-width: 0; }
+.recent-row-title {
+  font-size: 14px; font-weight: 500; color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.recent-row-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.recent-row-amount {
+  font-size: 15px; font-weight: 600; color: var(--text-primary);
+  min-width: 70px; text-align: right;
+}
+
+/* ── EXPENSE FORM ────────────────────────────────────────────── */
+.expense-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.back-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+  padding: 8px; cursor: pointer;
+  color: var(--text-secondary);
+  display: flex; align-items: center;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.back-btn:hover { background: var(--bg); }
+.expense-header h1 {
+  font-size: 22px; font-weight: 700;
+  color: var(--text-primary); letter-spacing: -0.02em;
+}
+.expense-header .sub {
+  font-size: 13px; color: var(--text-secondary); margin-top: 2px;
+}
+
+.form-card { max-width: 680px; }
+.form-section {
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.form-section-label {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.07em;
+}
+.form-grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.form-actions {
+  padding: 20px 24px;
+  display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;
+}
+
+/* ── MOBILE NAV ─────────────────────────────────────────────── */
+.mobile-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--navy);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.mobile-nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: none; border: none; cursor: pointer;
+  color: oklch(100% 0 0 / 0.45);
+  font-family: var(--font); font-size: 11px; font-weight: 400;
+  padding: 4px 0;
+  transition: color 0.12s;
+}
+.mobile-nav-btn.active { color: #fff; font-weight: 600; }
+
+@media (max-width: 640px) {
+  .sidebar { display: none !important; }
+  .mobile-nav { display: flex; }
+  .main-content { padding-bottom: 72px; }
+  .shell-page { padding: 16px; }
+  .dashboard-header { margin-bottom: 20px; }
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .form-actions { justify-content: stretch; }
+  .form-actions .btn { flex: 1; justify-content: center; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .recent-row { padding: 12px 16px; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     LOGIN PAGE
+═══════════════════════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <header class="login-header">
+    <div class="login-logo-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="5" stroke="white" stroke-width="1.6"/>
+        <path d="M8 4l1 4M16 4l-1 4M4 9l4 1M20 9l-4 1" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="10" cy="12" r="1" fill="white"/>
+        <circle cx="14" cy="12" r="1" fill="white"/>
+        <path d="M10 15s.8 1 2 1 2-1 2-1" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <span class="login-logo-name">Chance</span>
+    <span class="login-logo-sub">Finance Admin</span>
+  </header>
+
+  <div class="login-body">
+    <div class="login-card">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to Chance Finance Dashboard</p>
+
+      <form class="login-form" id="login-form" novalidate>
+        <div id="login-error" class="error-banner" style="display:none;"></div>
+
+        <div class="field">
+          <label class="field-label" for="login-email">Email address <span class="req">*</span></label>
+          <input id="login-email" class="input" type="email" placeholder="admin@chance.org" autocomplete="email"/>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="login-password">Password <span class="req">*</span></label>
+          <div class="input-suffix-wrap">
+            <input id="login-password" class="input" type="password" placeholder="••••••••" autocomplete="current-password"/>
+            <button type="button" class="suffix-btn" id="toggle-pass">Show</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-btn">
+          Sign In
+        </button>
+
+        <p class="demo-hint">Demo: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9dfcf9f0f4f3ddfef5fcf3fef8b3f2effa">[email&#160;protected]</a> / shelter</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     AUTHENTICATED SHELL
+═══════════════════════════════════════════════════════════ -->
+<div id="page-shell" class="page" style="display:none; flex-direction:row; width:100%; height:100vh; overflow:hidden;">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="5" stroke="white" stroke-width="1.6"/>
+          <path d="M8 4l1 4M16 4l-1 4M4 9l4 1M20 9l-4 1" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="10" cy="12" r="1" fill="white"/>
+          <circle cx="14" cy="12" r="1" fill="white"/>
+          <path d="M10 15s.8 1 2 1 2-1 2-1" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="sidebar-logo-text">
+        <div class="name">Chance</div>
+        <div class="sub">Finance Admin</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="sidebar-nav-btn active" data-nav="dashboard">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="sidebar-nav-btn" data-nav="expense">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M14 2v6h6M12 18v-4M10 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span class="nav-label">New Expense</span>
+      </button>
+    </nav>
+
+    <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">
+      <svg id="toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="sidebar-logout" id="sidebar-logout">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="logout-label">Sign Out</span>
+    </button>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- Dashboard -->
+    <div class="shell-page active" id="shell-dashboard" data-screen-label="Dashboard">
+      <div class="dashboard-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="sub">May 2026 · Chance Animal Shelter</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="create-expense-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <line x1="12" y1="5" x2="12" y2="19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="5" y1="12" x2="19" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Create Expense
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">This Month</div>
+          <div class="stat-value" style="color:var(--navy)">€2,340</div>
+          <div class="stat-sub">Total expenses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Food & Nutrition</div>
+          <div class="stat-value" style="color:oklch(42% 0.14 155)">€680</div>
+          <div class="stat-sub">29% of total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Medical & Vet</div>
+          <div class="stat-value" style="color:oklch(50% 0.14 25)">€910</div>
+          <div class="stat-sub">39% of total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending review</div>
+          <div class="stat-value" style="color:oklch(50% 0.12 75)">3</div>
+          <div class="stat-sub">Records</div>
+        </div>
+      </div>
+
+      <div class="recent-table">
+        <div class="recent-table-head">
+          <span>Recent Expenses</span>
+          <span class="badge badge-blue">Last 30 days</span>
+        </div>
+        <div class="recent-row">
+          <div class="recent-row-info">
+            <div class="recent-row-title">Dog food bulk order</div>
+            <div class="recent-row-date">2 May 2026</div>
+          </div>
+          <span class="badge badge-green">Food</span>
+          <div class="recent-row-amount">€340</div>
+          <span class="badge badge-green">approved</span>
+        </div>
+        <div class="recent-row">
+          <div class="recent-row-info">
+            <div class="recent-row-title">Vet visit — Luna</div>
+            <div class="recent-row-date">1 May 2026</div>
+          </div>
+          <span class="badge badge-red">Medical</span>
+          <div class="recent-row-amount">€185</div>
+          <span class="badge badge-amber">pending</span>
+        </div>
+        <div class="recent-row">
+          <div class="recent-row-info">
+            <div class="recent-row-title">Staff April salaries</div>
+            <div class="recent-row-date">30 Apr 2026</div>
+          </div>
+          <span class="badge badge-blue">Salaries</span>
+          <div class="recent-row-amount">€1,200</div>
+          <span class="badge badge-green">approved</span>
+        </div>
+        <div class="recent-row">
+          <div class="recent-row-info">
+            <div class="recent-row-title">Cleaning supplies</div>
+            <div class="recent-row-date">28 Apr 2026</div>
+          </div>
+          <span class="badge badge-default">Other</span>
+          <div class="recent-row-amount">€62</div>
+          <span class="badge badge-green">approved</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expense Form -->
+    <div class="shell-page" id="shell-expense" data-screen-label="New Expense">
+      <div class="expense-header">
+        <button class="back-btn" id="expense-back-btn" title="Back to dashboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <polyline points="12 19 5 12 12 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div>
+          <h1>New Expense</h1>
+          <p class="sub">Record a new shelter expense</p>
+        </div>
+      </div>
+
+      <form id="expense-form" novalidate>
+        <div class="card form-card">
+          <div class="form-section">
+            <div class="form-section-label">Basic Information</div>
+
+            <div id="expense-global-error" class="error-banner" style="display:none;"></div>
+
+            <div class="field">
+              <label class="field-label" for="exp-title">Title <span class="req">*</span></label>
+              <input id="exp-title" class="input" type="text" placeholder="e.g. Dog food bulk order"/>
+              <div class="field-helper error" id="err-title" style="display:none;"></div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="field">
+                <label class="field-label" for="exp-date">Date <span class="req">*</span></label>
+                <input id="exp-date" class="input" type="date"/>
+                <div class="field-helper error" id="err-date" style="display:none;"></div>
+              </div>
+              <div class="field">
+                <label class="field-label" for="exp-category">Category <span class="req">*</span></label>
+                <div class="select-wrap">
+                  <select id="exp-category" class="select">
+                    <option value="">Select category…</option>
+                    <option value="food">🐾 Food &amp; Nutrition</option>
+                    <option value="medical">💊 Medical &amp; Vet</option>
+                    <option value="salaries">👥 Salaries &amp; Staff</option>
+                    <option value="other">📦 Other</option>
+                  </select>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="field-helper error" id="err-category" style="display:none;"></div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="exp-amount">Amount (€) <span class="req">*</span></label>
+              <div class="input-prefix-wrap">
+                <span class="prefix">€</span>
+                <input id="exp-amount" class="input" type="number" min="0" step="0.01" placeholder="0.00"/>
+              </div>
+              <div class="field-helper error" id="err-amount" style="display:none;"></div>
+            </div>
+          </div>
+
+          <hr class="divider"/>
+
+          <div class="form-section">
+            <div class="form-section-label">Details</div>
+
+            <div class="field">
+              <label class="field-label" for="exp-description">Description</label>
+              <textarea id="exp-description" class="textarea" rows="3"
+                placeholder="Additional context, vendor details, purpose…"></textarea>
+              <div class="field-helper">Optional notes about this expense</div>
+            </div>
+
+            <div class="field">
+              <label class="field-label">Attachments</label>
+              <div class="file-drop" id="file-drop" tabindex="0" role="button" aria-label="Upload files">
+                <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png"
+                  style="display:none;"/>
+                <div class="file-drop-icon">📎</div>
+                <div class="file-drop-title">Drop files here or click to browse</div>
+                <div class="file-drop-sub">PDF, JPG, PNG up to 10 MB each</div>
+              </div>
+              <div class="file-list" id="file-list"></div>
+              <div class="field-helper">Receipts, invoices, or supporting documents</div>
+            </div>
+          </div>
+
+          <hr class="divider"/>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="expense-cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="expense-submit-btn">Save Expense</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <button class="mobile-nav-btn active" data-nav="dashboard">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      Dashboard
+    </button>
+    <button class="mobile-nav-btn" data-nav="expense">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M14 2v6h6M12 18v-4M10 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      New Expense
+    </button>
+  </nav>
+
+</div><!-- /page-shell -->
+
+<!-- ══════════════════════════════════════════════════════════
+     SUCCESS SPLASH
+═══════════════════════════════════════════════════════════ -->
+<div class="splash-overlay hidden" id="splash">
+  <div class="splash-card">
+    <div class="splash-icon success">✓</div>
+    <div class="splash-title">Expense Saved!</div>
+    <div class="splash-message">The expense record has been successfully stored and is pending review.</div>
+    <div class="splash-actions">
+      <button class="btn btn-primary btn-full" id="splash-close">Continue</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── HELPERS ────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const show = el => { el.style.display = ''; };
+const hide = el => { el.style.display = 'none'; };
+const cls  = (el, c) => el.classList;
+
+// ── STATE ──────────────────────────────────────────────────────
+let sidebarCollapsed = false;
+let uploadedFiles = [];
+let currentShellPage = 'dashboard';
+
+// ── LOGIN ──────────────────────────────────────────────────────
+const loginPage  = $('page-login');
+const shellPage  = $('page-shell');
+
+// Set today's date as default for expense form
+$('exp-date').value = new Date().toISOString().slice(0, 10);
+
+// Password show/hide
+$('toggle-pass').addEventListener('click', () => {
+  const input = $('login-password');
+  const btn   = $('toggle-pass');
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+});
+
+// Login form submit
+$('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email    = $('login-email').value.trim();
+  const password = $('login-password').value;
+  const errEl    = $('login-error');
+  const btn      = $('login-btn');
+
+  hide(errEl);
+
+  if (!email)    { showError(errEl, 'Email is required.'); return; }
+  if (!password) { showError(errEl, 'Password is required.'); return; }
+
+  // Loading state
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span> Signing in…';
+
+  await sleep(900);
+
+  if (email === 'admin@chance.org' && password === 'shelter') {
+    loginPage.style.display = 'none';
+    shellPage.style.display = 'flex';
+  } else {
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+    showError(errEl, 'Invalid credentials. Try admin@chance.org / shelter');
+  }
+});
+
+function showError(el, msg) {
+  el.textContent = msg;
+  show(el);
+}
+
+// ── SIDEBAR ────────────────────────────────────────────────────
+$('sidebar-toggle').addEventListener('click', () => {
+  sidebarCollapsed = !sidebarCollapsed;
+  const sidebar = $('sidebar');
+  const icon    = $('toggle-icon');
+  sidebar.classList.toggle('collapsed', sidebarCollapsed);
+  icon.querySelector('path').setAttribute('d',
+    sidebarCollapsed ? 'M6 3l5 5-5 5' : 'M10 3L5 8l5 5'
+  );
+});
+
+$('sidebar-logout').addEventListener('click', () => {
+  shellPage.style.display = 'none';
+  loginPage.style.display = '';
+  loginPage.classList.add('active');
+  $('login-email').value    = '';
+  $('login-password').value = '';
+  $('login-btn').textContent = 'Sign In';
+  $('login-btn').disabled = false;
+  hide($('login-error'));
+});
+
+// ── NAVIGATION ─────────────────────────────────────────────────
+function navigateTo(target) {
+  // Update sidebar buttons
+  document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.nav === target);
+  });
+  // Update mobile nav buttons
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.nav === target);
+  });
+  // Update shell pages
+  document.querySelectorAll('.shell-page').forEach(page => {
+    page.classList.toggle('active', page.id === 'shell-' + target);
+  });
+  currentShellPage = target;
+}
+
+// Sidebar nav clicks
+document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
+});
+
+// Mobile nav clicks
+document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
+});
+
+// Dashboard → expense
+$('create-expense-btn').addEventListener('click', () => navigateTo('expense'));
+$('expense-back-btn').addEventListener('click', () => navigateTo('dashboard'));
+$('expense-cancel-btn').addEventListener('click', () => navigateTo('dashboard'));
+
+// ── FILE UPLOAD ────────────────────────────────────────────────
+const fileDrop  = $('file-drop');
+const fileInput = $('file-input');
+const fileList  = $('file-list');
+
+fileDrop.addEventListener('click', () => fileInput.click());
+fileDrop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+fileDrop.addEventListener('dragover', e => {
+  e.preventDefault();
+  fileDrop.classList.add('dragging');
+});
+fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragging'));
+fileDrop.addEventListener('drop', e => {
+  e.preventDefault();
+  fileDrop.classList.remove('dragging');
+  addFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener('change', () => {
+  addFiles(fileInput.files);
+  fileInput.value = '';
+});
+
+function addFiles(files) {
+  Array.from(files).forEach(f => uploadedFiles.push(f));
+  renderFileList();
+}
+
+function renderFileList() {
+  fileList.innerHTML = '';
+  uploadedFiles.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
+      <span class="file-item-name">${escHtml(f.name)}</span>
+      <span class="file-item-size">${(f.size / 1024).toFixed(0)} KB</span>
+      <button class="file-item-remove" data-idx="${i}" title="Remove">✕</button>
+    `;
+    fileList.appendChild(item);
+  });
+  fileList.querySelectorAll('.file-item-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      uploadedFiles.splice(parseInt(btn.dataset.idx), 1);
+      renderFileList();
+    });
+  });
+}
+
+// ── EXPENSE FORM SUBMIT ────────────────────────────────────────
+$('expense-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const title    = $('exp-title').value.trim();
+  const date     = $('exp-date').value;
+  const category = $('exp-category').value;
+  const amount   = $('exp-amount').value;
+
+  // Clear errors
+  clearFieldErrors();
+
+  let valid = true;
+  if (!title)    { setFieldError('err-title',    'Title is required.'); valid = false; }
+  if (!date)     { setFieldError('err-date',     'Date is required.'); valid = false; }
+  if (!category) { setFieldError('err-category', 'Please select a category.'); valid = false; }
+  if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+    setFieldError('err-amount', 'Enter a valid amount.'); valid = false;
+  }
+  if (!valid) return;
+
+  // Loading
+  const submitBtn = $('expense-submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="btn-spinner"></span> Saving…';
+
+  try {
+    // Simulated API — swap for real fetch:
+    // await fetch('https://api.example.com/expenses', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ title, date, category, amount, description: $('exp-description').value })
+    // });
+    await sleep(1200);
+    showSplash();
+    resetExpenseForm();
+    navigateTo('dashboard');
+  } catch (err) {
+    const errEl = $('expense-global-error');
+    showError(errEl, 'Server error. Please try again.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Save Expense';
+  }
+});
+
+function setFieldError(id, msg) {
+  const el = $(id);
+  el.textContent = msg;
+  show(el);
+  // Mark input
+  const inputId = id.replace('err-', 'exp-');
+  const input = $(inputId);
+  if (input) input.classList.add('error-state');
+}
+
+function clearFieldErrors() {
+  ['err-title','err-date','err-category','err-amount'].forEach(id => {
+    const el = $(id);
+    if (el) hide(el);
+  });
+  ['exp-title','exp-date','exp-category','exp-amount'].forEach(id => {
+    const el = $(id);
+    if (el) el.classList.remove('error-state');
+  });
+  hide($('expense-global-error'));
+}
+
+// Clear error on input change
+['exp-title','exp-date','exp-category','exp-amount'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', () => {
+    el.classList.remove('error-state');
+    const errEl = $('err-' + id.replace('exp-', ''));
+    if (errEl) hide(errEl);
+  });
+});
+
+function resetExpenseForm() {
+  $('expense-form').reset();
+  $('exp-date').value = new Date().toISOString().slice(0, 10);
+  uploadedFiles = [];
+  renderFileList();
+  clearFieldErrors();
+}
+
+// ── SPLASH ─────────────────────────────────────────────────────
+function showSplash() {
+  $('splash').classList.remove('hidden');
+}
+
+$('splash-close').addEventListener('click', () => {
+  $('splash').classList.add('hidden');
+});
+
+// ── UTILS ──────────────────────────────────────────────────────
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

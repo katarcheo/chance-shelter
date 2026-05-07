@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <twig:action-btn
-        title="Create expense"
-        href="/dashboard/expense/create"
-    />
-    User is {{ user.username }}
-    <twig:action-btn
-        title="Logout"
-        href="{{ path('app_logout') }}"
-    />
+    <div class="grid">
+        <twig:btn
+            title="Create expense"
+            href="/dashboard/expense/create"
+        />
+    {#    User is {{ user.username }}#}
+        <twig:btn
+            title="Logout"
+            href="{{ path('app_logout') }}"
+        />
+
+        <field-input placeholder="test"></field-input>
+        test
+        <field-select>
+            <option value="1">helo</option>
+            <option value="1">helo</option>
+            <option value="1">helo</option>
+            <option value="1">helo</option>
+            <option value="1">helo</option>
+        </field-select>
+        <field-text></field-text>
+    </div>
 {% endblock %}
