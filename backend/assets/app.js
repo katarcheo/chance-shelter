@@ -9,3 +9,4 @@ import './styles/app.css';
 import './components/form/field-input.js';
 import './components/form/field-select.js';
 import './components/form/field-text.js';
+import './components/form/field-file.js';
