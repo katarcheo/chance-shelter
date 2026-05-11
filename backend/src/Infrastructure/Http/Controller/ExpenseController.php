@@ -5,6 +5,8 @@ namespace App\Infrastructure\Http\Controller;
 use App\Application\UseCases\RecordExpense\RecordExpenseService;
 use App\Application\UseCases\RecordExpense\ExpenseDTO;
 
+use App\Infrastructure\Http\ApiResponse;
+use App\Infrastructure\Http\DTO\ExpenseResourceDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -24,9 +26,10 @@ final class ExpenseController extends AbstractController
     public function store(
         #[MapRequestPayload] ExpenseDTO $expenseDTO,
         RecordExpenseService $journal,
-    ): Response
+    ): ExpenseResourceDTO
     {
-        $journal->expense($expenseDTO);
-        return new Response('successful', Response::HTTP_CREATED);
+        $expense = $journal->expense($expenseDTO);
+
+        return ExpenseResourceDTO::from($expense);
     }
 }

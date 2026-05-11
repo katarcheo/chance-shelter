@@ -2,6 +2,10 @@
 
 {% block title %}Create new expense{% endblock %}
 
-{% block body %}
-form
+{% block content %}
+
+    <api-form action="/expense/create" method="POST">
+        <field-input label="Expense title" placeholder="Input an expense title..."></field-input>
+        <chance-btn type="submit">Send</chance-btn>
+    </api-form>
 {% endblock %}

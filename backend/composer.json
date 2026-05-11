@@ -21,6 +21,7 @@
         "symfony/flex": "^2",
         "symfony/form": "8.0.*",
         "symfony/framework-bundle": "8.0.*",
+        "symfony/monolog-bundle": "^4.0",
         "symfony/property-access": "8.0.*",
         "symfony/property-info": "8.0.*",
         "symfony/runtime": "8.0.*",
@@ -36,7 +37,9 @@
         "phpunit/phpunit": "^13.0",
         "symfony/browser-kit": "8.0.*",
         "symfony/css-selector": "8.0.*",
-        "symfony/maker-bundle": "^1.66"
+        "symfony/maker-bundle": "^1.66",
+        "symfony/stopwatch": "8.0.*",
+        "symfony/web-profiler-bundle": "8.0.*"
     },
     "config": {
         "allow-plugins": {

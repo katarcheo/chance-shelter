@@ -18,7 +18,7 @@ class RecordExpenseService
     )
     {}
 
-    public function expense(ExpenseDTO $expenseData): void
+    public function expense(ExpenseDTO $expenseData): Expense
     {
         if (!$category = $this->categoryRepo->find($expenseData->categoryId)) {
             throw new ApplicationException("Category not found");
@@ -39,5 +39,7 @@ class RecordExpenseService
         $balance->applyExpense($expense);
 
         $this->journalRepo->recordExpense($expense, $balance);
+
+        return $expense;
     }
 }

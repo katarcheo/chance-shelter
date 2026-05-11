@@ -10,3 +10,5 @@ import './components/form/field-input.js';
 import './components/form/field-select.js';
 import './components/form/field-text.js';
 import './components/form/field-file.js';
+import './components/form/api-form.js';
+import './components/btn.js';

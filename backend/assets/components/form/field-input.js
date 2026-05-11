@@ -5,7 +5,7 @@ class Input extends HTMLElement {
         this.innerHTML = `
             ${label ? `<label class="field__label">${label}:</label>` : ''}
             <input
-                placeholder="${this.getAttribute('placeholder')}"
+                placeholder="${this.getAttribute('placeholder') || ''}"
                 class="field field__line"
             >
         `;
