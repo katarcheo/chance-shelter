@@ -2,12 +2,19 @@
 
 namespace App\Domain;
 
-readonly final class Money
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embeddable;
+
+#[Embeddable]
+final class Money
 {
     private const int MAJOR_COFF = 100;
 
     public function __construct(
-        public int $minors
+        #[Column]
+        private int $minors,
+        #[Column(type: 'string', enumType: Currency::class)]
+        private Currency $currency = Currency::KZT,
     )
     {}
 
@@ -19,6 +26,11 @@ readonly final class Money
     public function toFloat(): float
     {
         return  $this->minors / self::MAJOR_COFF;
+    }
+
+    public function getMinors(): int
+    {
+        return $this->minors;
     }
 
     public function add(Money $other): self

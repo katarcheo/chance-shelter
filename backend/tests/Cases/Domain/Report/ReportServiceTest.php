@@ -37,9 +37,9 @@ class ReportServiceTest extends TestCase
 
         $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(350, $report->income->minors);
-        $this->assertEquals(180, $report->expense->minors);
-        $this->assertEquals(170, $report->rest->minors);
+        $this->assertEquals(350, $report->income->getMinors());
+        $this->assertEquals(180, $report->expense->getMinors());
+        $this->assertEquals(170, $report->rest->getMinors());
         $this->assertCount(2, $report->expenses);
         $this->assertContainsEquals(new ReportExpense(
             category: $category1,
@@ -67,9 +67,9 @@ class ReportServiceTest extends TestCase
 
         $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(0, $report->income->minors);
-        $this->assertEquals(180, $report->expense->minors);
-        $this->assertEquals(-180, $report->rest->minors);
+        $this->assertEquals(0, $report->income->getMinors());
+        $this->assertEquals(180, $report->expense->getMinors());
+        $this->assertEquals(-180, $report->rest->getMinors());
         $this->assertCount(2, $report->expenses);
         $this->assertContainsEquals(new ReportExpense(
             category: $category1,
@@ -94,9 +94,9 @@ class ReportServiceTest extends TestCase
 
         $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(350, $report->income->minors);
-        $this->assertEquals(0, $report->expense->minors);
-        $this->assertEquals(350, $report->rest->minors);
+        $this->assertEquals(350, $report->income->getMinors());
+        $this->assertEquals(0, $report->expense->getMinors());
+        $this->assertEquals(350, $report->rest->getMinors());
         $this->assertCount(0, $report->expenses);
     }
 
@@ -108,9 +108,9 @@ class ReportServiceTest extends TestCase
 
         $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(0, $report->income->minors);
-        $this->assertEquals(0, $report->expense->minors);
-        $this->assertEquals(0, $report->rest->minors);
+        $this->assertEquals(0, $report->income->getMinors());
+        $this->assertEquals(0, $report->expense->getMinors());
+        $this->assertEquals(0, $report->rest->getMinors());
         $this->assertCount(0, $report->expenses);
     }
 }

@@ -8,10 +8,12 @@ use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\Expense\ExpenseMedia;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
+use Doctrine\ORM\EntityManager;
 
 class RecordExpenseService
 {
     public function __construct(
+        private EntityManager $em,
         private JournalRepository  $journalRepo,
         private CategoryRepository $categoryRepo,
         private string             $mediaDir,
@@ -24,7 +26,9 @@ class RecordExpenseService
             throw new ApplicationException("Category not found");
         }
 
-        $expense = new Expense(
+        $journal = $this->journalRepo->lockCurrentBalance();
+
+        $expense = $journal->applyExpense(
             amount: Money::fromFloat($expenseData->amount),
             category: $category,
             description: $expenseData->description,
@@ -35,11 +39,7 @@ class RecordExpenseService
             $expense->attachMedia(new ExpenseMedia($file->path));
         }
 
-        $balance = $this->journalRepo->lockCurrentBalance();
-        $balance->applyExpense($expense);
-
-        $this->journalRepo->recordExpense($expense, $balance);
-
+        $this->em->persist($journal);
         return $expense;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Cases\Domain\Journal;
 
-use App\Domain\Journal\Balance;
+use App\Domain\Journal\Journal;
 use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
 use App\Tests\Factories\ExpenseFactory;
@@ -17,7 +17,7 @@ class BalanceTest extends TestCase
     #[Test]
     public function applyIncome(): void
     {
-        $balance = new Balance(
+        $balance = new Journal(
             new Money(100),
         );
         $income = new IncomeFactory()->amount(30)->make();
@@ -30,7 +30,7 @@ class BalanceTest extends TestCase
     #[Test]
     public function applyExpense(): void
     {
-        $balance = new Balance(
+        $balance = new Journal(
             new Money(100),
         );
 
@@ -43,7 +43,7 @@ class BalanceTest extends TestCase
     #[Test]
     public function applyExpenseException(): void
     {
-        $balance = new Balance(
+        $balance = new Journal(
             new Money(100),
         );
 
