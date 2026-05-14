@@ -20,4 +20,14 @@ final class Income extends Entity
     {
         $this->generateIdentity();
     }
+
+    public function getAmount(): Money
+    {
+        return $this->amount;
+    }
+
+    public function getFund(): Fund
+    {
+        return $this->fund;
+    }
 }

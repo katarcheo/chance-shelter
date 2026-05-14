@@ -8,12 +8,10 @@ use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\Expense\ExpenseMedia;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
-use Doctrine\ORM\EntityManager;
 
 class RecordExpenseService
 {
     public function __construct(
-        private EntityManager $em,
         private JournalRepository  $journalRepo,
         private CategoryRepository $categoryRepo,
         private string             $mediaDir,
@@ -39,7 +37,7 @@ class RecordExpenseService
             $expense->attachMedia(new ExpenseMedia($file->path));
         }
 
-        $this->em->persist($journal);
+        $this->journalRepo->save($journal);
         return $expense;
     }
 }

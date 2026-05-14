@@ -7,12 +7,10 @@ use App\Domain\Fund\FundRepository;
 use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
-use Doctrine\ORM\EntityManager;
 
 class RecordIncomeService
 {
     public function __construct(
-        private EntityManager     $em,
         private JournalRepository $journalRepo,
         private FundRepository    $fundRepo,
     )
@@ -30,7 +28,7 @@ class RecordIncomeService
             fund: $fund,
         );
 
-        $this->em->persist($journal);
+        $this->journalRepo->save($journal);
 
         return $income;
     }

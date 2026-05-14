@@ -19,10 +19,10 @@ final class Expense extends Entity
         private Money $amount,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
         private Category $category,
-        #[ORM\Column(type: 'string', length: 255, nullable: true)]
-        private ?string $description = null,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
         private Journal $journal,
+        #[ORM\Column(type: 'string', length: 255, nullable: true)]
+        private ?string $description = null,
     )
     {
         $this->generateIdentity();
@@ -52,5 +52,20 @@ final class Expense extends Entity
     {
         $medias = array_map(fn(string $path) => new ExpenseMedia($path), $this->media);
         return new ExpenseMediaList(...$medias);
+    }
+
+    public function getAmount(): Money
+    {
+        return $this->amount;
+    }
+
+    public function getCategory(): Category
+    {
+        return $this->category;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

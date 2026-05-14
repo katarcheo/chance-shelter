@@ -7,6 +7,7 @@ use App\Domain\Entity;
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,6 +24,8 @@ final class Journal extends Entity
     )
     {
         $this->generateIdentity();
+        $this->incomes = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function applyExpense(Money $amount, Category $category, ?string $description = null): Expense
@@ -30,8 +33,8 @@ final class Journal extends Entity
         $expense = new Expense(
             amount: $amount,
             category: $category,
-            description: $description,
             journal: $this,
+            description: $description,
         );
 
         if ($amount->getMinors() > $this->balance->getMinors()) {
@@ -51,5 +54,10 @@ final class Journal extends Entity
         $this->balance = $this->balance->add($amount);
 
         return $income;
+    }
+
+    public function getBalance(): Money
+    {
+        return $this->balance;
     }
 }
