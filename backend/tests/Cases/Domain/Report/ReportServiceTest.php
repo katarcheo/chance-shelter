@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Cases\Domain\Report;
-
 use App\Domain\Journal\Expense\ExpenseList;
 use App\Domain\Journal\IncomeList;
 use App\Domain\Money;
@@ -12,105 +10,92 @@ use Tests\Factories\ExpenseFactory;
 use Tests\Factories\IncomeFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-#[Group('domain')]
-class ReportServiceTest extends TestCase
-{
-    #[Test]
-    public function build(): void
-    {
-        $incomes = new IncomeList(
-            new IncomeFactory()->amount(100)->make(),
-            new IncomeFactory()->amount(50)->make(),
-            new IncomeFactory()->amount(200)->make(),
-        );
+test('build', function () {
+    $incomes = new IncomeList(
+        new IncomeFactory()->amount(100)->make(),
+        new IncomeFactory()->amount(50)->make(),
+        new IncomeFactory()->amount(200)->make(),
+    );
 
-        $category1 = new CategoryFactory()->make();
-        $category2 = new CategoryFactory()->make();
+    $category1 = new CategoryFactory()->make();
+    $category2 = new CategoryFactory()->make();
 
-        $expenses = new ExpenseList(
-            new ExpenseFactory()->category($category1)->amount(150)->make(),
-            new ExpenseFactory()->category($category2)->amount(10)->make(),
-            new ExpenseFactory()->category($category2)->amount(20)->make(),
-        );
+    $expenses = new ExpenseList(
+        new ExpenseFactory()->category($category1)->amount(150)->make(),
+        new ExpenseFactory()->category($category2)->amount(10)->make(),
+        new ExpenseFactory()->category($category2)->amount(20)->make(),
+    );
 
-        $report = ReportService::build($incomes, $expenses);
+    $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(350, $report->income->getMinors());
-        $this->assertEquals(180, $report->expense->getMinors());
-        $this->assertEquals(170, $report->rest->getMinors());
-        $this->assertCount(2, $report->expenses);
-        $this->assertContainsEquals(new ReportExpense(
-            category: $category1,
-            amount: new Money(150),
-        ), $report->expenses);
-        $this->assertContainsEquals(new ReportExpense(
-            category: $category2,
-            amount: new Money(30),
-        ), $report->expenses);
-    }
+    expect($report->income->getMinors())->toEqual(350);
+    expect($report->expense->getMinors())->toEqual(180);
+    expect($report->rest->getMinors())->toEqual(170);
+    expect($report->expenses)->toHaveCount(2);
+    $this->assertContainsEquals(new ReportExpense(
+        category: $category1,
+        amount: new Money(150),
+    ), $report->expenses);
+    $this->assertContainsEquals(new ReportExpense(
+        category: $category2,
+        amount: new Money(30),
+    ), $report->expenses);
+});
 
-    #[Test]
-    public function buildWithEmptyIncomes()
-    {
-        $incomes = new IncomeList();
+test('build with empty incomes', function () {
+    $incomes = new IncomeList();
 
-        $category1 = new CategoryFactory()->make();
-        $category2 = new CategoryFactory()->make();
+    $category1 = new CategoryFactory()->make();
+    $category2 = new CategoryFactory()->make();
 
-        $expenses = new ExpenseList(
-            new ExpenseFactory()->category($category1)->amount(150)->make(),
-            new ExpenseFactory()->category($category2)->amount(10)->make(),
-            new ExpenseFactory()->category($category2)->amount(20)->make(),
-        );
+    $expenses = new ExpenseList(
+        new ExpenseFactory()->category($category1)->amount(150)->make(),
+        new ExpenseFactory()->category($category2)->amount(10)->make(),
+        new ExpenseFactory()->category($category2)->amount(20)->make(),
+    );
 
-        $report = ReportService::build($incomes, $expenses);
+    $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(0, $report->income->getMinors());
-        $this->assertEquals(180, $report->expense->getMinors());
-        $this->assertEquals(-180, $report->rest->getMinors());
-        $this->assertCount(2, $report->expenses);
-        $this->assertContainsEquals(new ReportExpense(
-            category: $category1,
-            amount: new Money(150),
-        ), $report->expenses);
-        $this->assertContainsEquals(new ReportExpense(
-            category: $category2,
-            amount: new Money(30),
-        ), $report->expenses);
-    }
+    expect($report->income->getMinors())->toEqual(0);
+    expect($report->expense->getMinors())->toEqual(180);
+    expect($report->rest->getMinors())->toEqual(-180);
+    expect($report->expenses)->toHaveCount(2);
+    $this->assertContainsEquals(new ReportExpense(
+        category: $category1,
+        amount: new Money(150),
+    ), $report->expenses);
+    $this->assertContainsEquals(new ReportExpense(
+        category: $category2,
+        amount: new Money(30),
+    ), $report->expenses);
+});
 
-    #[Test]
-    public function buildWithEmptyExpenses()
-    {
-        $incomes = new IncomeList(
-            new IncomeFactory()->amount(100)->make(),
-            new IncomeFactory()->amount(50)->make(),
-            new IncomeFactory()->amount(200)->make(),
-        );
+test('build with empty expenses', function () {
+    $incomes = new IncomeList(
+        new IncomeFactory()->amount(100)->make(),
+        new IncomeFactory()->amount(50)->make(),
+        new IncomeFactory()->amount(200)->make(),
+    );
 
-        $expenses = new ExpenseList();
+    $expenses = new ExpenseList();
 
-        $report = ReportService::build($incomes, $expenses);
+    $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(350, $report->income->getMinors());
-        $this->assertEquals(0, $report->expense->getMinors());
-        $this->assertEquals(350, $report->rest->getMinors());
-        $this->assertCount(0, $report->expenses);
-    }
+    expect($report->income->getMinors())->toEqual(350);
+    expect($report->expense->getMinors())->toEqual(0);
+    expect($report->rest->getMinors())->toEqual(350);
+    expect($report->expenses)->toHaveCount(0);
+});
 
-    #[Test]
-    public function buildWithEmpty()
-    {
-        $incomes = new IncomeList();
-        $expenses = new ExpenseList();
+test('build with empty', function () {
+    $incomes = new IncomeList();
+    $expenses = new ExpenseList();
 
-        $report = ReportService::build($incomes, $expenses);
+    $report = ReportService::build($incomes, $expenses);
 
-        $this->assertEquals(0, $report->income->getMinors());
-        $this->assertEquals(0, $report->expense->getMinors());
-        $this->assertEquals(0, $report->rest->getMinors());
-        $this->assertCount(0, $report->expenses);
-    }
-}
+    expect($report->income->getMinors())->toEqual(0);
+    expect($report->expense->getMinors())->toEqual(0);
+    expect($report->rest->getMinors())->toEqual(0);
+    expect($report->expenses)->toHaveCount(0);
+});

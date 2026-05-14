@@ -1,58 +1,45 @@
 <?php
 
-namespace Tests\Cases\Domain\Journal;
-
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\Journal;
 use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
 use Tests\Factories\CategoryFactory;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-#[Group('domain')]
-class JournalTest extends TestCase
-{
-    #[Test]
-    public function applyIncome(): void
-    {
-        $fund = new Fund();
-        $journal = new Journal(
-            new Money(100),
-        );
+pest()->group('domain');
 
-        $income = $journal->applyIncome(new Money(30), $fund);
+test('apply income', function () {
+    $fund = new Fund();
+    $journal = new Journal(
+        new Money(100),
+    );
 
-        $this->assertEquals($fund, $income->getFund());
-        $this->assertEquals(30, $income->getAmount()->getMinors());
-        $this->assertEquals(130, $journal->getBalance()->getMinors());
-    }
+    $income = $journal->applyIncome(new Money(30), $fund);
 
-    #[Test]
-    public function applyExpense(): void
-    {
-        $category = new CategoryFactory()->make();
-        $description = 'test';
-        $journal = new Journal(
-            new Money(100),
-        );
+    expect($income->getFund())->toEqual($fund);
+    expect($income->getAmount()->getMinors())->toEqual(30);
+    expect($journal->getBalance()->getMinors())->toEqual(130);
+});
 
-        $expense = $journal->applyExpense(new Money(30), $category, $description);
+test('apply expense', function () {
+    $category = new CategoryFactory()->make();
+    $description = 'test';
+    $journal = new Journal(
+        new Money(100),
+    );
 
-        $this->assertEquals(30, $expense->getAmount()->getMinors());
-        $this->assertEquals($category, $expense->getCategory());
-        $this->assertEquals(70, $journal->getBalance()->getMinors());
-    }
+    $expense = $journal->applyExpense(new Money(30), $category, $description);
 
-    #[Test]
-    public function applyExpenseException(): void
-    {
-        $journal = new Journal(
-            new Money(100),
-        );
+    expect($expense->getAmount()->getMinors())->toEqual(30);
+    expect($expense->getCategory())->toEqual($category);
+    expect($journal->getBalance()->getMinors())->toEqual(70);
+});
 
-        $this->expectException(BalanceLessThanExpenseException::class);
-        $journal->applyExpense(new Money(101), new CategoryFactory()->make());
-    }
-}
+test('apply expense exception', function () {
+    $journal = new Journal(
+        new Money(100),
+    );
+
+    $this->expectException(BalanceLessThanExpenseException::class);
+    $journal->applyExpense(new Money(101), new CategoryFactory()->make());
+});

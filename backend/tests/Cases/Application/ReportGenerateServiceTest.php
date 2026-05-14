@@ -1,12 +1,8 @@
 <?php
 
-namespace Tests\Cases\Application;
+uses(\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class);
+use App\Application\UseCases\GenerateReport\GenerateReportService;
 
-use App\Application\UseCases\ReportGenerateService;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
-class ReportGenerateServiceTest extends KernelTestCase
-{
 //    public function testSomething(): void
 //    {
 //        $kernel = self::bootKernel();
@@ -14,4 +10,3 @@ class ReportGenerateServiceTest extends KernelTestCase
 //
 //        $service->byCurrentMonth();
 //    }
-}
