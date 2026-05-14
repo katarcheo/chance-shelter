@@ -30,7 +30,7 @@ class ReportService
         foreach ($amountByCategory as $amount) {
             $expenseByCategory[] = new ReportExpense(
                 category: new ReportExpenseCategory(
-                    id: $amount['category']->getId(),
+                    id: $amount['category']->id(),
                     name: $amount['category']->getName(),
                 ),
                 amount: $amount['amount'],

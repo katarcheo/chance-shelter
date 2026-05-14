@@ -16,7 +16,7 @@ final readonly class IncomeList extends TypedList
     {
         return array_reduce(
             $this->list,
-            fn(Money $sum, Income $income) => $sum->add($income->amount),
+            fn(Money $sum, Income $income) => $sum->add($income->getAmount()),
             new Money(0),
         );
     }
