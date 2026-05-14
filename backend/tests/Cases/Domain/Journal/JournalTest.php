@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Cases\Domain\Journal;
+namespace Tests\Cases\Domain\Journal;
 
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\Journal;
 use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
-use App\Tests\Factories\CategoryFactory;
+use Tests\Factories\CategoryFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

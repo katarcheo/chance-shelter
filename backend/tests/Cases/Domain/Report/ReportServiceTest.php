@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests\Cases\Domain\Report;
+namespace Tests\Cases\Domain\Report;
 
 use App\Domain\Journal\Expense\ExpenseList;
 use App\Domain\Journal\IncomeList;
 use App\Domain\Money;
 use App\Domain\Report\ReportExpense;
 use App\Domain\Report\ReportService;
-use App\Tests\Factories\CategoryFactory;
-use App\Tests\Factories\ExpenseFactory;
-use App\Tests\Factories\IncomeFactory;
+use Tests\Factories\CategoryFactory;
+use Tests\Factories\ExpenseFactory;
+use Tests\Factories\IncomeFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

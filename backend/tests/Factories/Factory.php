@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Factories;
+namespace Tests\Factories;
 
 abstract class Factory
 {

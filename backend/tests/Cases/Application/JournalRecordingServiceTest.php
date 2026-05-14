@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Cases\Application;
+namespace Tests\Cases\Application;
 
 use App\Application\UseCases\JournalRecordingService;
 use PHPUnit\Framework\Attributes\Test;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Factories;
+namespace Tests\Factories;
 
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\Income;
@@ -13,7 +13,7 @@ class IncomeFactory extends Factory
     protected function definition(): array
     {
         return [
-            'id' => $this->faker->uuid,
+            'id' => $this->faker->uuid(),
             'amount' => new Money($this->faker->randomNumber(3)),
             'fund' => new Fund(),
         ];

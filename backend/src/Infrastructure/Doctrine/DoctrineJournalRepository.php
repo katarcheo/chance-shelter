@@ -48,4 +48,9 @@ class DoctrineJournalRepository extends DoctrineBaseRepository implements Journa
     {
         // TODO: Implement getCurrentBalance() method.
     }
+
+    public function save(Journal $journal): void
+    {
+        // TODO: Implement save() method.
+    }
 }

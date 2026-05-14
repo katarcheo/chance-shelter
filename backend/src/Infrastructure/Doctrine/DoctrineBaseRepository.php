@@ -6,7 +6,8 @@ use App\Domain\Entity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 
-class DoctrineBaseRepository extends ServiceEntityRepository
+//class DoctrineBaseRepository extends ServiceEntityRepository
+class DoctrineBaseRepository
 {
     protected function simpleSave(Entity $entity): void
     {
