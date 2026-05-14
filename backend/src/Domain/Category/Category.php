@@ -16,7 +16,7 @@ final class Category extends Entity
         $this->generateIdentity();
     }
 
-    public function name(): string
+    public function getName(): string
     {
         return $this->name;
     }

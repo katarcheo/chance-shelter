@@ -8,7 +8,7 @@ use App\Domain\Money;
 final readonly class ReportExpense
 {
     public function __construct(
-        public Category $category,
+        public ReportExpenseCategory $category,
         public Money $amount,
     )
     {}

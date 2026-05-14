@@ -13,23 +13,26 @@ class ReportService
         $amountByCategory = [];
 
         foreach ($expenses as $expense) {
-            $id = (string) $expense->category->id;
+            $id = $expense->getCategory()->id;
 
             if (!isset($amountByCategory[$id])) {
                 $amountByCategory[$id] = [
                     'amount' => new Money(0),
-                    'category' => $expense->category,
+                    'category' => $expense->getCategory(),
                 ];
             }
 
-            $amountByCategory[$id]['amount'] = $amountByCategory[$id]['amount']->add($expense->amount);
+            $amountByCategory[$id]['amount'] = $amountByCategory[$id]['amount']->add($expense->getAmount());
         }
 
         $expenseByCategory = [];
 
         foreach ($amountByCategory as $amount) {
             $expenseByCategory[] = new ReportExpense(
-                category: $amount['category'],
+                category: new ReportExpenseCategory(
+                    id: $amount['category']->getId(),
+                    name: $amount['category']->getName(),
+                ),
                 amount: $amount['amount'],
             );
         }

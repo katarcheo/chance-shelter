@@ -5,6 +5,9 @@ namespace App\Domain\Journal\Expense;
 use App\Domain\Money;
 use App\Infrastructure\Support\TypedList;
 
+/**
+ * @extends TypedList<Expense>
+ */
 readonly final class ExpenseList extends TypedList
 {
     public function __construct(Expense ...$expenses)
@@ -16,7 +19,7 @@ readonly final class ExpenseList extends TypedList
     {
         return array_reduce(
             $this->list,
-            fn(Money $sum, Expense $expense) => $sum->add($expense->amount),
+            fn(Money $sum, Expense $expense) => $sum->add($expense->getAmount()),
             new Money(0),
         );
     }
