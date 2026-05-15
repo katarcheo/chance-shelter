@@ -16,7 +16,7 @@ class RecordIncomeService
     )
     {}
 
-    public function handle(IncomeDTO $incomeData): Income
+    public function handle(CreateIncomeDTO $incomeData): Income
     {
         if (!$fund = $this->fundRepo->findById($incomeData->fundId)) {
             throw new ApplicationException("Fund not found");

@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases\RecordIncome;
 
-readonly class IncomeDTO
+readonly class CreateIncomeDTO
 {
     public function __construct(
         public float $amount,

@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases\RecordExpense;
 
-readonly class ExpenseDTO
+readonly class CreateExpenseDTO
 {
     public function __construct(
         public float $amount,
