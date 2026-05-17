@@ -5,7 +5,7 @@ namespace App\Application\UseCases\JournalRecording\RecordExpense;
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\Expense\ExpenseMedia;
-use App\Domain\Journal\JournalRepository;
+use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 
 class RecordExpenseService

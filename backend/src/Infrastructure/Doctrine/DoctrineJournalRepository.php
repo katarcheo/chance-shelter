@@ -3,9 +3,9 @@
 namespace App\Infrastructure\Doctrine;
 
 use App\Domain\DateRange;
-use App\Domain\Journal\Journal;
 use App\Domain\Journal\IncomeList;
-use App\Domain\Journal\JournalRepository;
+use App\Domain\Journal\Journal;
+use App\Domain\Journal\Repository\JournalRepository;
 use Doctrine\ORM\EntityRepository;
 
 class DoctrineJournalRepository extends EntityRepository implements JournalRepository

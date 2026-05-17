@@ -3,7 +3,7 @@
 namespace App\Application\UseCases\GenerateReport;
 
 use App\Domain\DateRange;
-use App\Domain\Journal\JournalRepository;
+use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Report\ReportService;
 use Carbon\CarbonImmutable;
 

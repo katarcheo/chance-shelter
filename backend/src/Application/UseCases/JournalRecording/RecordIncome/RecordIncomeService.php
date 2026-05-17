@@ -4,7 +4,7 @@ namespace App\Application\UseCases\JournalRecording\RecordIncome;
 
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Fund\FundRepository;
-use App\Domain\Journal\JournalRepository;
+use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 
 class RecordIncomeService
