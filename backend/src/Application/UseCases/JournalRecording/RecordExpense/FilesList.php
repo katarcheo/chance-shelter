@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases\RecordExpense;
+namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
 use App\Support\TypedList;
 use Symfony\Component\HttpFoundation\File\File;

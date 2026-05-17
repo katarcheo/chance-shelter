@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases\RecordIncome;
+namespace App\Application\UseCases\JournalRecording\RecordIncome;
 
 readonly class CreateIncomeCommand
 {

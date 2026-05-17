@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases\RecordExpense;
+namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
