@@ -18,7 +18,7 @@ class RecordExpenseService
     )
     {}
 
-    public function expense(CreateExpenseDTO $expenseData): Expense
+    public function __invoke(CreateExpenseCommand $expenseData): CreatedExpenseResult
     {
         if (!$category = $this->categoryRepo->find($expenseData->categoryId)) {
             throw new ApplicationException("Category not found");
@@ -38,6 +38,7 @@ class RecordExpenseService
         }
 
         $this->journalRepo->save($journal);
-        return $expense;
+        
+        return CreatedExpenseResult::fromExpense($expense);
     }
 }

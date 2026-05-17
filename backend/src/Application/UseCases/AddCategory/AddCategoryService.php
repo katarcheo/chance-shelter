@@ -16,7 +16,7 @@ class AddCategoryService
     )
     {}
 
-    public function add(AddCategoryDTO $categoryData): void
+    public function __invoke(AddCategoryDTO $categoryData): void
     {
         $violations = $this->validator->validate($categoryData);
 

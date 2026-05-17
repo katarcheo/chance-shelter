@@ -4,7 +4,6 @@ namespace App\Application\UseCases\RecordIncome;
 
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Fund\FundRepository;
-use App\Domain\Journal\Income;
 use App\Domain\Journal\JournalRepository;
 use App\Domain\Money;
 
@@ -16,7 +15,7 @@ class RecordIncomeService
     )
     {}
 
-    public function handle(CreateIncomeDTO $incomeData): Income
+    public function __invoke(CreateIncomeCommand $incomeData): CreatedIncomeResult
     {
         if (!$fund = $this->fundRepo->findById($incomeData->fundId)) {
             throw new ApplicationException("Fund not found");
@@ -30,6 +29,6 @@ class RecordIncomeService
 
         $this->journalRepo->save($journal);
 
-        return $income;
+        return CreatedIncomeResult::fromIncome($income);
     }
 }

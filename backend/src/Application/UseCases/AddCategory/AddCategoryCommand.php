@@ -4,7 +4,7 @@ namespace App\Application\UseCases\AddCategory;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class AddCategoryDTO
+readonly class AddCategoryCommand
 {
     public function __construct(
         #[Assert\Length(min: 1, max: 255)]

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Http\Controller;
 
 use App\Application\UseCases\RecordExpense\RecordExpenseService;
-use App\Application\UseCases\RecordExpense\CreateExpenseDTO;
+use App\Application\UseCases\RecordExpense\CreateExpenseCommand;
 
 use App\Infrastructure\Http\ApiResponse;
 use App\Infrastructure\Http\DTO\ExpenseResourceDTO;
@@ -24,8 +24,8 @@ final class ExpenseController extends AbstractController
 
     #[Route('/expense/create', name: 'expense_store', methods: ['POST'])]
     public function store(
-        #[MapRequestPayload] CreateExpenseDTO $expenseDTO,
-        RecordExpenseService                  $journal,
+        #[MapRequestPayload] CreateExpenseCommand $expenseDTO,
+        RecordExpenseService                      $journal,
     ): ExpenseResourceDTO
     {
         $expense = $journal->expense($expenseDTO);
