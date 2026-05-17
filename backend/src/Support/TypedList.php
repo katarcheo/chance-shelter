@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Support;
+namespace App\Support;
 
 use Countable;
 use IteratorAggregate;

@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases\RecordExpense;
 
-use App\Infrastructure\Support\TypedList;
+use App\Support\TypedList;
 use Symfony\Component\HttpFoundation\File\File;
 
 readonly class FilesList extends TypedList

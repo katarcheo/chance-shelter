@@ -4,34 +4,15 @@ namespace App\Infrastructure\Doctrine;
 
 use App\Domain\DateRange;
 use App\Domain\Journal\Journal;
-use App\Domain\Journal\Expense\Expense;
-use App\Domain\Journal\Expense\ExpenseList;
-use App\Domain\Journal\Income;
 use App\Domain\Journal\IncomeList;
 use App\Domain\Journal\JournalRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityRepository;
 
-class DoctrineJournalRepository extends DoctrineBaseRepository implements JournalRepository
+class DoctrineJournalRepository extends EntityRepository implements JournalRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, YourEntity::class);
-    }
-    public function getExpensesByPeriod(DateRange $dateRange): ExpenseList
+    public function getExpensesByPeriod(DateRange $dateRange):
     {
 //        ExpenseEntity::
-    }
-
-    public function recordIncome(Income $income, Journal $balance): void
-    {
-        $this->simpleSave($income);
-        $this->simpleSave($balance);
-    }
-
-    public function recordExpense(Expense $expense, Journal $balance): void
-    {
-        $this->simpleSave($expense);
-        $this->simpleSave($balance);
     }
 
     public function lockCurrentBalance(): Journal
@@ -51,6 +32,7 @@ class DoctrineJournalRepository extends DoctrineBaseRepository implements Journa
 
     public function save(Journal $journal): void
     {
-        // TODO: Implement save() method.
+        $em = $this->getEntityManager();
+        $em->persist($journal);
     }
 }

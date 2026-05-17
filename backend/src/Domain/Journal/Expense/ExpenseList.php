@@ -3,7 +3,7 @@
 namespace App\Domain\Journal\Expense;
 
 use App\Domain\Money;
-use App\Infrastructure\Support\TypedList;
+use App\Support\TypedList;
 
 /**
  * @extends TypedList<Expense>
