@@ -17,7 +17,7 @@ class RecordIncomeService
 
     public function __invoke(CreateIncomeCommand $incomeData): CreatedIncomeResult
     {
-        if (!$fund = $this->fundRepo->findById($incomeData->fundId)) {
+        if (!$fund = $this->fundRepo->find($incomeData->fundId)) {
             throw new ApplicationException("Fund not found");
         }
 
