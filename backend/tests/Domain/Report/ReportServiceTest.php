@@ -6,9 +6,9 @@ use App\Domain\Money;
 use App\Domain\Report\ReportExpense;
 use App\Domain\Report\ReportExpenseCategory;
 use App\Domain\Report\ReportService;
-use Tests\Support\Factories\CategoryFactory;
 use Tests\Support\Factories\ExpenseFactory;
 use Tests\Support\Factories\IncomeFactory;
+use Tests\Support\Mother\CategoryMother;
 
 pest()->group('domain');
 
@@ -19,8 +19,8 @@ test('build', function () {
         new IncomeFactory()->amount(200)->make(),
     );
 
-    $category1 = new CategoryFactory()->make();
-    $category2 = new CategoryFactory()->make();
+    $category1 = CategoryMother::make();
+    $category2 = CategoryMother::make();
 
     $expenses = new ExpenseList(
         new ExpenseFactory()->category($category1)->amount(150)->make(),
@@ -48,8 +48,8 @@ test('build', function () {
 test('build with empty incomes', function () {
     $incomes = new IncomeList();
 
-    $category1 = new CategoryFactory()->make();
-    $category2 = new CategoryFactory()->make();
+    $category1 = CategoryMother::make();
+    $category2 = CategoryMother::make();
 
     $expenses = new ExpenseList(
         new ExpenseFactory()->category($category1)->amount(150)->make(),

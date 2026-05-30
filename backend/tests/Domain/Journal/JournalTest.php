@@ -2,17 +2,15 @@
 
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\BalanceLessThanExpenseException;
-use App\Domain\Journal\Journal;
 use App\Domain\Money;
-use Tests\Support\Factories\CategoryFactory;
+use Tests\Support\Mother\CategoryMother;
+use Tests\Support\Mother\JournalMother;
 
 pest()->group('domain');
 
 test('apply income', function () {
     $fund = new Fund();
-    $journal = new Journal(
-        new Money(100),
-    );
+    $journal = JournalMother::withBalance(100);
 
     $income = $journal->applyIncome(new Money(30), $fund);
 
@@ -22,11 +20,9 @@ test('apply income', function () {
 });
 
 test('apply expense', function () {
-    $category = new CategoryFactory()->make();
+    $category = CategoryMother::make();
+    $journal = JournalMother::withBalance(100);
     $description = 'test';
-    $journal = new Journal(
-        new Money(100),
-    );
 
     $expense = $journal->applyExpense(new Money(30), $category, $description);
 
@@ -36,10 +32,9 @@ test('apply expense', function () {
 });
 
 test('apply expense exception', function () {
-    $journal = new Journal(
-        new Money(100),
-    );
+    $journal = JournalMother::withBalance(100);
+    $category = CategoryMother::make();
 
     $this->expectException(BalanceLessThanExpenseException::class);
-    $journal->applyExpense(new Money(101), new CategoryFactory()->make());
+    $journal->applyExpense(new Money(101), $category);
 });
