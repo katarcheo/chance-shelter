@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Factories;
+namespace Tests\Support\Factories;
 
 abstract class Factory
 {
@@ -29,15 +29,15 @@ abstract class Factory
 
     final public function make(): object
     {
-        $reflection = new \ReflectionClass($this->entity);
-        $instance = $reflection->newInstanceWithoutConstructor();
+//        $reflection = new \ReflectionClass($this->entity);
+//        $instance = $reflection->newInstanceWithoutConstructor();
+//
+//        foreach ($this->properties as $property => $value) {
+//            $reflectionProperty = $reflection->getProperty($property);
+//            $reflectionProperty->setValue($instance, $value);
+//        }
 
-        foreach ($this->properties as $property => $value) {
-            $reflectionProperty = $reflection->getProperty($property);
-            $reflectionProperty->setValue($instance, $value);
-        }
-
-        return $instance;
+        return new $this->entity(...$this->properties);
     }
 
     abstract protected function definition(): array;

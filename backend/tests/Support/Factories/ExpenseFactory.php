@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Factories;
+namespace Tests\Support\Factories;
 
 use App\Domain\Category\Category;
 use App\Domain\Journal\Expense\Expense;
@@ -13,7 +13,6 @@ class ExpenseFactory extends Factory
     protected function definition(): array
     {
         return [
-            'id' => $this->faker->uuid(),
             'amount' => new Money($this->faker->randomNumber(3)),
             'category' => new CategoryFactory()->make(),
         ];

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
 final class Journal extends Entity
 {
     #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal')]

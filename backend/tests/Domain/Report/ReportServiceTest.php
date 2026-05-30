@@ -6,9 +6,9 @@ use App\Domain\Money;
 use App\Domain\Report\ReportExpense;
 use App\Domain\Report\ReportExpenseCategory;
 use App\Domain\Report\ReportService;
-use Tests\Factories\CategoryFactory;
-use Tests\Factories\ExpenseFactory;
-use Tests\Factories\IncomeFactory;
+use Tests\Support\Factories\CategoryFactory;
+use Tests\Support\Factories\ExpenseFactory;
+use Tests\Support\Factories\IncomeFactory;
 
 pest()->group('domain');
 

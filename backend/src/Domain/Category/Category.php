@@ -5,7 +5,7 @@ namespace App\Domain\Category;
 use App\Domain\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Entity]
 final class Category extends Entity
 {
     public function __construct(

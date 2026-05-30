@@ -10,6 +10,7 @@ use Symfony\Component\Uid\UuidV7;
 abstract class Entity
 {
     #[ORM\Id]
+    #[ORM\Column]
     readonly public string $id;
 
     final public function generateIdentity(): void

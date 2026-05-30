@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Factories;
+namespace Tests\Support\Factories;
 
 use App\Domain\Category\Category;
 
@@ -11,7 +11,6 @@ class CategoryFactory extends Factory
     protected function definition(): array
     {
         return [
-            'id' => $this->faker->uuid(),
             'name' => $this->faker->word(),
         ];
     }

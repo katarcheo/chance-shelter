@@ -1,10 +1,10 @@
 <?php
 
 use App\Domain\Fund\Fund;
-use App\Domain\Journal\Journal;
 use App\Domain\Journal\BalanceLessThanExpenseException;
+use App\Domain\Journal\Journal;
 use App\Domain\Money;
-use Tests\Factories\CategoryFactory;
+use Tests\Support\Factories\CategoryFactory;
 
 pest()->group('domain');
 
