@@ -10,7 +10,7 @@ class JournalMother
     public static function  withBalance(float $amount): Journal
     {
         return new Journal(
-            new Money($amount * 100),
+            new Money($amount),
         );
     }
 }

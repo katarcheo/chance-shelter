@@ -19,7 +19,7 @@ class ExpenseMother extends ObjectMother
         $description ??= self::fake()->sentence();
 
         return new ExpenseRecord(
-            amount: new Money($amount * 100),
+            amount: new Money($amount),
             categoryName: $category->getName(),
             categoryId: $category->id,
             description: $description,

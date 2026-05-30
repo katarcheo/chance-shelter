@@ -22,7 +22,7 @@ class IncomeMother extends ObjectMother
     public static function recordWithAmount(float $amount): IncomeRecord
     {
         return new IncomeRecord(
-            amount: new Money($amount * 100),
+            amount: new Money($amount),
             fundName: self::fake()->word(),
             fundId: self::fake()->uuid(),
         );
