@@ -9,10 +9,12 @@ use App\Domain\Report\ReportService;
 use Tests\Support\Factories\ExpenseFactory;
 use Tests\Support\Factories\IncomeFactory;
 use Tests\Support\Mother\CategoryMother;
+use Tests\Support\Mother\IncomeMother;
 
 pest()->group('domain');
 
 test('build', function () {
+    $incomes = IncomeMother::listWithAmounts();
     $incomes = new IncomeList(
         new IncomeFactory()->amount(100)->make(),
         new IncomeFactory()->amount(50)->make(),
