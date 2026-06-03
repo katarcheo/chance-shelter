@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Support\Mother;
+namespace App\Tests\Support\Mother;
 
 use App\Domain\Journal\Journal;
 use App\Domain\Money;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Support\Mother;
+namespace App\Tests\Support\Mother;
 
 use Faker\Factory;
 use Faker\Generator;
