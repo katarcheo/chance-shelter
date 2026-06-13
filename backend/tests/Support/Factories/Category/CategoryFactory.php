@@ -34,7 +34,7 @@ final class CategoryFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'name' => self::faker()->text(),
+            'name' => self::faker()->word(),
         ];
     }
 

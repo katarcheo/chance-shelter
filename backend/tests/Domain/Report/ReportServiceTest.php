@@ -6,9 +6,9 @@ use App\Domain\Money;
 use App\Domain\Report\ReportExpense;
 use App\Domain\Report\ReportExpenseCategory;
 use App\Domain\Report\ReportService;
-use Tests\Support\Mother\CategoryMother;
-use Tests\Support\Mother\ExpenseMother;
-use Tests\Support\Mother\IncomeMother;
+use App\Tests\Support\Mother\CategoryMother;
+use App\Tests\Support\Mother\ExpenseMother;
+use App\Tests\Support\Mother\IncomeMother;
 
 pest()->group('domain');
 

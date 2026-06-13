@@ -3,8 +3,8 @@
 use App\Domain\Fund\Fund;
 use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
-use Tests\Support\Mother\CategoryMother;
-use Tests\Support\Mother\JournalMother;
+use App\Tests\Support\Mother\CategoryMother;
+use App\Tests\Support\Mother\JournalMother;
 
 pest()->group('domain');
 

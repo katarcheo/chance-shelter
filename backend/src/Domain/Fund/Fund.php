@@ -2,7 +2,17 @@
 
 namespace App\Domain\Fund;
 
-final readonly class Fund
-{
+use App\Domain\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
+final class Fund extends Entity
+{
+    public function __construct(
+        #[ORM\Column]
+        private string $name,
+    )
+    {
+        $this->generateIdentity();
+    }
 }
