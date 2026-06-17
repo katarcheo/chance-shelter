@@ -9,14 +9,16 @@ use App\Domain\Journal\Repository\ExpenseRecordList;
 use App\Domain\Journal\Repository\IncomeRecordList;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class DoctrineJournalRepository extends EntityRepository implements JournalRepository
+class DoctrineJournalRepository extends ServiceEntityRepository implements JournalRepository
 {
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($em, Category::class);
+        parent::__construct($registry, Journal::class);
     }
 
     public function save(Journal $journal): void

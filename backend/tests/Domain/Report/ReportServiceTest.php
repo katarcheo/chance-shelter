@@ -10,8 +10,6 @@ use App\Tests\Support\Mother\CategoryMother;
 use App\Tests\Support\Mother\ExpenseMother;
 use App\Tests\Support\Mother\IncomeMother;
 
-pest()->group('domain');
-
 test('build', function () {
     $incomes = IncomeMother::listWithAmounts(100, 50, 200);
 

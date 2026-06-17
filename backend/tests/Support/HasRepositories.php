@@ -3,8 +3,10 @@
 namespace App\Tests\Support;
 
 use App\Domain\Category\CategoryRepository;
+use App\Domain\Journal\Repository\JournalRepository;
 
 trait HasRepositories
 {
-    public CategoryRepository $categoryRepo;
+    private CategoryRepository $categoryRepo;
+    private JournalRepository $journalRepo;
 }

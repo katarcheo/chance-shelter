@@ -6,8 +6,6 @@ use App\Domain\Money;
 use App\Tests\Support\Mother\CategoryMother;
 use App\Tests\Support\Mother\JournalMother;
 
-pest()->group('domain');
-
 test('apply income', function () {
     $fund = new Fund(name: 'test');
     $journal = JournalMother::withBalance(100);

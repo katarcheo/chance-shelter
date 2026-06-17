@@ -5,8 +5,6 @@ use App\Tests\Support\Factories\Category\CategoryFactory;
 use App\Tests\Support\HasRepositories;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-pest()->group('infrastructure');
-
 uses(
     KernelTestCase::class,
     HasRepositories::class,
