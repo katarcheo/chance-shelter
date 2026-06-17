@@ -9,7 +9,7 @@ use App\Tests\Support\Mother\JournalMother;
 pest()->group('domain');
 
 test('apply income', function () {
-    $fund = new Fund();
+    $fund = new Fund(name: 'test');
     $journal = JournalMother::withBalance(100);
 
     $income = $journal->applyIncome(new Money(30), $fund);

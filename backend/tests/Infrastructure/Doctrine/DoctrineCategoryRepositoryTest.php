@@ -8,8 +8,16 @@ pest()->group('infrastructure');
 
 uses(KernelTestCase::class);
 
-test('dev', function () {
+beforeEach(function () {
     $this::bootKernel();
-    CategoryFactory::new()->create();
-    $repo = $this::getContainer()->get(CategoryRepository::class);
+
+    $this->categoryRepo = $this::getContainer()->get(CategoryRepository::class);
+});
+
+test('isExistByName method', function () {
+    $name = 'test_name_123';
+    CategoryFactory::new()->create(['name' => $name]);
+
+    expect($this->categoryRepo->isExistByName($name))->toBeTrue();
+    expect($this->categoryRepo->isExistByName('other_name'))->toBeFalse();
 });
