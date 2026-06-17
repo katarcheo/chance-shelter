@@ -23,6 +23,8 @@ final class Expense extends Entity
         private Journal $journal,
         #[ORM\Column(type: 'string', length: 255, nullable: true)]
         private ?string $description = null,
+        #[ORM\Column]
+        private \DateTimeImmutable $receivedAt,
     )
     {
         $this->generateIdentity();

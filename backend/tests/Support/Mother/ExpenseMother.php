@@ -9,7 +9,7 @@ use App\Domain\Money;
 class ExpenseMother extends ObjectMother
 {
     public static function record(
-        ?float    $amount = null,
+        ?int    $amount = null,
         ?Category $category = null,
         ?string    $description = null
     ): ExpenseRecord

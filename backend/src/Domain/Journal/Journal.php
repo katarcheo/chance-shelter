@@ -29,13 +29,19 @@ final class Journal extends Entity
         $this->expenses = new ArrayCollection();
     }
 
-    public function applyExpense(Money $amount, Category $category, ?string $description = null): Expense
+    public function applyExpense(
+        Money              $amount,
+        Category           $category,
+        \DateTimeImmutable $receivedAt,
+        ?string            $description = null
+    ): Expense
     {
         $expense = new Expense(
             amount: $amount,
             category: $category,
             journal: $this,
             description: $description,
+            receivedAt: $receivedAt,
         );
 
         if ($amount->getMinors() > $this->balance->getMinors()) {
@@ -48,9 +54,9 @@ final class Journal extends Entity
         return $expense;
     }
 
-    public function applyIncome(Money $amount, Fund $fund): Income
+    public function applyIncome(Money $amount, Fund $fund, \DateTimeImmutable $receivedAt): Income
     {
-        $income = new Income($amount, $fund, $this);
+        $income = new Income($amount, $fund, $this, $receivedAt);
         $this->incomes[] = $income;
         $this->balance = $this->balance->add($amount);
 

@@ -17,6 +17,8 @@ final class Income extends Entity
         private Fund $fund,
         #[ORM\ManyToOne(inversedBy: 'incomes')]
         private Journal $journal,
+        #[ORM\Column]
+        private \DateTimeImmutable $receivedAt,
     )
     {
         $this->generateIdentity();
