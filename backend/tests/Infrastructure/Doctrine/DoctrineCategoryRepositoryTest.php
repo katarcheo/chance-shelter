@@ -2,16 +2,22 @@
 
 use App\Domain\Category\CategoryRepository;
 use App\Tests\Support\Factories\Category\CategoryFactory;
+use App\Tests\Support\HasRepositories;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 pest()->group('infrastructure');
 
-uses(KernelTestCase::class);
+uses(
+    KernelTestCase::class,
+    HasRepositories::class,
+);
 
 beforeEach(function () {
     $this::bootKernel();
 
-    $this->categoryRepo = $this::getContainer()->get(CategoryRepository::class);
+    /* @var CategoryRepository $repo */
+    $repo = $this::getContainer()->get(CategoryRepository::class);
+    $this->categoryRepo = $repo;
 });
 
 test('isExistByName method', function () {
