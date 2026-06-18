@@ -4,10 +4,10 @@ namespace App\Tests\Support\Factories\Journal;
 
 use App\Domain\Category\Category;
 use App\Domain\Journal\Journal;
+use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
-use App\Tests\Support\Mother\CategoryMother;
-use App\Tests\Support\Mother\ExpenseMother;
+use Carbon\CarbonImmutable;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -54,7 +54,7 @@ final class JournalFactory extends PersistentObjectFactory
             fn (Journal $journal) => $journal->applyExpense(
                 amount: $amount instanceof Money ? $amount : new Money($amount),
                 category: $category ?? CategoryFactory::new()->create(),
-                receivedAt: $receivedAt,
+                receivedAt: $receivedAt ?? CarbonImmutable::now(),
                 description: $description,
             )
         );

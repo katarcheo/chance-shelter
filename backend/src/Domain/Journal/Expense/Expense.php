@@ -13,6 +13,8 @@ final class Expense extends Entity
 {
     #[ORM\Column(type: 'json')]
     private array $media = [];
+    #[ORM\Column]
+    private \DateTimeImmutable $receivedAt;
 
     public function __construct(
         #[ORM\Embedded]
@@ -21,13 +23,18 @@ final class Expense extends Entity
         private Category $category,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
         private Journal $journal,
-        #[ORM\Column]
-        private \DateTimeImmutable $receivedAt,
+        \DateTimeImmutable $receivedAt,
         #[ORM\Column(type: 'string', length: 255, nullable: true)]
         private ?string $description = null,
     )
     {
         $this->generateIdentity();
+        $this->receivedAt = $receivedAt->setTime(
+            $receivedAt->format('H'),
+            $receivedAt->format('i'),
+            $receivedAt->format('s'),
+            0
+        );
     }
 
     public function attachMedia(ExpenseMedia $media): void

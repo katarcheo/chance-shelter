@@ -4,7 +4,9 @@ namespace App\Infrastructure\Doctrine;
 
 use App\Domain\Category\Category;
 use App\Domain\DateRange;
+use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\Journal;
+use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Journal\Repository\ExpenseRecordList;
 use App\Domain\Journal\Repository\IncomeRecordList;
 use App\Domain\Journal\Repository\JournalRepository;
@@ -29,7 +31,28 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
 
     public function getExpensesByPeriod(DateRange $dateRange): ExpenseRecordList
     {
-        // TODO: Implement getExpensesByPeriod() method.
+        $result = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->from(Expense::class, 'e')
+            ->select('e', 'c')
+            ->join('e.category', 'c')
+            ->where('e.receivedAt > :from')
+            ->andWhere('e.receivedAt <= :to')
+            ->setParameter('from', $dateRange->getFrom())
+            ->setParameter('to', $dateRange->getTo())
+            ->getQuery()
+            ->getArrayResult();
+
+        $result = array_map(fn (array $record) => new ExpenseRecord(
+            amount: new Money($record['amount.minors'], $record['amount.currency']),
+            categoryName: $record['category']['name'],
+            categoryId: $record['category']['id'],
+            description: $record['description'],
+            receivedAt: $record['receivedAt'],
+        ) , $result);
+
+        return new ExpenseRecordList(...$result);
     }
 
     public function getIncomesByPeriod(DateRange $dateRange): IncomeRecordList

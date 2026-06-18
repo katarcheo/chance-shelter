@@ -8,8 +8,8 @@ final class DateRange
 {
     public function __construct(private DateTimeImmutable $from, private DateTimeImmutable $to)
     {
-        if ($from < $to) {
-            throw new \InvalidArgumentException('From date must be greater than or equal to to');
+        if ($from > $to) {
+            throw new \InvalidArgumentException('The to date must be greater than or equal to the from');
         }
     }
 
