@@ -11,6 +11,7 @@ final readonly class ExpenseRecord
         public string $categoryName,
         public string $categoryId,
         public string $description,
+        public \DateTimeImmutable $receivedAt,
     )
     {}
 }

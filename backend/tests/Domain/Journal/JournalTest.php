@@ -5,12 +5,13 @@ use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
 use App\Tests\Support\Mother\CategoryMother;
 use App\Tests\Support\Mother\JournalMother;
+use Carbon\CarbonImmutable;
 
 test('apply income', function () {
     $fund = new Fund(name: 'test');
     $journal = JournalMother::withBalance(100);
 
-    $income = $journal->applyIncome(new Money(30), $fund);
+    $income = $journal->applyIncome(new Money(30), $fund, CarbonImmutable::now());
 
     expect($income->getFund())->toEqual($fund);
     expect($income->getAmount()->getMinors())->toEqual(30);
@@ -22,7 +23,7 @@ test('apply expense', function () {
     $journal = JournalMother::withBalance(100);
     $description = 'test';
 
-    $expense = $journal->applyExpense(new Money(30), $category, $description);
+    $expense = $journal->applyExpense(new Money(30), $category, CarbonImmutable::now(), $description);
 
     expect($expense->getAmount()->getMinors())->toEqual(30);
     expect($expense->getCategory())->toEqual($category);
@@ -34,5 +35,5 @@ test('apply expense exception', function () {
     $category = CategoryMother::make();
 
     $this->expectException(BalanceLessThanExpenseException::class);
-    $journal->applyExpense(new Money(101), $category);
+    $journal->applyExpense(new Money(101), $category, CarbonImmutable::now());
 });

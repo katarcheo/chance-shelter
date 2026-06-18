@@ -16,7 +16,7 @@ final class Journal extends Entity
 {
     #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal')]
     private Collection $incomes;
-    #[ORM\OneToMany(targetEntity: Expense::class, mappedBy: 'journal')]
+    #[ORM\OneToMany(targetEntity: Expense::class, mappedBy: 'journal', cascade: ['persist', 'remove'])]
     private Collection $expenses;
 
     public function __construct(

@@ -21,10 +21,10 @@ final class Expense extends Entity
         private Category $category,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
         private Journal $journal,
-        #[ORM\Column(type: 'string', length: 255, nullable: true)]
-        private ?string $description = null,
         #[ORM\Column]
         private \DateTimeImmutable $receivedAt,
+        #[ORM\Column(type: 'string', length: 255, nullable: true)]
+        private ?string $description = null,
     )
     {
         $this->generateIdentity();
