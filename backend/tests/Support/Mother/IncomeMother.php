@@ -25,6 +25,7 @@ class IncomeMother extends ObjectMother
             amount: new Money($amount),
             fundName: self::fake()->word(),
             fundId: self::fake()->uuid(),
+            receivedAt: new \DateTimeImmutable(),
         );
     }
 }

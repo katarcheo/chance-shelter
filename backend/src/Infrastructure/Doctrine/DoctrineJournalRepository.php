@@ -5,9 +5,11 @@ namespace App\Infrastructure\Doctrine;
 use App\Domain\Category\Category;
 use App\Domain\DateRange;
 use App\Domain\Journal\Expense\Expense;
+use App\Domain\Journal\Income;
 use App\Domain\Journal\Journal;
 use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Journal\Repository\ExpenseRecordList;
+use App\Domain\Journal\Repository\IncomeRecord;
 use App\Domain\Journal\Repository\IncomeRecordList;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
@@ -44,20 +46,40 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
             ->getQuery()
             ->getArrayResult();
 
-        $result = array_map(fn (array $record) => new ExpenseRecord(
-            amount: new Money($record['amount.minors'], $record['amount.currency']),
+        $result = array_map(fn(array $record) => new ExpenseRecord(
+            amount:       new Money($record['amount.minors'], $record['amount.currency']),
             categoryName: $record['category']['name'],
-            categoryId: $record['category']['id'],
-            description: $record['description'],
-            receivedAt: $record['receivedAt'],
-        ) , $result);
+            categoryId:   $record['category']['id'],
+            description:  $record['description'],
+            receivedAt:   $record['receivedAt'],
+        ), $result);
 
         return new ExpenseRecordList(...$result);
     }
 
     public function getIncomesByPeriod(DateRange $dateRange): IncomeRecordList
     {
-        // TODO: Implement getIncomesByPeriod() method.
+        $result = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->from(Income::class, 'i')
+            ->select('i', 'f')
+            ->join('i.fund', 'f')
+            ->where('i.receivedAt > :from')
+            ->andWhere('i.receivedAt <= :to')
+            ->setParameter('from', $dateRange->getFrom())
+            ->setParameter('to', $dateRange->getTo())
+            ->getQuery()
+            ->getArrayResult();
+
+        $result = array_map(fn(array $record) => new IncomeRecord(
+            amount: new Money($record['amount.minors'], $record['amount.currency']),
+            fundName: $record['fund']['name'],
+            fundId: $record['fund']['id'],
+            receivedAt: $record['receivedAt'],
+        ), $result);
+
+        return new IncomeRecordList(...$result);
     }
 
     public function getCurrentBalance(): Money

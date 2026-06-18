@@ -10,6 +10,7 @@ final readonly class IncomeRecord
         public Money  $amount,
         public string $fundName,
         public string $fundId,
+        public \DateTimeImmutable $receivedAt,
     )
     {}
 }

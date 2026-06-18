@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 final class Journal extends Entity
 {
-    #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal')]
+    #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal', cascade:  ['persist', 'remove'])]
     private Collection $incomes;
     #[ORM\OneToMany(targetEntity: Expense::class, mappedBy: 'journal', cascade: ['persist', 'remove'])]
     private Collection $expenses;

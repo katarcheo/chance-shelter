@@ -3,10 +3,11 @@
 namespace App\Tests\Support\Factories\Journal;
 
 use App\Domain\Category\Category;
+use App\Domain\Fund\Fund;
 use App\Domain\Journal\Journal;
-use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
+use App\Tests\Support\Factories\Fund\FundFactory;
 use Carbon\CarbonImmutable;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
@@ -38,24 +39,38 @@ final class JournalFactory extends PersistentObjectFactory
     #[\Override]
     protected function initialize(): static
     {
-        return $this
-            // ->afterInstantiate(function(Journal $journal): void {})
-        ;
+        return $this// ->afterInstantiate(function(Journal $journal): void {})
+            ;
     }
 
     public function withExpense(
-        null|int|Money    $amount = null,
-        ?Category $category = null,
-        ?string    $description = null,
+        null|int|Money      $amount = null,
+        ?Category           $category = null,
+        ?string             $description = null,
         ?\DateTimeImmutable $receivedAt = null,
     ): static
     {
         return $this->afterInstantiate(
-            fn (Journal $journal) => $journal->applyExpense(
-                amount: $amount instanceof Money ? $amount : new Money($amount),
-                category: $category ?? CategoryFactory::new()->create(),
-                receivedAt: $receivedAt ?? CarbonImmutable::now(),
+            fn(Journal $journal) => $journal->applyExpense(
+                amount:      $amount instanceof Money ? $amount : new Money($amount),
+                category:    $category ?? CategoryFactory::new()->create(),
+                receivedAt:  $receivedAt ?? CarbonImmutable::now(),
                 description: $description,
+            )
+        );
+    }
+
+    public function withIncome(
+        null|int|Money      $amount = null,
+        ?Fund               $fund = null,
+        ?\DateTimeImmutable $receivedAt = null,
+    ): static
+    {
+        return $this->afterInstantiate(
+            fn(Journal $journal) => $journal->applyIncome(
+                amount: $amount instanceof Money ? $amount : new Money($amount),
+                fund: $fund ?? FundFactory::new()->create(),
+                receivedAt: $receivedAt ?? CarbonImmutable::now(),
             )
         );
     }

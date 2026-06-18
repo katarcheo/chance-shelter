@@ -2,9 +2,11 @@
 
 use App\Domain\DateRange;
 use App\Domain\Journal\Repository\ExpenseRecord;
+use App\Domain\Journal\Repository\IncomeRecord;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
+use App\Tests\Support\Factories\Fund\FundFactory;
 use App\Tests\Support\Factories\Journal\JournalFactory;
 use App\Tests\Support\HasRepositories;
 use Carbon\CarbonImmutable;
@@ -27,19 +29,19 @@ test('getExpensesByPeriod method mapping', function () {
     $now = CarbonImmutable::now();
     JournalFactory::new(['balance' => new Money(1000)])
         ->withExpense(
-            amount: $amount = 100,
-            category: $category = CategoryFactory::new()->create(),
+            amount:      $amount = 100,
+            category:    $category = CategoryFactory::new()->create(),
             description: $desc = 'test_desc',
-            receivedAt: $receivedAt = $now,
+            receivedAt:  $receivedAt = $now,
         )
         ->create();
 
     $expected = new ExpenseRecord(
-        amount: new Money($amount),
+        amount:       new Money($amount),
         categoryName: $category->getName(),
-        categoryId: $category->id,
-        description: $desc,
-        receivedAt: $receivedAt->startOfSecond(),
+        categoryId:   $category->id,
+        description:  $desc,
+        receivedAt:   $receivedAt->startOfSecond(),
     );
 
     $range = new DateRange($now->subDay(), $now);
@@ -66,4 +68,28 @@ test('getExpensesByPeriod method filtering', function () {
 
     expect($result)->toHaveCount(2);
     expect($actualAmounts)->toEqualCanonicalizing($expectedAmounts);
+});
+
+test('getIncomesByPeriod method mapping', function () {
+    $now = CarbonImmutable::now();
+    JournalFactory::new(['balance' => new Money(1000)])
+        ->withIncome(
+            amount:     $amount = 100,
+            fund:       $fund = FundFactory::new()->create(),
+            receivedAt: $now,
+        )
+        ->create();
+
+    $expected = new IncomeRecord(
+        amount: new Money($amount),
+        fundName: $fund->getName(),
+        fundId: $fund->id,
+        receivedAt: $now->startOfSecond(),
+    );
+
+    $range = new DateRange($now->subDay(), $now);
+
+    $result = $this->journalRepo->getIncomesByPeriod($range);
+
+    expect($result[0])->toEqual($expected);
 });

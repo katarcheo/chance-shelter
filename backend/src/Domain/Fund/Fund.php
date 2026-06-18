@@ -15,4 +15,9 @@ final class Fund extends Entity
     {
         $this->generateIdentity();
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }
