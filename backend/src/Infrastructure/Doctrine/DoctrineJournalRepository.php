@@ -84,7 +84,15 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
 
     public function getCurrentBalance(): Money
     {
-        // TODO: Implement getCurrentBalance() method.
+        $result = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->from(Journal::class, 'j')
+            ->select('j')
+            ->getQuery()
+            ->getArrayResult();
+
+        return new Money($result[0]['balance.minors'], $result[0]['balance.currency']);
     }
 
     public function lockCurrentBalance(): Journal

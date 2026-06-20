@@ -93,3 +93,12 @@ test('getIncomesByPeriod method mapping', function () {
 
     expect($result[0])->toEqual($expected);
 });
+
+test('getCurrentBalance method', function () {
+    $amount = 125;
+
+    JournalFactory::new(['balance' => new Money($amount)])->create();
+
+    $result = $this->journalRepo->getCurrentBalance();
+    expect($result)->toEqual(new Money($amount));
+});
