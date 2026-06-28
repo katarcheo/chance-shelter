@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Journal extends Entity
+final class Balance extends Entity
 {
     #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal', cascade:  ['persist', 'remove'])]
     private Collection $incomes;
@@ -37,11 +37,11 @@ final class Journal extends Entity
     ): Expense
     {
         $expense = new Expense(
-            amount: $amount,
-            category: $category,
-            journal: $this,
+            amount:      $amount,
+            category:    $category,
+            balance:     $this,
             description: $description,
-            receivedAt: $receivedAt,
+            receivedAt:  $receivedAt,
         );
 
         if ($amount->getMinors() > $this->balance->getMinors()) {

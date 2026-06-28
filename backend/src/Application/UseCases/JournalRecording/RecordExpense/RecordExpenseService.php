@@ -23,9 +23,9 @@ class RecordExpenseService
             throw new ApplicationException("Category not found");
         }
 
-        $journal = $this->journalRepo->lockCurrentBalance();
+        $balance = $this->journalRepo->lockCurrentBalance();
 
-        $expense = $journal->applyExpense(
+        $expense = $balance->applyExpense(
             amount: Money::fromFloat($expenseData->amount),
             category: $category,
             description: $expenseData->description,
@@ -36,7 +36,7 @@ class RecordExpenseService
             $expense->attachMedia(new ExpenseMedia($file->path));
         }
 
-        $this->journalRepo->save($journal);
+        $this->journalRepo->save($balance);
 
         return CreatedExpenseResult::fromExpense($expense);
     }

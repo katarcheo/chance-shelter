@@ -12,11 +12,11 @@ final class Income extends Entity
 {
     public function __construct(
         #[ORM\Embedded]
-        private Money $amount,
+        private Money              $amount,
         #[ORM\ManyToOne(inversedBy: 'incomes')]
-        private Fund $fund,
+        private Fund               $fund,
         #[ORM\ManyToOne(inversedBy: 'incomes')]
-        private Journal $journal,
+        private Balance            $balance,
         #[ORM\Column]
         private \DateTimeImmutable $receivedAt,
     )

@@ -21,13 +21,11 @@ class RecordIncomeService
             throw new ApplicationException("Fund not found");
         }
 
-        $journal = $this->journalRepo->lockCurrentBalance();
-        $income = $journal->applyIncome(
+        $balance = $this->journalRepo->lockCurrentBalance();
+        $income = $balance->applyIncome(
             amount: Money::fromFloat($incomeData->amount),
             fund: $fund,
         );
-
-        $this->journalRepo->save($journal);
 
         return CreatedIncomeResult::fromIncome($income);
     }

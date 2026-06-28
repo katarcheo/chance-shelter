@@ -4,7 +4,7 @@ namespace App\Tests\Support\Factories\Journal;
 
 use App\Domain\Category\Category;
 use App\Domain\Fund\Fund;
-use App\Domain\Journal\Journal;
+use App\Domain\Journal\Balance;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
 use App\Tests\Support\Factories\Fund\FundFactory;
@@ -12,14 +12,14 @@ use Carbon\CarbonImmutable;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
- * @extends PersistentObjectFactory<Journal>
+ * @extends PersistentObjectFactory<Balance>
  */
-final class JournalFactory extends PersistentObjectFactory
+final class BalanceFactory extends PersistentObjectFactory
 {
     #[\Override]
     public static function class(): string
     {
-        return Journal::class;
+        return Balance::class;
     }
 
     /**
@@ -39,7 +39,7 @@ final class JournalFactory extends PersistentObjectFactory
     #[\Override]
     protected function initialize(): static
     {
-        return $this// ->afterInstantiate(function(Journal $journal): void {})
+        return $this// ->afterInstantiate(function(Balance $balance): void {})
             ;
     }
 
@@ -51,7 +51,7 @@ final class JournalFactory extends PersistentObjectFactory
     ): static
     {
         return $this->afterInstantiate(
-            fn(Journal $journal) => $journal->applyExpense(
+            fn(Balance $balance) => $balance->applyExpense(
                 amount:      $amount instanceof Money ? $amount : new Money($amount),
                 category:    $category ?? CategoryFactory::new()->create(),
                 receivedAt:  $receivedAt ?? CarbonImmutable::now(),
@@ -67,7 +67,7 @@ final class JournalFactory extends PersistentObjectFactory
     ): static
     {
         return $this->afterInstantiate(
-            fn(Journal $journal) => $journal->applyIncome(
+            fn(Balance $balance) => $balance->applyIncome(
                 amount: $amount instanceof Money ? $amount : new Money($amount),
                 fund: $fund ?? FundFactory::new()->create(),
                 receivedAt: $receivedAt ?? CarbonImmutable::now(),

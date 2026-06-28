@@ -6,7 +6,7 @@ use App\Domain\Category\Category;
 use App\Domain\DateRange;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Journal\Income;
-use App\Domain\Journal\Journal;
+use App\Domain\Journal\Balance;
 use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Journal\Repository\ExpenseRecordList;
 use App\Domain\Journal\Repository\IncomeRecord;
@@ -18,22 +18,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class DoctrineJournalRepository extends ServiceEntityRepository implements JournalRepository
+class DoctrineJournalRepository implements JournalRepository
 {
+    private ServiceEntityRepository $repo;
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Journal::class);
-    }
-
-    public function save(Journal $journal): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($journal);
+        $this->repo = new ServiceEntityRepository($registry, Balance::class);
     }
 
     public function getExpensesByPeriod(DateRange $dateRange): ExpenseRecordList
     {
         $result = $this
+            ->repo
             ->getEntityManager()
             ->createQueryBuilder()
             ->from(Expense::class, 'e')
@@ -60,6 +56,7 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
     public function getIncomesByPeriod(DateRange $dateRange): IncomeRecordList
     {
         $result = $this
+            ->repo
             ->getEntityManager()
             ->createQueryBuilder()
             ->from(Income::class, 'i')
@@ -85,9 +82,10 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
     public function getCurrentBalance(): Money
     {
         $result = $this
+            ->repo
             ->getEntityManager()
             ->createQueryBuilder()
-            ->from(Journal::class, 'j')
+            ->from(Balance::class, 'j')
             ->select('j')
             ->getQuery()
             ->getArrayResult();
@@ -95,7 +93,7 @@ class DoctrineJournalRepository extends ServiceEntityRepository implements Journ
         return new Money($result[0]['balance.minors'], $result[0]['balance.currency']);
     }
 
-    public function lockCurrentBalance(): Journal
+    public function getBalanceForUpdate(): Balance
     {
         // TODO: Implement lockCurrentBalance() method.
     }

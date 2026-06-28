@@ -4,7 +4,7 @@ namespace App\Domain\Journal\Expense;
 
 use App\Domain\Category\Category;
 use App\Domain\Entity;
-use App\Domain\Journal\Journal;
+use App\Domain\Journal\Balance;
 use App\Domain\Money;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,14 +18,14 @@ final class Expense extends Entity
 
     public function __construct(
         #[ORM\Embedded]
-        private Money $amount,
+        private Money      $amount,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
-        private Category $category,
+        private Category   $category,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
-        private Journal $journal,
+        private Balance    $balance,
         \DateTimeImmutable $receivedAt,
         #[ORM\Column(type: 'string', length: 255, nullable: true)]
-        private ?string $description = null,
+        private ?string    $description = null,
     )
     {
         $this->generateIdentity();
