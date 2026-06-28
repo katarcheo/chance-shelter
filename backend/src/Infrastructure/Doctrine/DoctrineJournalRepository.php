@@ -14,6 +14,7 @@ use App\Domain\Journal\Repository\IncomeRecordList;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -85,16 +86,24 @@ class DoctrineJournalRepository implements JournalRepository
             ->repo
             ->getEntityManager()
             ->createQueryBuilder()
-            ->from(Balance::class, 'j')
-            ->select('j')
+            ->from(Balance::class, 'b')
+            ->select('b')
             ->getQuery()
             ->getArrayResult();
 
-        return new Money($result[0]['balance.minors'], $result[0]['balance.currency']);
+        return new Money($result[0]['amount.minors'], $result[0]['amount.currency']);
     }
 
     public function getBalanceForUpdate(): Balance
     {
-        // TODO: Implement lockCurrentBalance() method.
+        return $this
+            ->repo
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->from(Balance::class, 'b')
+            ->select('b')
+            ->getQuery()
+            ->setLockMode(LockMode::PESSIMISTIC_WRITE)
+            ->getSingleResult();
     }
 }

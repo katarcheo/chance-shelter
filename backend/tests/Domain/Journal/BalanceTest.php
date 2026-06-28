@@ -15,7 +15,7 @@ test('apply income', function () {
 
     expect($income->getFund())->toEqual($fund);
     expect($income->getAmount()->getMinors())->toEqual(30);
-    expect($balance->getBalance()->getMinors())->toEqual(130);
+    expect($balance->getAmount()->getMinors())->toEqual(130);
 });
 
 test('apply expense', function () {
@@ -27,7 +27,7 @@ test('apply expense', function () {
 
     expect($expense->getAmount()->getMinors())->toEqual(30);
     expect($expense->getCategory())->toEqual($category);
-    expect($balance->getBalance()->getMinors())->toEqual(70);
+    expect($balance->getAmount()->getMinors())->toEqual(70);
 });
 
 test('apply expense exception', function () {

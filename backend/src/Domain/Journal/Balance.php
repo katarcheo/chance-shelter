@@ -21,7 +21,7 @@ final class Balance extends Entity
 
     public function __construct(
         #[ORM\Embedded]
-        private Money $balance,
+        private Money $amount,
     )
     {
         $this->generateIdentity();
@@ -44,11 +44,11 @@ final class Balance extends Entity
             receivedAt:  $receivedAt,
         );
 
-        if ($amount->getMinors() > $this->balance->getMinors()) {
+        if ($amount->getMinors() > $this->amount->getMinors()) {
             throw new BalanceLessThanExpenseException();
         }
 
-        $this->balance = $this->balance->subtract($amount);
+        $this->amount = $this->amount->subtract($amount);
         $this->expenses[] = $expense;
 
         return $expense;
@@ -58,13 +58,13 @@ final class Balance extends Entity
     {
         $income = new Income($amount, $fund, $this, $receivedAt);
         $this->incomes[] = $income;
-        $this->balance = $this->balance->add($amount);
+        $this->amount = $this->amount->add($amount);
 
         return $income;
     }
 
-    public function getBalance(): Money
+    public function getAmount(): Money
     {
-        return $this->balance;
+        return $this->amount;
     }
 }

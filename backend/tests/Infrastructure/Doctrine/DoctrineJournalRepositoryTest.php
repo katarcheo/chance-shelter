@@ -27,7 +27,7 @@ beforeEach(function () {
 
 test('getExpensesByPeriod method mapping', function () {
     $now = CarbonImmutable::now();
-    BalanceFactory::new(['balance' => new Money(1000)])
+    BalanceFactory::new(['amount' => new Money(1000)])
         ->withExpense(
             amount:      $amount = 100,
             category:    $category = CategoryFactory::new()->create(),
@@ -53,7 +53,7 @@ test('getExpensesByPeriod method mapping', function () {
 test('getExpensesByPeriod method filtering', function () {
     $now = CarbonImmutable::now();
 
-    BalanceFactory::new(['balance' => new Money(1500)])
+    BalanceFactory::new(['amount' => new Money(1500)])
         ->withExpense(amount: 100, receivedAt: $now)
         ->withExpense(amount: 200, receivedAt: $now->subDay())
         ->withExpense(amount: 300, receivedAt: $now->subDays(3))
@@ -72,7 +72,7 @@ test('getExpensesByPeriod method filtering', function () {
 
 test('getIncomesByPeriod method mapping', function () {
     $now = CarbonImmutable::now();
-    BalanceFactory::new(['balance' => new Money(1000)])
+    BalanceFactory::new(['amount' => new Money(1000)])
         ->withIncome(
             amount:     $amount = 100,
             fund:       $fund = FundFactory::new()->create(),
@@ -97,7 +97,7 @@ test('getIncomesByPeriod method mapping', function () {
 test('getCurrentBalance method', function () {
     $amount = 125;
 
-    BalanceFactory::new(['balance' => new Money($amount)])->create();
+    BalanceFactory::new(['amount' => new Money($amount)])->create();
 
     $result = $this->journalRepo->getCurrentBalance();
     expect($result)->toEqual(new Money($amount));

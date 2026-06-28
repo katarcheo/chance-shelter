@@ -29,7 +29,7 @@ final class BalanceFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'balance' => new Money(self::faker()->randomNumber(3)),
+            'amount' => new Money(self::faker()->randomNumber(3)),
         ];
     }
 
