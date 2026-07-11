@@ -5,7 +5,11 @@
 {% block content %}
 
     <api-form action="/expense/create" method="POST">
-        <field-input label="Expense title" placeholder="Input an expense title..."></field-input>
+        <field-input name="amount" label="Expense amount" placeholder="Input an expense amount..." value="123"></field-input>
+        <field-input name="description" label="Description" placeholder="Input an expense description..." value="123"></field-input>
+        <field-input name="categoryId" label="Category" placeholder="Input an expense category..." value="123"></field-input>
+        <field-file name="media" label="Expense file" placeholder="media..."></field-file>
+
         <chance-btn type="submit">Send</chance-btn>
     </api-form>
 {% endblock %}

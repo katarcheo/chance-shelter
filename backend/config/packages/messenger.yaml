@@ -13,9 +13,11 @@ framework:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
         buses:
-            messenger.bus.default:
-                middleware:
-                    - 'App\Infrastructure\TmpMiddleware'
+            messenger.bus.command:
+
+#            messenger.bus.default:
+#                middleware:
+#                    - 'App\Infrastructure\TmpMiddleware'
 
 # when@test:
 #    framework:
