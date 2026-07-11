@@ -20,7 +20,7 @@ db-bash:
 	docker compose exec database bash
 
 
-PHP_CONTAINER=fpm
+PHP_CONTAINER=app
 
 # -------------------------------
 # Сервер

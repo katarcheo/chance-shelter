@@ -19,3 +19,6 @@ tests/Cases/TmpTest.php
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+templates/tmp/
+src/Infrastructure/TmpMiddleware.php
