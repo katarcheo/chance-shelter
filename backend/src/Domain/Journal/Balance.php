@@ -40,8 +40,8 @@ final class Balance extends Entity
             amount:      $amount,
             category:    $category,
             balance:     $this,
-            description: $description,
             receivedAt:  $receivedAt,
+            description: $description,
         );
 
         if ($amount->getMinors() > $this->amount->getMinors()) {
