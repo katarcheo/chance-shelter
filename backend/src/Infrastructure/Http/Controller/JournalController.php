@@ -8,10 +8,17 @@ use App\Infrastructure\Http\DTO\ExpenseResourceDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class JournalController extends AbstractController
 {
+    use HandleTrait;
+    public function __construct(private MessageBusInterface $messageBus)
+    {
+    }
+
     #[Route('/expense/create', name: 'expense_create', methods: ['GET'])]
     public function create(): Response
     {
@@ -22,11 +29,10 @@ final class JournalController extends AbstractController
 
     #[Route('/expense/create', name: 'expense_store', methods: ['POST'])]
     public function store(
-        #[MapRequestPayload] CreateExpenseCommand $expenseDTO,
-        RecordExpenseService                      $recordExpense,
+        #[MapRequestPayload] CreateExpenseCommand $expenseCommand,
     ): ExpenseResourceDTO
     {
-        $expense = $recordExpense($expenseDTO);
+        $expense = $this->handle($expenseCommand);
 
         return ExpenseResourceDTO::from($expense);
     }

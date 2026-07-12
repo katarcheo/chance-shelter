@@ -8,7 +8,7 @@ readonly class CreateExpenseCommand
         public float $amount,
         public ?string $description,
         public int $categoryId,
-        public FilesList $media,
+        public UploadedFileList $media,
     )
     {}
 }
