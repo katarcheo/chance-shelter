@@ -7,6 +7,7 @@ flysystem:
                 directory: '%kernel.project_dir%/var/storage/default'
 
 when@test:
-    storages:
-        default.storage:
-            adapter: 'memory'
+    flysystem:
+        storages:
+            default.storage:
+                adapter: 'memory'

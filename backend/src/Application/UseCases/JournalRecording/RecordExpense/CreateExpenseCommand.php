@@ -7,7 +7,7 @@ readonly class CreateExpenseCommand
     public function __construct(
         public float $amount,
         public ?string $description,
-        public int $categoryId,
+        public string $categoryId,
         public UploadedFileList $media,
     )
     {}
