@@ -48,6 +48,7 @@ class DoctrineJournalRepository implements JournalRepository
             categoryName: $record['category']['name'],
             categoryId:   $record['category']['id'],
             description:  $record['description'],
+            attachments: // TODO
             receivedAt:   $record['receivedAt'],
         ), $result);
 

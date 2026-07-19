@@ -7,9 +7,11 @@ use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\Expense\ExpenseMedia;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\String\ByteString;
+use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler(bus: 'messenger.bus.command')]
 class RecordExpenseService
@@ -17,7 +19,7 @@ class RecordExpenseService
     public function __construct(
         private JournalRepository  $journalRepo,
         private CategoryRepository $categoryRepo,
-        private string             $mediaDir,
+        private FilesystemOperator $mediaStorage,
     )
     {}
 
@@ -36,9 +38,12 @@ class RecordExpenseService
             description: $expenseData->description,
         );
 
-        foreach ($expenseData->media as $key => $file) {
-            $file->move($this->mediaDir, "{$expense->id()}_$key.{$file->guessExtension()}");
-            $expense->attachMedia(new ExpenseMedia($file->path));
+        foreach ($expenseData->media as $file) {
+            $key = ByteString::fromRandom(7);
+            $filename = "{$expense->id()}_$key.{$file->guessExtension()}";
+
+            $this->mediaStorage->writeStream($filename, fopen($file->getPathname(), 'rb'));
+            $expense->attachMedia(new ExpenseMedia($filename));
         }
 
         return CreatedExpenseResult::fromExpense($expense);

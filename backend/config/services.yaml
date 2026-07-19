@@ -19,10 +19,6 @@ services:
     App\:
         resource: '../src/'
 
-    App\Application\UseCases\JournalRecording\RecordExpense\RecordExpenseService:
-        arguments:
-            $mediaDir: '../media/'
-
     App\Infrastructure\Http\Listener\ApiResponseListener:
         tags: [kernel.event_listener]
 

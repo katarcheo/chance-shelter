@@ -5,6 +5,9 @@ namespace App\Application\UseCases\JournalRecording\RecordExpense;
 use App\Support\TypedList;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @extends TypedList<UploadedFile>
+ */
 readonly class UploadedFileList extends TypedList
 {
     public function __construct(UploadedFile ...$media)

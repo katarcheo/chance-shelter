@@ -10,5 +10,7 @@ readonly class CreateExpenseCommand
         public string $categoryId,
         public UploadedFileList $media,
     )
-    {}
+    {
+//        TODO: check mime types
+    }
 }

@@ -5,14 +5,18 @@ namespace App\Domain\Journal\Expense;
 use App\Domain\Category\Category;
 use App\Domain\Entity;
 use App\Domain\Journal\Balance;
+use App\Domain\Media\MediaList;
+use App\Domain\Media\MediaRef;
 use App\Domain\Money;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 final class Expense extends Entity
 {
-    #[ORM\Column(type: 'json')]
-    private array $media = [];
+    #[ORM\OneToMany(targetEntity: ExpenseAttachment::class, mappedBy: 'expense', cascade: ['persist', 'remove'])]
+    private Collection $attachments;
     #[ORM\Column]
     private \DateTimeImmutable $receivedAt;
 
@@ -29,6 +33,7 @@ final class Expense extends Entity
     )
     {
         $this->generateIdentity();
+        $this->attachments = new ArrayCollection();
         $this->receivedAt = $receivedAt->setTime(
             $receivedAt->format('H'),
             $receivedAt->format('i'),
@@ -37,30 +42,36 @@ final class Expense extends Entity
         );
     }
 
-    public function attachMedia(ExpenseMedia $media): void
+    public function attachMedia(MediaRef $media): void
     {
-        $this->media[] = $media->path;
+        $this->attachments[] = new ExpenseAttachment($media, $this);
     }
 
-    public function detachMedia(ExpenseMedia $media): void
+    public function detachMedia(MediaRef $media): void
     {
-        if (!count($this->media)) {
+        if (!$this->attachments->count()) {
             throw new ExpenseDoesNotHaveMediaException();
         }
 
-        $index = array_find_key($this->media, fn(string $path) => $media->path === $path);
+        $found = $this->attachments->findFirst(
+            fn(ExpenseAttachment $attachment) => $attachment->media()->key === $media->key,
+        );
 
-        if (is_null($index)) {
-            throw new MediaIsNotExistInExpenseException($media->path);
+        if (is_null($found)) {
+            throw new MediaIsNotExistInExpenseException($media->key);
         }
 
-        unset($this->media[$index]);
+        $this->attachments->removeElement($found);
     }
 
-    public function getAttachedMedia(): ExpenseMediaList
+    public function getAttachedMedia(): MediaList
     {
-        $medias = array_map(fn(string $path) => new ExpenseMedia($path), $this->media);
-        return new ExpenseMediaList(...$medias);
+        $medias = $this
+            ->attachments
+            ->map(fn(ExpenseAttachment $attachment) => $attachment->media())
+            ->toArray();
+
+        return new MediaList(...$medias);
     }
 
     public function getAmount(): Money
