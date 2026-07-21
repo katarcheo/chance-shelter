@@ -32,7 +32,7 @@ final class Expense extends Entity
         private ?string    $description = null,
     )
     {
-        $this->generateIdentity();
+        $this->initializeIdentity();
         $this->attachments = new ArrayCollection();
         $this->receivedAt = $receivedAt->setTime(
             $receivedAt->format('H'),

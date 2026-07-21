@@ -4,23 +4,25 @@ namespace App\Domain\Journal\Expense;
 
 use App\Domain\Entity;
 use App\Domain\Media\MediaRef;
-use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
 final class ExpenseAttachment extends Entity
 {
+    #[ORM\Column]
+    private string $mediaRef;
     public function __construct(
-        #[Embedded]
-        private MediaRef $ref,
-        #[ManyToOne(targetEntity: Expense::class, inversedBy: 'attachments')]
+        MediaRef $ref,
+        #[ORM\ManyToOne(targetEntity: Expense::class, inversedBy: 'attachments')]
         private Expense $expense,
     )
     {
-        $this->generateIdentity();
+        $this->initializeIdentity();
+        $this->mediaRef = $ref->key;
     }
 
     public function media(): MediaRef
     {
-        return $this->ref;
+        return new MediaRef($this->mediaRef);
     }
 }

@@ -13,7 +13,7 @@ final class Category extends Entity
         private string $name,
     )
     {
-        $this->generateIdentity();
+        $this->initializeIdentity();
     }
 
     public function getName(): string

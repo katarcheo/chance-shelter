@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Doctrine;
+namespace App\Infrastructure\Doctrine\Repository;
 
 use App\Domain\Category\Category;
 use App\Domain\DateRange;
@@ -43,16 +43,16 @@ class DoctrineJournalRepository implements JournalRepository
             ->getQuery()
             ->getArrayResult();
 
-        $result = array_map(fn(array $record) => new ExpenseRecord(
-            amount:       new Money($record['amount.minors'], $record['amount.currency']),
-            categoryName: $record['category']['name'],
-            categoryId:   $record['category']['id'],
-            description:  $record['description'],
-            attachments: // TODO
-            receivedAt:   $record['receivedAt'],
-        ), $result);
-
-        return new ExpenseRecordList(...$result);
+//        $result = array_map(fn(array $record) => new ExpenseRecord(
+//            amount:       new Money($record['amount.minors'], $record['amount.currency']),
+//            categoryName: $record['category']['name'],
+//            categoryId:   $record['category']['id'],
+//            description:  $record['description'],
+//            attachments: // TODO
+//            receivedAt:   $record['receivedAt'],
+//        ), $result);
+//
+//        return new ExpenseRecordList(...$result);
     }
 
     public function getIncomesByPeriod(DateRange $dateRange): IncomeRecordList

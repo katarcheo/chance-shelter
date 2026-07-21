@@ -24,7 +24,7 @@ final class Balance extends Entity
         private Money $amount,
     )
     {
-        $this->generateIdentity();
+        $this->initializeIdentity();
         $this->incomes = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }

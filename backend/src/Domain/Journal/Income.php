@@ -21,7 +21,7 @@ final class Income extends Entity
         private \DateTimeImmutable $receivedAt,
     )
     {
-        $this->generateIdentity();
+        $this->initializeIdentity();
     }
 
     public function getAmount(): Money
