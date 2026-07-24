@@ -3,7 +3,7 @@
 namespace App\Domain\Journal\Expense;
 
 use App\Domain\Category\Category;
-use App\Domain\Entity;
+use App\Domain\Ident;
 use App\Domain\Journal\Balance;
 use App\Domain\Media\MediaList;
 use App\Domain\Media\MediaRef;
@@ -11,9 +11,10 @@ use App\Domain\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 
 #[ORM\Entity]
-final class Expense extends Entity
+final class Expense
 {
     #[ORM\OneToMany(targetEntity: ExpenseAttachment::class, mappedBy: 'expense', cascade: ['persist', 'remove'])]
     private Collection $attachments;
@@ -21,6 +22,9 @@ final class Expense extends Entity
     private \DateTimeImmutable $receivedAt;
 
     public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: UUidType::NAME)]
+        private Ident $id,
         #[ORM\Embedded]
         private Money      $amount,
         #[ORM\ManyToOne(inversedBy: 'expenses')]
@@ -32,7 +36,6 @@ final class Expense extends Entity
         private ?string    $description = null,
     )
     {
-        $this->initializeIdentity();
         $this->attachments = new ArrayCollection();
         $this->receivedAt = $receivedAt->setTime(
             $receivedAt->format('H'),
@@ -44,7 +47,7 @@ final class Expense extends Entity
 
     public function attachMedia(MediaRef $media): void
     {
-        $this->attachments[] = new ExpenseAttachment($media, $this);
+        $this->attachments[] = new ExpenseAttachment(new Ident, $media, $this);
     }
 
     public function detachMedia(MediaRef $media): void

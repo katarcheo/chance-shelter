@@ -5,14 +5,16 @@ namespace App\Domain\Journal;
 use App\Domain\Category\Category;
 use App\Domain\Entity;
 use App\Domain\Fund\Fund;
+use App\Domain\Ident;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 
 #[ORM\Entity]
-final class Balance extends Entity
+final class Balance
 {
     #[ORM\OneToMany(targetEntity: Income::class, mappedBy: 'journal', cascade:  ['persist', 'remove'])]
     private Collection $incomes;
@@ -20,11 +22,13 @@ final class Balance extends Entity
     private Collection $expenses;
 
     public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: UUidType::NAME)]
+        private Ident $id,
         #[ORM\Embedded]
         private Money $amount,
     )
     {
-        $this->initializeIdentity();
         $this->incomes = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }
@@ -37,6 +41,7 @@ final class Balance extends Entity
     ): Expense
     {
         $expense = new Expense(
+            id: new Ident,
             amount:      $amount,
             category:    $category,
             balance:     $this,
@@ -56,7 +61,7 @@ final class Balance extends Entity
 
     public function applyIncome(Money $amount, Fund $fund, \DateTimeImmutable $receivedAt): Income
     {
-        $income = new Income($amount, $fund, $this, $receivedAt);
+        $income = new Income(new Ident, $amount, $fund, $this, $receivedAt);
         $this->incomes[] = $income;
         $this->amount = $this->amount->add($amount);
 
