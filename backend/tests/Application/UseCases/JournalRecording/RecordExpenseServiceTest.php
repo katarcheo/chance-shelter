@@ -35,7 +35,7 @@ test('record expense command', function () {
         ->last(HandledStamp::class)
         ->getResult();
 
-    $expense = $this::getContainer()->get(JournalRepository::class)->;
+    $expense = $this::getContainer()->get(JournalRepository::class);
 
     /* @var $storage FilesystemOperator*/
     $storage = $this::getContainer()->get('media.storage');

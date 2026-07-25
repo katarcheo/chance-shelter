@@ -3,6 +3,7 @@
 namespace App\Tests\Support\Factories\Fund;
 
 use App\Domain\Fund\Fund;
+use App\Domain\Ident;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -25,6 +26,7 @@ final class FundFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
+            'id' => Ident::new(),
             'name' => self::faker()->word(),
         ];
     }

@@ -2,28 +2,21 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Ident;
 use App\Domain\Journal\Repository\ExpenseRecordList;
 use App\Domain\Journal\Repository\IncomeRecordList;
-use App\Domain\Money;
 
 class ReportService
 {
     public static function build(IncomeRecordList $incomes, ExpenseRecordList $expenses): Report
     {
         $amountByCategory = [];
-        $categories = [];
-
         foreach ($expenses as $expense) {
-            $id = $expense->categoryId;
-
-            if (!isset($categories[$id])) {
-                $categories[$id] = new ReportExpenseCategory(
-                    id: $id,
-                    name: $expense->categoryName,
-                );
-                $amountByCategory[$id] = $expense->amount;
+            $id = $expense->categoryId->toString();
+            if (isset($amountByCategory[$id])) {
+                $amountByCategory[$id] = $expense->amount->add($amountByCategory[$id]);
             } else {
-                $amountByCategory[$id] = $amountByCategory[$id]->add($expense->amount);
+                $amountByCategory[$id] = $expense->amount;
             }
         }
 
@@ -31,7 +24,7 @@ class ReportService
 
         foreach ($amountByCategory as $id => $amount) {
             $expenseByCategory[] = new ReportExpense(
-                category: $categories[$id],
+                categoryId: Ident::from($id),
                 amount: $amount,
             );
         }

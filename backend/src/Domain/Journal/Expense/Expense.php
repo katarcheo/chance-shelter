@@ -77,6 +77,11 @@ final class Expense
         return new MediaList(...$medias);
     }
 
+    public function id(): Ident
+    {
+        return $this->id;
+    }
+
     public function getAmount(): Money
     {
         return $this->amount;

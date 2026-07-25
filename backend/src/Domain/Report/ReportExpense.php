@@ -3,12 +3,13 @@
 namespace App\Domain\Report;;
 
 use App\Domain\Category\Category;
+use App\Domain\Ident;
 use App\Domain\Money;
 
 final readonly class ReportExpense
 {
     public function __construct(
-        public ReportExpenseCategory $category,
+        public Ident $categoryId,
         public Money $amount,
     )
     {}

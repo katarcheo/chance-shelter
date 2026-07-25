@@ -4,6 +4,7 @@ namespace App\Tests\Support\Mother;
 
 use App\Domain\Category\Category;
 use App\Domain\Journal\Repository\ExpenseRecord;
+use App\Domain\Media\MediaList;
 use App\Domain\Money;
 
 class ExpenseMother extends ObjectMother
@@ -23,8 +24,9 @@ class ExpenseMother extends ObjectMother
         return new ExpenseRecord(
             amount: new Money($amount),
             categoryName: $category->getName(),
-            categoryId: $category->id,
+            categoryId: $category->id(),
             description: $description,
+            attachments: new MediaList(),
             receivedAt: \DateTimeImmutable::createFromMutable($receivedAt),
         );
     }

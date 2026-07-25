@@ -27,6 +27,11 @@ final class Income
     {
     }
 
+    public function id(): Ident
+    {
+        return $this->id;
+    }
+
     public function getAmount(): Money
     {
         return $this->amount;

@@ -2,15 +2,16 @@
 
 namespace App\Application\UseCases\JournalRecording\RecordIncome;
 
+use App\Domain\Ident;
 use App\Domain\Journal\Income;
 use App\Domain\Money;
 
 readonly class CreatedIncomeResult
 {
     public function __construct(
-        public string $id,
+        public Ident $id,
         public Money  $amount,
-        public string $fundId,
+        public Ident $fundId,
         public string $fundName,
     )
     {

@@ -4,7 +4,7 @@ use App\Domain\Journal\Repository\ExpenseRecordList;
 use App\Domain\Journal\Repository\IncomeRecordList;
 use App\Domain\Money;
 use App\Domain\Report\ReportExpense;
-use App\Domain\Report\ReportExpenseCategory;
+use App\Domain\Report\ReportExpensesList;
 use App\Domain\Report\ReportService;
 use App\Tests\Support\Mother\CategoryMother;
 use App\Tests\Support\Mother\ExpenseMother;
@@ -22,21 +22,23 @@ test('build', function () {
         ExpenseMother::record(20, $category2),
     );
 
+    $expected = [
+        new ReportExpense(
+            categoryId: $category2->id(),
+            amount: new Money(30),
+        ),
+        new ReportExpense(
+            categoryId: $category1->id(),
+            amount: new Money(150),
+        ),
+    ];
+
     $report = ReportService::build($incomes, $expenses);
 
     expect($report->income->getMinors())->toEqual(350);
     expect($report->expense->getMinors())->toEqual(180);
     expect($report->rest->getMinors())->toEqual(170);
-    expect($report->expenses)->toHaveCount(2);
-
-    $this->assertContainsEquals(new ReportExpense(
-        category: new ReportExpenseCategory(id: $category1->id(),  name: $category1->getName()),
-        amount: new Money(150),
-    ), $report->expenses);
-    $this->assertContainsEquals(new ReportExpense(
-        category: new ReportExpenseCategory(id: $category2->id(),  name: $category2->getName()),
-        amount: new Money(30),
-    ), $report->expenses);
+    expect($report->expenses)->toEqualCanonicalizing(new ReportExpensesList(...$expected));
 });
 
 test('build with empty incomes', function () {
@@ -59,11 +61,11 @@ test('build with empty incomes', function () {
     expect($report->expenses)->toHaveCount(2);
 
     $this->assertContainsEquals(new ReportExpense(
-        category: new ReportExpenseCategory(id: $category1->id(),  name: $category1->getName()),
+        categoryId: $category1->id(),
         amount: new Money(150),
     ), $report->expenses);
     $this->assertContainsEquals(new ReportExpense(
-        category: new ReportExpenseCategory(id: $category2->id(),  name: $category2->getName()),
+        categoryId: $category2->id(),
         amount: new Money(30),
     ), $report->expenses);
 });

@@ -3,6 +3,7 @@
 namespace App\Tests\Support\Factories\Category;
 
 use App\Domain\Category\Category;
+use App\Domain\Ident;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -34,6 +35,7 @@ final class CategoryFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
+            'id' => Ident::new(),
             'name' => self::faker()->word(),
         ];
     }

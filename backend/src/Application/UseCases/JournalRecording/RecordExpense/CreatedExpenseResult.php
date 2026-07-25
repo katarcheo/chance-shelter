@@ -2,15 +2,16 @@
 
 namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
+use App\Domain\Ident;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
 
 readonly class CreatedExpenseResult
 {
     public function __construct(
-        public string $id,
+        public Ident $id,
         public Money $amount,
-        public string $categoryId,
+        public Ident $categoryId,
         public string $categoryName,
     )
     {}

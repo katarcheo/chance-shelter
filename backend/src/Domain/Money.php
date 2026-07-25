@@ -18,6 +18,11 @@ final class Money
     )
     {}
 
+    public static function new(int $minors, Currency $currency = Currency::KZT)
+    {
+        return new self($minors, $currency);
+    }
+
     public static function kzt(float $majors): self
     {
         return self::fromFloat($majors);

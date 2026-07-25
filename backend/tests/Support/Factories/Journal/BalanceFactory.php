@@ -4,6 +4,7 @@ namespace App\Tests\Support\Factories\Journal;
 
 use App\Domain\Category\Category;
 use App\Domain\Fund\Fund;
+use App\Domain\Ident;
 use App\Domain\Journal\Balance;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
@@ -29,6 +30,7 @@ final class BalanceFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
+            'id' => Ident::new(),
             'amount' => new Money(self::faker()->randomNumber(3)),
         ];
     }

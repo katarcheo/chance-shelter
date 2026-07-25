@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Fund\Fund;
+use App\Domain\Ident;
 use App\Domain\Journal\BalanceLessThanExpenseException;
 use App\Domain\Money;
 use App\Tests\Support\Mother\CategoryMother;
@@ -8,7 +9,7 @@ use App\Tests\Support\Mother\BalanceMother;
 use Carbon\CarbonImmutable;
 
 test('apply income', function () {
-    $fund = new Fund(name: 'test');
+    $fund = new Fund(Ident::new(), name: 'test');
     $balance = BalanceMother::amount(100);
 
     $income = $balance->applyIncome(new Money(30), $fund, CarbonImmutable::now());

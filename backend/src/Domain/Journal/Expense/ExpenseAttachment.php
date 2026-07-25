@@ -24,6 +24,11 @@ final class ExpenseAttachment
         $this->mediaRef = $ref->key;
     }
 
+    public function id(): Ident
+    {
+        return $this->id;
+    }
+
     public function media(): MediaRef
     {
         return new MediaRef($this->mediaRef);

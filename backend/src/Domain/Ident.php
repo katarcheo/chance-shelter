@@ -20,7 +20,7 @@ readonly final class Ident
         return new self(new UuidV7);
     }
 
-    public function from(string $value): self
+    public static function from(string $value): self
     {
         return new self(UuidV7::fromString($value));
     }

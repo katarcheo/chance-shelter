@@ -17,6 +17,10 @@ class Media
         private string $storageKey,
     )
     {
-        $this->initializeIdentity();
+    }
+
+    public function id(): Ident
+    {
+        return $this->id;
     }
 }

@@ -19,6 +19,11 @@ final class Category
     {
     }
 
+    public function id(): Ident
+    {
+        return $this->id;
+    }
+
     public function getName(): string
     {
         return $this->name;
