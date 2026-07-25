@@ -3,7 +3,6 @@
 namespace App\Domain\Journal;
 
 use App\Domain\Category\Category;
-use App\Domain\Entity;
 use App\Domain\Fund\Fund;
 use App\Domain\Ident;
 use App\Domain\Journal\Expense\Expense;
@@ -41,7 +40,7 @@ final class Balance
     ): Expense
     {
         $expense = new Expense(
-            id: new Ident,
+            id: Ident::new(),
             amount:      $amount,
             category:    $category,
             balance:     $this,
@@ -61,7 +60,7 @@ final class Balance
 
     public function applyIncome(Money $amount, Fund $fund, \DateTimeImmutable $receivedAt): Income
     {
-        $income = new Income(new Ident, $amount, $fund, $this, $receivedAt);
+        $income = new Income(Ident::new(), $amount, $fund, $this, $receivedAt);
         $this->incomes[] = $income;
         $this->amount = $this->amount->add($amount);
 

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Fund;
 
-use App\Domain\Entity;
 use App\Domain\Ident;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;

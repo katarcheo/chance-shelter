@@ -47,7 +47,7 @@ final class Expense
 
     public function attachMedia(MediaRef $media): void
     {
-        $this->attachments[] = new ExpenseAttachment(new Ident, $media, $this);
+        $this->attachments[] = new ExpenseAttachment(Ident::new(), $media, $this);
     }
 
     public function detachMedia(MediaRef $media): void

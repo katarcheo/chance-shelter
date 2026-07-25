@@ -2,7 +2,6 @@
 
 namespace App\Domain\Journal\Expense;
 
-use App\Domain\Entity;
 use App\Domain\Ident;
 use App\Domain\Media\MediaRef;
 use Doctrine\ORM\Mapping as ORM;

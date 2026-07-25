@@ -2,7 +2,6 @@
 
 namespace App\Domain\Journal;
 
-use App\Domain\Entity;
 use App\Domain\Fund\Fund;
 use App\Domain\Ident;
 use App\Domain\Money;
