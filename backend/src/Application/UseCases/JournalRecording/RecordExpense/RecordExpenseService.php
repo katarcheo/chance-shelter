@@ -4,14 +4,11 @@ namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
 use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
-use App\Domain\Journal\Expense\ExpenseMedia;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 use Carbon\CarbonImmutable;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\String\ByteString;
-use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler(bus: 'messenger.bus.command')]
 class RecordExpenseService
@@ -38,12 +35,8 @@ class RecordExpenseService
             description: $expenseData->description,
         );
 
-        foreach ($expenseData->media as $file) {
-            $key = ByteString::fromRandom(7);
-            $filename = "{$expense->id()}_$key.{$file->guessExtension()}";
-
-            $this->mediaStorage->writeStream($filename, fopen($file->getPathname(), 'rb'));
-            $expense->attachMedia(new ExpenseMedia($filename));
+        foreach ($expenseData->attachments as $attachment) {
+            $expense->attachMedia($attachment);
         }
 
         return CreatedExpenseResult::fromExpense($expense);

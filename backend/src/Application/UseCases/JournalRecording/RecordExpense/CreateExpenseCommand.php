@@ -3,6 +3,7 @@
 namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
 use App\Domain\Ident;
+use App\Domain\Media\MediaList;
 
 readonly class CreateExpenseCommand
 {
@@ -10,9 +11,8 @@ readonly class CreateExpenseCommand
         public float $amount,
         public ?string $description,
         public Ident $categoryId,
-        public UploadedFileList $media,
+        public MediaList $attachments,
     )
     {
-//        TODO: check mime types
     }
 }
