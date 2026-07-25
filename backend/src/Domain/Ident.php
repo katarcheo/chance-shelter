@@ -12,7 +12,7 @@ readonly final class Ident
 
     public function toString(): string
     {
-        return $this->uuid->toRfc4122();
+        return $this->__toString();
     }
 
     public static function new(): self
@@ -27,6 +27,11 @@ readonly final class Ident
 
     public function equals(Ident $ident): bool
     {
-        return $ident->toString() === $this->toString();
+        return (string) $ident === (string) $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->uuid->toRfc4122();
     }
 }

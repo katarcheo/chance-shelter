@@ -7,6 +7,7 @@ use App\Domain\Fund\Fund;
 use App\Domain\Ident;
 use App\Domain\Journal\Expense\Expense;
 use App\Domain\Money;
+use App\Infrastructure\Doctrine\Types\IdentType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +23,7 @@ final class Balance
 
     public function __construct(
         #[ORM\Id]
-        #[ORM\Column(type: UUidType::NAME)]
+        #[ORM\Column(type: IdentType::NAME)]
         private Ident $id,
         #[ORM\Embedded]
         private Money $amount,

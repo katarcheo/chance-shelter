@@ -8,6 +8,7 @@ use App\Domain\Journal\Balance;
 use App\Domain\Media\MediaList;
 use App\Domain\Media\MediaRef;
 use App\Domain\Money;
+use App\Infrastructure\Doctrine\Types\IdentType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,7 @@ final class Expense
 
     public function __construct(
         #[ORM\Id]
-        #[ORM\Column(type: UUidType::NAME)]
+        #[ORM\Column(type: IdentType::NAME)]
         private Ident $id,
         #[ORM\Embedded]
         private Money      $amount,

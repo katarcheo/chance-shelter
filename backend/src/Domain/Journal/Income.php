@@ -5,6 +5,7 @@ namespace App\Domain\Journal;
 use App\Domain\Fund\Fund;
 use App\Domain\Ident;
 use App\Domain\Money;
+use App\Infrastructure\Doctrine\Types\IdentType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 
@@ -13,7 +14,7 @@ final class Income
 {
     public function __construct(
         #[ORM\Id]
-        #[ORM\Column(type: UUidType::NAME)]
+        #[ORM\Column(type: IdentType::NAME)]
         private Ident $id,
         #[ORM\Embedded]
         private Money              $amount,
