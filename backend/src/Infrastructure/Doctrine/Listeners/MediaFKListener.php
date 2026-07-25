@@ -15,7 +15,7 @@ class MediaFKListener
             ->getTable('expense_attachment')
             ->addForeignKeyConstraint(
                 'media',
-                ['media_ref'],
+                ['media_ref_key'],
                 ['id'],
                 ['onDelete' => 'RESTRICT'],
                 'fk_expense_attachment_file',

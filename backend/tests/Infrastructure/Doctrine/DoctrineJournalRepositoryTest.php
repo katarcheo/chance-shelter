@@ -4,6 +4,7 @@ use App\Domain\DateRange;
 use App\Domain\Journal\Repository\ExpenseRecord;
 use App\Domain\Journal\Repository\IncomeRecord;
 use App\Domain\Journal\Repository\JournalRepository;
+use App\Domain\Media\MediaList;
 use App\Domain\Money;
 use App\Tests\Support\Factories\Category\CategoryFactory;
 use App\Tests\Support\Factories\Fund\FundFactory;
@@ -39,8 +40,9 @@ test('getExpensesByPeriod method mapping', function () {
     $expected = new ExpenseRecord(
         amount:       new Money($amount),
         categoryName: $category->getName(),
-        categoryId:   $category->id,
+        categoryId:   $category->id(),
         description:  $desc,
+        attachments:  new MediaList(),
         receivedAt:   $receivedAt->startOfSecond(),
     );
 
@@ -83,7 +85,7 @@ test('getIncomesByPeriod method mapping', function () {
     $expected = new IncomeRecord(
         amount: new Money($amount),
         fundName: $fund->getName(),
-        fundId: $fund->id,
+        fundId: $fund->id(),
         receivedAt: $now->startOfSecond(),
     );
 
