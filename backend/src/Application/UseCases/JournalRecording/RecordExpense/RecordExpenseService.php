@@ -31,7 +31,7 @@ class RecordExpenseService
         $expense = $balance->applyExpense(
             amount: Money::fromFloat($expenseData->amount),
             category: $category,
-            receivedAt: CarbonImmutable::now(),
+            receivedAt: $expenseData->createdAt,
             description: $expenseData->description,
         );
 

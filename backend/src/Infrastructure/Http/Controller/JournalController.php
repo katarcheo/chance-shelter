@@ -3,11 +3,13 @@
 namespace App\Infrastructure\Http\Controller;
 
 use App\Application\UseCases\JournalRecording\RecordExpense\CreateExpenseCommand;
+use App\Application\UseCases\Media\RecordUploadedMediaService;
 use App\Domain\Ident;
 use App\Domain\Media\MediaList;
 use App\Infrastructure\Http\DTO\ExpenseResourceDTO;
 use App\Infrastructure\Http\Requests\CreateExpenseRequest;
-use App\Tests\Application\UseCases\Media\RecordUploadedMediaService;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,10 +46,13 @@ final class JournalController extends AbstractController
         );
 
         $command = new CreateExpenseCommand(
-            amount: $request->amount,
+            amount:      $request->amount,
             description: $request->description,
-            categoryId: Ident::from($request->categoryId),
+            categoryId:  Ident::from($request->categoryId),
             attachments: new MediaList(...$mediaRefs),
+            createdAt: $request->createdAt
+                ? CarbonImmutable::createFromTimeString($request->createdAt)
+                : CarbonImmutable::now(),
         );
 
         $expense = $this->handle($command);

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Tests\Application\UseCases\Media;
+namespace App\Application\UseCases\Media;
 
 use App\Infrastructure\Doctrine\Entities\Media;
+use App\Infrastructure\Doctrine\Repository\MediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -13,27 +14,28 @@ class RecordUploadedMediaService
 {
     public function __construct(
         private FilesystemOperator $storage,
-        private EntityManagerInterface $em,
+        private MediaRepository $mediaRepo,
     )
     {
     }
 
     public function __invoke(UploadedFile $file, ?string $group = null): Media
     {
-        $key = ByteString::fromRandom(7);
-        $storageKey = "$key.{$file->guessExtension()}";
+        $id = new UuidV7;
+        $storageKey = "$id.{$file->guessExtension()}";
 
         if ($group) {
-            $storageKey = "$group./$storageKey";
+            $storageKey = "$group/$storageKey";
         }
 
         $this->storage->writeStream($storageKey, fopen($file->getPathname(), 'rb'));
 
         $media = new Media(
-            id: new UuidV7,
+            id: $id,
             storageKey: $storageKey,
         );
-        $this->em->persist($media);
+
+        $this->mediaRepo->add($media);
 
         return $media;
     }

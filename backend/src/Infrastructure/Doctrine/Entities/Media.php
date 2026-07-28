@@ -17,7 +17,7 @@ class Media
         #[ORM\Id]
         #[ORM\Column(type: UuidType::NAME)]
         private Uuid $id,
-        #[ORM\Column]
+        #[ORM\Column(unique: true)]
         private string $storageKey,
     )
     {

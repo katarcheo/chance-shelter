@@ -14,6 +14,8 @@ class CreateExpenseRequest
         public ?string $description,
         #[Assert\Uuid(versions: 7)]
         public string $categoryId,
+        #[Assert\DateTime]
+        public ?string $createdAt,
         UploadedFile ...$attachments,
     )
     {

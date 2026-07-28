@@ -4,6 +4,7 @@ namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
 use App\Domain\Ident;
 use App\Domain\Media\MediaList;
+use Carbon\CarbonImmutable;
 
 readonly class CreateExpenseCommand
 {
@@ -12,6 +13,7 @@ readonly class CreateExpenseCommand
         public ?string $description,
         public Ident $categoryId,
         public MediaList $attachments,
+        public CarbonImmutable $createdAt,
     )
     {
     }
