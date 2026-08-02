@@ -16,7 +16,6 @@ class RecordExpenseService
     public function __construct(
         private JournalRepository  $journalRepo,
         private CategoryRepository $categoryRepo,
-        private FilesystemOperator $mediaStorage,
     )
     {}
 

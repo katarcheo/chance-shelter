@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Infrastructure\Http\DTO;
+namespace App\Infrastructure\Http\Resource;
 
 use App\Application\UseCases\JournalRecording\RecordExpense\CreatedExpenseResult;
 
-class ExpenseResourceDTO extends ApiResponseDTO
+readonly class ExpenseResource extends Resource
 {
-    public function __construct(
-        string $id,
+    private function __construct(
+        public string $id,
     )
     {}
 

@@ -6,7 +6,7 @@ use App\Application\UseCases\JournalRecording\RecordExpense\CreateExpenseCommand
 use App\Application\UseCases\Media\RecordUploadedMediaService;
 use App\Domain\Ident;
 use App\Domain\Media\MediaList;
-use App\Infrastructure\Http\DTO\ExpenseResourceDTO;
+use App\Infrastructure\Http\Resource\ExpenseResource;
 use App\Infrastructure\Http\Requests\CreateExpenseRequest;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
@@ -38,7 +38,7 @@ final class JournalController extends AbstractController
     public function store(
         #[MapRequestPayload] CreateExpenseRequest $request,
         RecordUploadedMediaService                $recordAttachment,
-    ): ExpenseResourceDTO
+    ): ExpenseResource
     {
         $mediaRefs = array_map(
             fn(UploadedFile $file) => $recordAttachment($file, 'expense')->mediaRef(),
@@ -57,6 +57,6 @@ final class JournalController extends AbstractController
 
         $expense = $this->handle($command);
 
-        return ExpenseResourceDTO::from($expense);
+        return ExpenseResource::from($expense);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Http\Listener;
 
-use App\Infrastructure\Http\DTO\ApiResponseDTO;
+use App\Infrastructure\Http\Resource\Resource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 
@@ -12,7 +12,7 @@ class ApiResponseListener
     {
         $result = $event->getControllerResult();
 
-        if ($result instanceof ApiResponseDTO) {
+        if ($result instanceof Resource) {
             $response = new JsonResponse([
                 'data' => $result,
             ]);
