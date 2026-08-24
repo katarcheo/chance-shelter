@@ -7,7 +7,7 @@ use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Report\ReportService;
 use Carbon\CarbonImmutable;
 
-class GenerateReportService
+class GenerateReport
 {
     public function __construct(
         private JournalRepository $journalRepo,

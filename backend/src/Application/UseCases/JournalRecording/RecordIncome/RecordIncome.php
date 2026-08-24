@@ -8,8 +8,10 @@ use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class RecordIncomeService
+#[AsMessageHandler(bus: 'messenger.bus.command')]
+class RecordIncome
 {
     public function __construct(
         private JournalRepository $journalRepo,

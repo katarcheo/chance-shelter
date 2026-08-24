@@ -55,8 +55,6 @@ final class JournalController extends AbstractController
                 : CarbonImmutable::now(),
         );
 
-        $expense = $this->handle($command);
-
-        return ExpenseResource::from($expense);
+        return ExpenseResource::from($this->handle($command));
     }
 }

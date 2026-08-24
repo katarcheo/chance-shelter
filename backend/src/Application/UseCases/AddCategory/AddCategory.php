@@ -10,7 +10,7 @@ use App\Domain\Ident;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'messenger.bus.command')]
-class AddCategoryService
+class AddCategory
 {
     public function __construct(
         private CategoryRepository $categoryRepo,

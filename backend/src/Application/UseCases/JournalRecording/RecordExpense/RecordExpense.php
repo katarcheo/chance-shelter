@@ -11,7 +11,7 @@ use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'messenger.bus.command')]
-class RecordExpenseService
+class RecordExpense
 {
     public function __construct(
         private JournalRepository  $journalRepo,
