@@ -11,7 +11,6 @@ use App\Infrastructure\Doctrine\Types\IdentType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 
 #[ORM\Entity]
 final class Balance

@@ -6,6 +6,8 @@ use App\Application\Exceptions\ApplicationException;
 use App\Domain\Fund\FundRepository;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class RecordIncomeService
 {
@@ -21,10 +23,11 @@ class RecordIncomeService
             throw new ApplicationException("Fund not found");
         }
 
-        $balance = $this->journalRepo->lockCurrentBalance();
+        $balance = $this->journalRepo->getBalanceForUpdate();
         $income = $balance->applyIncome(
             amount: Money::fromFloat($incomeData->amount),
             fund: $fund,
+            receivedAt: CarbonImmutable::now(),
         );
 
         return CreatedIncomeResult::fromIncome($income);

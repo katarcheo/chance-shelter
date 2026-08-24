@@ -2,34 +2,41 @@
 
 namespace  App\Application\UseCases\AddCategory;
 
-use App\Application\UseCases\Exceptions\ApplicationException;
-use App\Application\UseCases\Exceptions\DTOException;
+use App\Application\Exceptions\ValidationException;
+use App\Application\ValidateCommand;
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryRepository;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Domain\Ident;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler(bus: 'messenger.bus.command')]
 class AddCategoryService
 {
     public function __construct(
         private CategoryRepository $categoryRepo,
-        private ValidatorInterface $validator,
     )
     {}
 
-    public function __invoke(AddCategoryDTO $categoryData): void
+    /**
+     * @throws ValidationException|CategoryAlreadyExists
+    */
+    public function __invoke(AddCategoryCommand $categoryData, ValidateCommand $validate): CreatedCategoryResult
     {
-        $violations = $this->validator->validate($categoryData);
-
-        if ($violations->count()) {
-            throw new DTOException('Category data is invalid')->setViolations($violations);
-        }
+        $validate($categoryData, 'Category data is invalid');
 
         if ($this->categoryRepo->isExistByName($categoryData->name)) {
-            throw new ApplicationException('Category already exists');
+            throw new CategoryAlreadyExists();
         }
 
-        $this->categoryRepo->save(new Category(
+        $category = new Category(
+            id: Ident::new(),
             name: $categoryData->name,
-        ));
+        );
+
+        $this->categoryRepo->create($category);
+
+        return new CreatedCategoryResult(
+            id: $category->id(),
+        );
     }
 }

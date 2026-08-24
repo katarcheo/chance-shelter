@@ -4,14 +4,12 @@ namespace App\Application\Exceptions;
 
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class DTOException extends ApplicationException
+class ValidationException extends ApplicationException
 {
     readonly public ConstraintViolationListInterface $violations;
-
-    public function setViolations(ConstraintViolationListInterface $violations): self
+    public function __construct(string $message, ConstraintViolationListInterface $violations)
     {
+        parent::__construct($message);
         $this->violations = $violations;
-
-        return $this;
     }
 }
