@@ -2,9 +2,9 @@
 
 namespace  App\Application\UseCases\AddCategory;
 
-use App\Application\Exceptions\ValidationException;
-use App\Application\ValidateCommand;
+use App\Domain\Category\CategoryAlreadyExists;
 use App\Domain\Category\Category;
+use App\Domain\Category\CategoryNameIsFree;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Ident;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -14,23 +14,19 @@ class AddCategory
 {
     public function __construct(
         private CategoryRepository $categoryRepo,
+        private CategoryNameIsFree $categoryAvailability,
     )
     {}
 
     /**
-     * @throws ValidationException|CategoryAlreadyExists
+     * @throws CategoryAlreadyExists
     */
-    public function __invoke(AddCategoryCommand $categoryData, ValidateCommand $validate): CreatedCategoryResult
+    public function __invoke(AddCategoryCommand $categoryData): CreatedCategoryResult
     {
-        $validate($categoryData, 'Category data is invalid');
-
-        if ($this->categoryRepo->isExistByName($categoryData->name)) {
-            throw new CategoryAlreadyExists();
-        }
-
-        $category = new Category(
+        $category = Category::create(
             id: Ident::new(),
             name: $categoryData->name,
+            availability: $this->categoryAvailability,
         );
 
         $this->categoryRepo->create($category);

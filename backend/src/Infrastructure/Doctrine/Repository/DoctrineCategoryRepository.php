@@ -17,10 +17,15 @@ class DoctrineCategoryRepository extends ServiceEntityRepository implements Cate
     public function isExistByName(string $name): bool
     {
         $category = Category::class;
-        $query = $this->getEntityManager()->createQuery(
-            "SELECT c FROM $category c WHERE c.name = '$name'"
-        );
-        return count($query->getResult()) > 0;
+        $count = $this
+            ->getEntityManager()
+            ->createQuery(
+                "SELECT COUNT(c.id) FROM $category c WHERE c.name = :name"
+            )
+            ->setParameter('name', $name)
+            ->getSingleScalarResult();
+
+        return $count > 0;
     }
 
     public function create(Category $category): void

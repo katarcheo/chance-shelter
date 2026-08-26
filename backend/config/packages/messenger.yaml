@@ -16,6 +16,7 @@ framework:
             messenger.bus.command:
                 middleware:
                     - 'doctrine_transaction'
+                    - 'validation'
 
 #            messenger.bus.default:
 #                middleware:

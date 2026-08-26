@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 final class Category
 {
-    public function __construct(
+    private function __construct(
         #[ORM\Id]
         #[ORM\Column(type: IdentType::NAME)]
         private Ident $id,
@@ -17,6 +17,19 @@ final class Category
         private string $name,
     )
     {
+    }
+
+    public static function create(
+        Ident $id,
+        string $name,
+        CategoryNameIsFree $availability,
+    ): self
+    {
+        if (!$availability->isFree($name)) {
+            throw new CategoryAlreadyExists();
+        }
+
+        return new self($id, $name);
     }
 
     public function id(): Ident
