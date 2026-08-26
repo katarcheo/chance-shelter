@@ -4,5 +4,5 @@ namespace App\Domain\Category;
 
 interface CategoryRepository
 {
-    public function create(Category $category): void;
+    public function save(Category $category): void;
 }

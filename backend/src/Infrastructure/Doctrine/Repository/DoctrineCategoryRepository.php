@@ -28,7 +28,7 @@ class DoctrineCategoryRepository extends ServiceEntityRepository implements Cate
         return $count > 0;
     }
 
-    public function create(Category $category): void
+    public function save(Category $category): void
     {
         $this->getEntityManager()->persist($category);
     }
