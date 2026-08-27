@@ -8,7 +8,6 @@ use App\Domain\Ident;
 use App\Domain\Media\MediaList;
 use App\Infrastructure\Http\Resource\ExpenseResource;
 use App\Infrastructure\Http\Requests\CreateExpenseRequest;
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

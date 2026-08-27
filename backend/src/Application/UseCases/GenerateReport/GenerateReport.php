@@ -6,7 +6,9 @@ use App\Domain\DateRange;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Report\ReportService;
 use Carbon\CarbonImmutable;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler(bus: 'messenger.bus.command')]
 class GenerateReport
 {
     public function __construct(
