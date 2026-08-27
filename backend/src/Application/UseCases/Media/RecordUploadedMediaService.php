@@ -4,10 +4,8 @@ namespace App\Application\UseCases\Media;
 
 use App\Infrastructure\Doctrine\Entities\Media;
 use App\Infrastructure\Doctrine\Repository\MediaRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\ByteString;
 use Symfony\Component\Uid\UuidV7;
 
 class RecordUploadedMediaService

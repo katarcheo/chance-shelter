@@ -29,7 +29,7 @@ class AddCategory
             availability: $this->categoryAvailability,
         );
 
-        $this->categoryRepo->create($category);
+        $this->categoryRepo->save($category);
 
         return new CreatedCategoryResult(
             id: $category->id(),

@@ -2,12 +2,9 @@
 
 namespace App\Application\UseCases\JournalRecording\RecordExpense;
 
-use App\Application\Exceptions\ApplicationException;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
-use Carbon\CarbonImmutable;
-use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'messenger.bus.command')]
@@ -22,7 +19,7 @@ class RecordExpense
     public function __invoke(CreateExpenseCommand $expenseData): CreatedExpenseResult
     {
         if (!$category = $this->categoryRepo->find($expenseData->categoryId)) {
-            throw new ApplicationException("Category not found");
+            throw new CategoryNotFoundException();
         }
 
         $balance = $this->journalRepo->getBalanceForUpdate();

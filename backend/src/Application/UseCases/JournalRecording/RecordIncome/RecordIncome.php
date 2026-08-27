@@ -2,11 +2,9 @@
 
 namespace App\Application\UseCases\JournalRecording\RecordIncome;
 
-use App\Application\Exceptions\ApplicationException;
 use App\Domain\Fund\FundRepository;
 use App\Domain\Journal\Repository\JournalRepository;
 use App\Domain\Money;
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -22,7 +20,7 @@ class RecordIncome
     public function __invoke(CreateIncomeCommand $incomeData): CreatedIncomeResult
     {
         if (!$fund = $this->fundRepo->find($incomeData->fundId)) {
-            throw new ApplicationException("Fund not found");
+            throw new FundNotFoundException();
         }
 
         $balance = $this->journalRepo->getBalanceForUpdate();
