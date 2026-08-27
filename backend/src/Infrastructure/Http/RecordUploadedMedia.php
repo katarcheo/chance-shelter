@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases\Media;
+namespace App\Infrastructure\Http;
 
 use App\Infrastructure\Doctrine\Entities\Media;
 use App\Infrastructure\Doctrine\Repository\MediaRepository;
@@ -8,7 +8,7 @@ use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Uid\UuidV7;
 
-class RecordUploadedMediaService
+class RecordUploadedMedia
 {
     public function __construct(
         private FilesystemOperator $storage,

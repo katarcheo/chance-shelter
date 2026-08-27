@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Http\Controller;
 
 use App\Application\UseCases\JournalRecording\RecordExpense\CreateExpenseCommand;
-use App\Application\UseCases\Media\RecordUploadedMediaService;
+use App\Infrastructure\Http\RecordUploadedMedia;
 use App\Domain\Ident;
 use App\Domain\Media\MediaList;
 use App\Infrastructure\Http\Resource\ExpenseResource;
@@ -37,7 +37,7 @@ final class JournalController extends AbstractController
     #[Route('/expense/create', name: 'expense_store', methods: ['POST'])]
     public function store(
         #[MapRequestPayload] CreateExpenseRequest $request,
-        RecordUploadedMediaService                $recordAttachment,
+        RecordUploadedMedia                $recordAttachment,
     ): ExpenseResource
     {
         $mediaRefs = array_map(
